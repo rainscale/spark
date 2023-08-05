@@ -1,0 +1,151 @@
+1.创建ssh key
+spark@Spark:~$ ssh-keygen -t rsa -C "gerritreview@163.com"
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/spark/.ssh/id_rsa):
+Created directory '/home/spark/.ssh'.
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /home/spark/.ssh/id_rsa
+Your public key has been saved in /home/spark/.ssh/id_rsa.pub
+The key fingerprint is:
+SHA256:7/YN4r9ihjmDJ5581sHe+uMtspZ1YlMEft4X7dyBuK0 gerritreview@163.com
+The key's randomart image is:
++---[RSA 3072]----+
+|            ..   |
+|           .. o .|
+|           ..o.o.|
+|            oo.++|
+|        S. . o. *|
+|         .o * . .|
+|       . =oE.+   |
+|     .o.Oo@.++   |
+|     .+= B=X*+o  |
++----[SHA256]-----+
+spark@Spark:~$ ls -l .ssh
+total 8
+-rw------- 1 spark spark 2610 Aug  5 12:56 id_rsa
+-rw-r--r-- 1 spark spark  574 Aug  5 12:56 id_rsa.pub
+
+2.登录github，打开Account Settings -> SSH and GPG keys
+Click New SSH key or Add SSH key.
+在Key区域复制粘贴id_rsa.pub文件内容，点击Add SSH key.
+
+3.测试SSH连接
+spark@Spark:~/Works$ ssh -vT git@github.com
+OpenSSH_8.9p1 Ubuntu-3ubuntu0.1, OpenSSL 3.0.2 15 Mar 2022
+debug1: Reading configuration data /etc/ssh/ssh_config
+debug1: /etc/ssh/ssh_config line 19: include /etc/ssh/ssh_config.d/*.conf matched no files
+debug1: /etc/ssh/ssh_config line 21: Applying options for *
+debug1: Connecting to github.com [20.205.243.166] port 22.
+debug1: Connection established.
+debug1: identity file /home/spark/.ssh/id_rsa type 0
+debug1: identity file /home/spark/.ssh/id_rsa-cert type -1
+debug1: identity file /home/spark/.ssh/id_ecdsa type -1
+debug1: identity file /home/spark/.ssh/id_ecdsa-cert type -1
+debug1: identity file /home/spark/.ssh/id_ecdsa_sk type -1
+debug1: identity file /home/spark/.ssh/id_ecdsa_sk-cert type -1
+debug1: identity file /home/spark/.ssh/id_ed25519 type -1
+debug1: identity file /home/spark/.ssh/id_ed25519-cert type -1
+debug1: identity file /home/spark/.ssh/id_ed25519_sk type -1
+debug1: identity file /home/spark/.ssh/id_ed25519_sk-cert type -1
+debug1: identity file /home/spark/.ssh/id_xmss type -1
+debug1: identity file /home/spark/.ssh/id_xmss-cert type -1
+debug1: identity file /home/spark/.ssh/id_dsa type -1
+debug1: identity file /home/spark/.ssh/id_dsa-cert type -1
+debug1: Local version string SSH-2.0-OpenSSH_8.9p1 Ubuntu-3ubuntu0.1
+debug1: Remote protocol version 2.0, remote software version babeld-d815c248
+debug1: compat_banner: no match: babeld-d815c248
+debug1: Authenticating to github.com:22 as 'git'
+debug1: load_hostkeys: fopen /home/spark/.ssh/known_hosts2: No such file or directory
+debug1: load_hostkeys: fopen /etc/ssh/ssh_known_hosts: No such file or directory
+debug1: load_hostkeys: fopen /etc/ssh/ssh_known_hosts2: No such file or directory
+debug1: SSH2_MSG_KEXINIT sent
+debug1: SSH2_MSG_KEXINIT received
+debug1: kex: algorithm: curve25519-sha256
+debug1: kex: host key algorithm: ssh-ed25519
+debug1: kex: server->client cipher: chacha20-poly1305@openssh.com MAC: <implicit> compression: none
+debug1: kex: client->server cipher: chacha20-poly1305@openssh.com MAC: <implicit> compression: none
+debug1: expecting SSH2_MSG_KEX_ECDH_REPLY
+debug1: SSH2_MSG_KEX_ECDH_REPLY received
+debug1: Server host key: ssh-ed25519 SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU
+debug1: load_hostkeys: fopen /home/spark/.ssh/known_hosts2: No such file or directory
+debug1: load_hostkeys: fopen /etc/ssh/ssh_known_hosts: No such file or directory
+debug1: load_hostkeys: fopen /etc/ssh/ssh_known_hosts2: No such file or directory
+debug1: Host 'github.com' is known and matches the ED25519 host key.
+debug1: Found key in /home/spark/.ssh/known_hosts:1
+debug1: rekey out after 134217728 blocks
+debug1: SSH2_MSG_NEWKEYS sent
+debug1: expecting SSH2_MSG_NEWKEYS
+debug1: SSH2_MSG_NEWKEYS received
+debug1: rekey in after 134217728 blocks
+debug1: Will attempt key: /home/spark/.ssh/id_rsa RSA SHA256:7/YN4r9ihjmDJ5581sHe+uMtspZ1YlMEft4X7dyBuK0
+debug1: Will attempt key: /home/spark/.ssh/id_ecdsa
+debug1: Will attempt key: /home/spark/.ssh/id_ecdsa_sk
+debug1: Will attempt key: /home/spark/.ssh/id_ed25519
+debug1: Will attempt key: /home/spark/.ssh/id_ed25519_sk
+debug1: Will attempt key: /home/spark/.ssh/id_xmss
+debug1: Will attempt key: /home/spark/.ssh/id_dsa
+debug1: SSH2_MSG_EXT_INFO received
+debug1: kex_input_ext_info: server-sig-algs=<ssh-ed25519-cert-v01@openssh.com,ecdsa-sha2-nistp521-cert-v01@openssh.com,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp256-cert-v01@openssh.com,sk-ssh-ed25519-cert-v01@openssh.com,sk-ecdsa-sha2-nistp256-cert-v01@openssh.com,rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-256-cert-v01@openssh.com,ssh-rsa-cert-v01@openssh.com,sk-ssh-ed25519@openssh.com,sk-ecdsa-sha2-nistp256@openssh.com,ssh-ed25519,ecdsa-sha2-nistp521,ecdsa-sha2-nistp384,ecdsa-sha2-nistp256,rsa-sha2-512,rsa-sha2-256,ssh-rsa>
+debug1: SSH2_MSG_SERVICE_ACCEPT received
+debug1: Authentications that can continue: publickey
+debug1: Next authentication method: publickey
+debug1: Offering public key: /home/spark/.ssh/id_rsa RSA SHA256:7/YN4r9ihjmDJ5581sHe+uMtspZ1YlMEft4X7dyBuK0
+debug1: Server accepts key: /home/spark/.ssh/id_rsa RSA SHA256:7/YN4r9ihjmDJ5581sHe+uMtspZ1YlMEft4X7dyBuK0
+Authenticated to github.com ([20.205.243.166]:22) using "publickey".
+debug1: channel 0: new [client-session]
+debug1: Entering interactive session.
+debug1: pledge: filesystem
+debug1: client_input_global_request: rtype hostkeys-00@openssh.com want_reply 0
+debug1: client_input_hostkeys: searching /home/spark/.ssh/known_hosts for github.com / (none)
+debug1: client_input_hostkeys: searching /home/spark/.ssh/known_hosts2 for github.com / (none)
+debug1: client_input_hostkeys: hostkeys file /home/spark/.ssh/known_hosts2 does not exist
+debug1: client_input_hostkeys: no new or deprecated keys from server
+debug1: Sending environment.
+debug1: channel 0: setting env LANG = "C.UTF-8"
+Hi rainscale! You've successfully authenticated, but GitHub does not provide shell access.
+debug1: client_input_channel_req: channel 0 rtype exit-status reply 0
+debug1: channel 0: free: client-session, nchannels 1
+Transferred: sent 3172, received 2936 bytes, in 0.6 seconds
+Bytes per second: sent 5077.0, received 4699.2
+debug1: Exit status 1
+
+4.把本地仓库和远程仓库进行关联
+git remote add origin git@github.com:rainscale/spark.git
+origin是远程仓库在本地的别名
+git@github.com:rainscale/spark.git远程仓库的路径
+
+5.git操作
+spark@Spark:~/Works/spark$ git remote
+origin
+spark@Spark:~/Works/spark$ git remote -v
+origin  git@github.com:rainscale/spark.git (fetch)
+origin  git@github.com:rainscale/spark.git (push)
+spark@Spark:~/Works/spark$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        github-setup.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+spark@Spark:~/Works/spark$ git add .
+spark@Spark:~/Works/spark$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   github-setup.txt
+
+spark@Spark:~/Works/spark$ git commit -m "提交github设置"
+[master 45a1572] 提交github设置
+ 1 file changed, 123 insertions(+)
+ create mode 100644 github-setup.txt
+
+回退到上一个版本
+spark@Spark:~/Works/spark$ git reset --hard HEAD^
+HEAD is now at a046b9f add frequently-used website link
+
+spark@Spark:~/Works/spark$ git push -u origin master
