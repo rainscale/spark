@@ -1,0 +1,6 @@
+rootProject.name = 'Demo'
+include 'app'
+include 'common'
+include 'nettyserver'
+include 'nettyclient'
+
