@@ -148,4 +148,12 @@ spark@Spark:~/Works/spark$ git commit -m "提交github设置"
 spark@Spark:~/Works/spark$ git reset --hard HEAD^
 HEAD is now at a046b9f add frequently-used website link
 
+拉取最新代码
+spark@Spark:~/Works/spark$ git pull
+Updating a046b9f..f5fc9e4
+Fast-forward
+ github-setup.txt | 151 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 151 insertions(+)
+ create mode 100644 github-setup.txt
+ 
 spark@Spark:~/Works/spark$ git push -u origin master
