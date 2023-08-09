@@ -1,0 +1,33 @@
+// 指定proto版本
+syntax = "proto2";
+// 包名
+package proto;
+
+// 指定生成的proto java类地址，一般用app包名
+option java_package = "ale.rains.demo.proto";
+// 指定生成的java类名
+option java_outer_classname = "TaskProto";
+
+// Message对象名，一般任务Message和Java中的Class关键字类似
+message Task {
+	required string taskId = 1;
+	required Action action = 2;
+	required Result result = 3;
+}
+
+// 枚举
+enum Action {
+	START = 0;
+	PAUSE = 1;
+	RESUME = 2;
+	STOP = 3;
+}
+
+enum Result {
+	SUCCESS = 0;
+	FAILED = 1;
+}
+
+// 对于string和byte类型，默认值为空；对于bool类型，默认值是false；
+// 对于数值类型，默认值是0；对于枚举类型，默认值是第一个枚举值，默认为0；
+// 对于message类型，默认值由编程语言决定；对于repeated field，默认值为空

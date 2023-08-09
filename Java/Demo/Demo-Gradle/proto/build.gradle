@@ -1,0 +1,50 @@
+plugins {
+    id 'java'
+    id 'com.google.protobuf'
+}
+
+group = 'ale.rains.demo'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.google.protobuf:protobuf-java:3.9.0'
+    implementation 'com.google.protobuf:protobuf-java-util:3.9.0'
+    implementation 'com.googlecode.protobuf-java-format:protobuf-java-format:1.2'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+    }
+}
+
+sourceCompatibility = '7'
+targetCompatibility = '7'
+
+// 构建task
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.7.0'
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                remove java
+            }
+            task.builtins {
+                java {}
+            }
+        }
+    }
+    // 生成目录
+    generatedFilesBaseDir = "$projectDir/src"
+}
+test {
+    useJUnitPlatform()
+}

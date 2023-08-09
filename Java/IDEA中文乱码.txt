@@ -1,0 +1,6 @@
+Help->Edit Custom VM Options添加：
+-Dfile.encoding=UTF-8
+
+Settings->Editor->File Encodings修改：
+Global Encoding: UTF-8
+Project Encoding: UTF-8

@@ -3,4 +3,5 @@ include 'app'
 include 'common'
 include 'nettyserver'
 include 'nettyclient'
+include 'proto'
 
