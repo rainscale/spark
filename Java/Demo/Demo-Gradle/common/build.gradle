@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group = 'ale.rains.common'
+group = 'ale.rains.demo'
 version = '1.0-SNAPSHOT'
 
 repositories {
