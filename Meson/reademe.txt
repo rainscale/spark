@@ -1,0 +1,49 @@
+https://blog.csdn.net/qq_41177273/article/details/128789617
+
+安装meson：
+1、方式一
+sudo apt install meson
+2、方式二
+使用包管理器安装
+在Ubuntu中可执行以下命令进行安装
+$ sudo apt-get install python3 python3-pip python3-setuptools \
+                       python3-wheel ninja-build
+使用Python安装
+以用户身份安装
+$ pip3 install --user meson
+以系统身份安装
+$ pip3 install meson
+
+
+对于特定命令的所有可用选项，可使用语法：meson COMMAND --help
+
+1.在meson/build目录执行
+$ meson set build 或者 meson build
+The Meson build system
+Version: 0.61.2
+Source dir: /home/spark/Works/meson
+Build dir: /home/spark/Works/meson/build
+Build type: native build
+Project name: helloworld
+Project version: undefined
+C compiler for the host machine: cc (gcc 11.3.0 "cc (Ubuntu 11.3.0-1ubuntu1~22.04.1) 11.3.0")
+C linker for the host machine: cc ld.bfd 2.38
+Host machine cpu family: x86_64
+Host machine cpu: x86_64
+Build targets in project: 1
+
+Found ninja-1.10.1 at /usr/bin/ninja
+
+2.Ninja编译项目
+$ cd build
+$ ninja 或者 meson compile
+[2/2] Linking target helloworld
+或者$ meson compile -C build
+安装程序$ meson install -C build
+
+3.编译完成生成helloworld
+$ ./helloworld
+Hello World!
+
+4.指定其他编译后台，例如，后台用vs编译：
+meson builddir --backend=vs
