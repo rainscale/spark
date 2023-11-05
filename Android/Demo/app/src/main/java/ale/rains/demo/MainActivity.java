@@ -13,9 +13,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
+
 import ale.rains.demo.databinding.ActivityMainBinding;
 import ale.rains.demo.permission.PermissionTestActivity;
 import ale.rains.demo.utils.NotificationUtil;
+import ale.rains.lz4.LZ4JNI;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -100,6 +104,25 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "btn_permission onClick");
             Intent it = new Intent(MainActivity.this, PermissionTestActivity.class);
             startActivity(it);
+        });
+
+        Button btnLz4 = binding.btnLz4;
+        btnLz4.setOnClickListener((View v) -> {
+            Log.d(TAG, "btn_lz4 onClick");
+            new Thread(() -> {
+                Log.d(TAG, "lz4 compress");
+                try {
+                    byte[] data = "1234512345123451234512345345234572".getBytes("UTF-8");
+                    final int decompressedLength = data.length;
+                    int maxCompressedLength = LZ4JNI.LZ4_compressBound(decompressedLength);
+                    byte[] compressedData = new byte[maxCompressedLength];
+                    int compressedLength = LZ4JNI.LZ4_compressHC(data, null, 0, decompressedLength, compressedData, null, 0, maxCompressedLength, 9);
+                    Log.d(TAG, "compressedLength = " + compressedLength);
+                    Log.d(TAG, "compressedData = " + Arrays.toString(compressedData));
+                } catch (UnsupportedEncodingException e) {
+                    Log.e(TAG, e.getMessage());
+                }
+            }).start();
         });
     }
 

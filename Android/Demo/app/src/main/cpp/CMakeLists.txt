@@ -9,6 +9,7 @@ cmake_minimum_required(VERSION 3.22.1)
 
 project("demo")
 
+include_directories(${CMAKE_SOURCE_DIR}/lz4)
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
 # You can define multiple libraries, and CMake builds them for you.
@@ -22,6 +23,21 @@ add_library( # Sets the name of the library.
 
         # Provides a relative path to your source file(s).
         native-lib.cpp)
+
+add_library( # Sets the name of the library.
+		lz4-java
+
+		# Sets the library as a shared library.
+		SHARED
+
+		# Provides a relative path to your source file(s).
+		lz4/xxhash.c
+		lz4/lz4.c
+		lz4/lz4file.c
+		lz4/lz4frame.c
+		lz4/lz4hc.c
+		jni/ale_rains_lz4_LZ4JNI.c
+		jni/ale_rains_xxhash_XXHashJNI.c)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
@@ -46,3 +62,10 @@ target_link_libraries( # Specifies the target library.
         # Links the target library to the log library
         # included in the NDK.
         ${log-lib})
+
+target_link_libraries( # Specifies the target library.
+		lz4-java
+
+		# Links the target library to the log library
+		# included in the NDK.
+		${log-lib})

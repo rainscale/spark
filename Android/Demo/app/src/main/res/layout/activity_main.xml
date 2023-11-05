@@ -47,6 +47,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="权限demo" />
+
+                <Button
+                    android:id="@+id/btn_lz4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="lz4" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
