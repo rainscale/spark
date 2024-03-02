@@ -35,10 +35,18 @@
                     android:layout_height="wrap_content"
                     android:text="Hello World!" />
 
-                <TextView
-                    android:id="@+id/tv_notification"
+                <Button
+                    android:id="@+id/btn_jni"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="JNI_Test" />
+
+                <Button
+                    android:id="@+id/btn_notification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:text="前台通知" />
 
                 <Button
@@ -54,6 +62,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="lz4" />
+
+                <Button
+                    android:id="@+id/btn_test"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Test" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 

@@ -19,6 +19,7 @@ import java.util.Arrays;
 import ale.rains.demo.databinding.ActivityMainBinding;
 import ale.rains.demo.permission.PermissionTestActivity;
 import ale.rains.demo.utils.NotificationUtil;
+import ale.rains.demo.utils.Utils;
 import ale.rains.lz4.LZ4JNI;
 
 public class MainActivity extends AppCompatActivity {
@@ -93,7 +94,11 @@ public class MainActivity extends AppCompatActivity {
         TextView tv = binding.sampleText;
         tv.setText(stringFromJNI());
 
-        TextView tvNotification = binding.tvNotification;
+        binding.btnJni.setOnClickListener((v)->{
+            test(1, 2);
+        });
+
+        Button tvNotification = binding.btnNotification;
         tvNotification.setOnClickListener((View v) -> {
             Log.d(TAG, "tv_notification onClick");
             startForegroundService();
@@ -123,6 +128,10 @@ public class MainActivity extends AppCompatActivity {
                     Log.e(TAG, e.getMessage());
                 }
             }).start();
+        });
+
+        binding.btnTest.setOnClickListener((v)->{
+            Utils.test(getApplicationContext());
         });
     }
 
@@ -157,4 +166,5 @@ public class MainActivity extends AppCompatActivity {
      * which is packaged with this application.
      */
     public native String stringFromJNI();
+    public native int test(int i, int j);
 }
