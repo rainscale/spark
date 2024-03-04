@@ -1,6 +1,14 @@
+import java.text.SimpleDateFormat
+
 plugins {
     id 'com.android.application'
 }
+
+// def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
+// Auto-incrementing commit count based on counting commits to master (Build #543)
+// def commitCount = Integer.parseInt('git rev-list master --count'.execute([], project.rootDir).text.trim())
+// I want to use git tags as my version names (1.2.2)
+// def gitCurrentTag = 'git describe --tags --abbrev=0'.execute([], project.rootDir).text.trim()
 
 android {
     namespace 'ale.rains.demo'
@@ -11,18 +19,73 @@ android {
         minSdk 26
         targetSdk 33
         versionCode 1
-        versionName "1.0"
+        versionName "1.0" + "-" + new SimpleDateFormat("yyyyMMdd").format(new Date())
         ndk {
             abiFilters 'x86', 'arm64-v8a'
         }
 
+        buildConfigField "String", "AUTHOR", "\"${author}\""
+        flavorDimensions "brand"
+        multiDexEnabled = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
-    buildTypes {
+    signingConfigs {
+        debug {
+            keyAlias 'android'
+            keyPassword 'android'
+            storeFile file("android.jks")
+            storePassword 'android'
+        }
         release {
+            keyAlias 'android'
+            keyPassword 'android'
+            storeFile file("android.jks")
+            storePassword 'android'
+        }
+    }
+    buildTypes {
+        debug {
+            manifestPlaceholders = [
+                    hostName    : "ale.rains.demo",
+                    sharedUserId: "android.uid.system"
+            ]
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+            ndk {
+                debugSymbolLevel = 'FULL' // 'SYMBOL_TABLE'
+            }
+        }
+        release {
+            manifestPlaceholders = [
+                    hostName    : "ale.rains.demo",
+                    sharedUserId: "android.uid.system"
+            ]
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+
+        android.applicationVariants.all { variant ->
+            variant.outputs.all { output ->
+                def outputFile = output.outputFile
+                if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                    outputFileName = "Demo-" + defaultConfig.versionName + "-" + variant.name + ".apk"
+                }
+            }
+        }
+    }
+    productFlavors {
+        xiaomi {
+            dimension "brand"
+            buildConfigField 'String', 'REMOTE_PACKAGE', '"com.mi.remote"'
+        }
+        huawei {
+            dimension "brand"
+            buildConfigField 'String', 'REMOTE_PACKAGE', '"com.huawei.remote"'
+        }
+        oppo {
+            dimension "brand"
+            buildConfigField 'String', 'REMOTE_PACKAGE', '"com.oppo.remote"'
         }
     }
     sourceSets {
