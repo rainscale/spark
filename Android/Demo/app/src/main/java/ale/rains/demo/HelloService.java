@@ -13,11 +13,12 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
-import android.util.Log;
 import android.widget.Toast;
 
+import ale.rains.demo.activity.MainActivity;
+import ale.rains.util.LogUtils;
+
 public class HelloService extends Service {
-    private static final String TAG = HelloService.class.getSimpleName();
     // 渠道ID
     private static final String CHANNEL_ID = "normal";
     // 通知的唯一ID
@@ -60,7 +61,7 @@ public class HelloService extends Service {
         // Get the HandlerThread's Looper and use it for our Handler
         serviceLooper = thread.getLooper();
         serviceHandler = new ServiceHandler(serviceLooper);
-        Log.d(TAG, "onCreate");
+        LogUtils.d("onCreate");
     }
 
     /*
@@ -79,7 +80,7 @@ public class HelloService extends Service {
      */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(TAG, "onStartCommand");
+        LogUtils.d("onStartCommand");
         Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
 
         // For each start request, send a message to start a job and deliver the
@@ -111,14 +112,14 @@ public class HelloService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        Log.d(TAG, "onBind");
+        LogUtils.d("onBind");
         // We don't provide binding, so return null
         return null;
     }
 
     @Override
     public void onDestroy() {
-        Log.d(TAG, "onDestroy");
+        LogUtils.d("onDestroy");
         Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show();
         stopForeground(true);
     }

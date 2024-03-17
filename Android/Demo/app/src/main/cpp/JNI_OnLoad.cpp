@@ -17,7 +17,7 @@ static const JNINativeMethod methods[] = {
         {"test", "(II)I", (void*)test}
 };
 
-static const char* className = "ale/rains/demo/MainActivity";
+static const char* className = "ale/rains/demo/activity/MainActivity";
 
 int JNI_OnLoad(JavaVM* vm, void* reserved) {
     LOGI("JNI_OnLoad\n");

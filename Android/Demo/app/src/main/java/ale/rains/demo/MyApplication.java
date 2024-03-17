@@ -3,13 +3,13 @@ package ale.rains.demo;
 import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.util.Log;
 
 import ale.rains.toast.Toaster;
 import ale.rains.toast.style.WhiteToastStyle;
+import ale.rains.util.InitManager;
+import ale.rains.util.LogUtils;
 
 public class MyApplication extends Application {
-    private static final String TAG = MyApplication.class.getSimpleName();
     // 渠道名
     private static final String CHANNEL_NAME = "普通通知";
     // 渠道ID
@@ -30,9 +30,10 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        InitManager.getInstance().init(this, "Demo", true);
         // 初始化吐司工具类
         Toaster.init(this, new WhiteToastStyle());
         createNotificationChannel();
-        Log.d(TAG, "onCreate");
+        LogUtils.d("onCreate");
     }
 }
