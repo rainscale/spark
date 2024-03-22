@@ -30,7 +30,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        InitManager.getInstance().init(this, "Demo", true);
+        InitManager.init(this, "Demo", true);
         // 初始化吐司工具类
         Toaster.init(this, new WhiteToastStyle());
         createNotificationChannel();
