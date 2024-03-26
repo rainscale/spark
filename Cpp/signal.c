@@ -1,9 +1,9 @@
+#include <execinfo.h>    /* backtrace backtrace_symbols */
 #include <stdio.h>
 #include <stdlib.h>    /* printf */
 #include <unistd.h>    /* sleep */
 #include <stdbool.h>
 #include <signal.h>    /* signal */
-#include <execinfo.h>
 
 #define MAX_STACK_FRAMES    128
 void handle_signal(int signum) {

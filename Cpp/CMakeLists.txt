@@ -1,4 +1,7 @@
 cmake_minimum_required(VERSION 3.10.2)
 project(Cpp)
 include_directories(include/)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -no-pie -rdynamic")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -no-pie -rdynamic")
 add_executable(signal signal.c)
+add_executable(cpu cpu.cpp)
