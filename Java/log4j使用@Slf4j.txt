@@ -1,3 +1,9 @@
+maven添加依赖：
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
 1.gradle+lombok使用@Slf4j注解log日志编译报错：找不到符号log
 安装lombok插件，Settings->Build,Execution,Deployment->Anonotation Processors->Enable annotation processing
 build.gradle的dependencies添加：

@@ -1,0 +1,89 @@
+下载地址：https://maven.apache.org/download.cgi
+cd /opt/maven
+tar -xzvf apache-maven-3.9.6-bin.tar.gz
+
+~/.bashrc
+export MAVEN_HOME=/opt/maven/apache-maven-3.9.6
+export PATH=$PATH:${MAVEN_HOME}/bin
+
+mvn --version
+Apache Maven 3.9.6 (bc0240f3c744dd6b6ec2920b3cd08dcc295161ae)
+Maven home: /opt/maven/apache-maven-3.9.6
+Java version: 1.8.0_402, vendor: Private Build, runtime: /usr/lib/jvm/java-8-openjdk-amd64/jre
+Default locale: zh_CN, platform encoding: UTF-8
+OS name: "linux", version: "6.5.0-27-generic", arch: "amd64", family: "unix"
+
+Ubuntu创建快捷方式：
+cat /usr/share/applications/idea.desktop
+[Desktop Entry]
+Name=Idea Community
+Comment=IDEA Development Tool
+Exec=/opt/idea/idea-IC-233.15026.9/bin/idea.sh
+Icon=/opt/idea/idea-IC-233.15026.9/bin/idea.png
+Type=Application
+Categories=Development;
+StartupNotify=true
+
+打开 maven 的配置文件（ windows 机器一般在 maven 安装目录的 conf/settings.xml ），Ubuntu修改：/opt/maven/apache-maven-3.9.6/conf/settings.xml
+设置本地仓库：
+  <localRepository>/opt/maven/apache-maven-3.9.6/repo</localRepository>
+在<mirrors></mirrors>标签中添加 mirror子节点:
+  </mirrors>
+    <mirror>
+	    <id>aliyunmaven</id>
+	    <name>阿里云公共仓库</name>
+	    <url>https://maven.aliyun.com/repository/public</url>
+	    <mirrorOf>*</mirrorOf>
+    </mirror>
+    <mirror>
+	    <id>alimaven</id>
+	    <mirrorOf>central</mirrorOf>
+	    <name>aliyun maven</name>
+	    <url>https://maven.aliyun.com/repository/central</url>
+    </mirror>
+    <mirror>
+      <id>maven-default-http-blocker</id>
+      <mirrorOf>external:http:*</mirrorOf>
+      <name>Pseudo repository to mirror external repositories initially using HTTP.</name>
+      <url>http://0.0.0.0/</url>
+      <blocked>true</blocked>
+    </mirror>
+  </mirrors>
+如果想使用其它代理仓库，可在<repositories></repositories>节点中加入对应的仓库使用地址。以使用 central 代理仓为例：
+  <repository>
+  	<id>central</id>
+  	<url>https://maven.aliyun.com/repository/central</url>
+  	<releases>
+    	<enabled>true</enabled>
+  	</releases>
+  	<snapshots>
+    	<enabled>true</enabled>
+  	</snapshots>
+  </repository>
+在你的 pom.xml 文件<denpendencies></denpendencies>节点中加入你要引用的文件信息：
+<dependency>
+  <groupId>[GROUP_ID]</groupId>
+  <artifactId>[ARTIFACT_ID]</artifactId>
+  <version>[VERSION]</version>
+</dependency>
+
+执行拉取命令：
+mvn install
+
+IDEA MAVEN配置：
+File->Settings->Build,Execution,Deployment->Maven
+Maven主路径(H)：/opt/maven/apache-maven-3.9.6
+用户设置文件(S)：/opt/maven/apache-maven-3.9.6/conf/settings.xml 勾选重写
+本地仓库(R)：/opt/maven/apache-maven-3.9.6/repo 勾选重写
+
+MAVEN生命周期解释如下：
+clean：删除先前版本生成的所有文件
+validate：验证项目是否正确，以及所有必要的信息是否可用
+compile：编译项目的源代码
+test：使用合适的单元测试框架测试编译的源代码。这些测试不应要求打包或部署代码
+package：获取编译后的代码并将其打包为其可分发的格式，例如JAR。
+verify：对集成测试结果进行任何检查，以确保满足质量标准
+install：将包安装到本地存储库中，以用作本地其他项目中的依赖项
+site：生成项目的站点文档
+deploy：在构建环境中完成，将最终包复制到远程存储库，以便与其他开发人员和项目共享
+
