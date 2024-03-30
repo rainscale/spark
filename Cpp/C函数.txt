@@ -108,6 +108,46 @@ typedef void (*sighandler_t)(int);
 sighandler_t signal(int signum, sighandler_t handler);
 头文件：signal.h
 
+sigaction
+函数说明：一种用于注册信号处理函数的高级方法，是为替代signal来设计的较稳定的信号处理。
+signal的使用比较简单。signal(signalNO,signalproc);
+但是signal不能完成的任务是：
+1.不知道信号产生的原因；
+2.处理信号中不能阻塞其他的信号
+而signaction，则可以设置比较多的消息。尤其是在信号处理函数过程中接受信号，进行何种处理。
+signum：指示要处理的信号，是一个signum.h宏定义。
+act：设置信号处理程序的信息。
+oldact：保存信号处理程序的信息，如果不关心可以为 NULL。
+struct sigaction {
+    void (*sa_handler)(int);       // 信号处理函数指针，或者是特定的常量值
+    void (*sa_sigaction)(int, siginfo_t*, void*);   // 用于处理信号的高级函数指针
+    sigset_t sa_mask;              // 信号掩码
+    int sa_flags;                  // 附加标志
+    void (*sa_restorer)(void);     // 恢复函数指针
+};
+sa_handler 字段指定一个Handler函数的入口地址。或者是特定的常量值，如果sa_handler指定为SIG_IGN（忽略信号）或 SIG_DFL（采用默认操作），则sa_sigaction和sa_restorer字段将被忽略。
+sa_sigaction 字段指定了一个高级信号处理函数，可以获取有关信号的更多信息，如：信号来源，信号的时间戳等。
+sa_mask 字段用于设置信号掩码。当handler运行时，该掩码用于阻止其他信号的干扰。如果在信号处理函数执行期间不希望阻止任何信号，
+则应该使用sigemptyset函数来清空信号集，这样不会阻止任何信号。相反，如果使用sigfillset函数，例如：sigfillset(&sa.sa_mask)，
+则会将所有信号添加到信号集中，这将导致处理函数在执行期间被阻塞，可能会导致进一步的问题。
+sa_mask指定在信号处理程序执行过程中，哪些信号应当被阻塞。缺省情况下当前信号本身被阻塞，防止信号的嵌套发送，除非指定SA_NODEFER或者SA_NOMASK标志位。
+注：请注意sa_mask指定的信号阻塞的前提条件是:在由sigaction()安装信号的处理函数执行过程中由sa_mask指定的信号才被阻塞。
+sa_flags中包含了许多标志位，包括刚刚提到的SA_NODEFER及SA_NOMASK标志位。另一个比较重要的标志位是 SA_SIGINFO，当设定了该标志位时，表示信号附带的参数可以被传递到信号处理函数中，因此，应该为sigaction结构中的 sa_sigaction指定处理函数，而不应该为sa_handler指定信号处理函数，否则，设置该标志变得毫无意义。即使为 sa_sigaction指定了信号处理函数，如果不设置SA_SIGINFO，信号处理函数同样不能得到信号传递过来的数据，
+在信号处理函数中对这些信息的访问都将导致段错误（Segmentation fault）。
+sa_flags 字段是附加标志，可以用于控制handler的行为。用来设置信号处理的其他相关操作，下列的数值可用。OR运算（|）组合。
+SA_NOCLDSTOP : 使父进程在它的子进程暂停或继续运行时不会收到SIGCHLD信号。
+SA_RESTART:被信号中断的系统调用会自行重启。
+SA_NODEFER:在运行信号的处理函数时再次收到当前的信号，也会触发新处理函数调用。
+例如：SA_RESTART标志可以指定系统调用被信号中断后自动重启，从而避免了系统调用被中断而导致的错误。
+sa_restorer 字段是一个指向恢复函数的指针。恢复函数用于在handler完成后将控制返回给原始程序。在大多数情况下，此字段不需要设置。
+返回值：执行成功则返回0，如果有错误则返回-1。
+错误代码
+EINVAL：参数signum不合法，或是企图拦截SIGKILL/SIGSTOPSIGKILL信号
+EFAULT：参数act，oldact指针地址无法存取。
+EINTR：此调用被中断
+函数定义：int sigaction(int signum, const struct sigaction *act, struct sigaction *oldact);
+头文件：signal.h
+
 sigwait
 函数说明：提供了一种等待信号的到来，以串行的方式从信号队列中取出信号进行处理的机制。sigwait()只等待函数参数中指定的信号集，即如果新产生的信号不在指定的信号集内，则 sigwait()继续等待。对于一个稳定可靠的程序，我们一般会有一些疑问：
 不要在线程的信号掩码中阻塞不能被忽略处理的两个信号SIGSTOP和 SIGKILL。
