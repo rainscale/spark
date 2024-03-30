@@ -4,7 +4,31 @@
 #include <signal.h>    /* signal */
 #include <stdio.h>
 #include <stdlib.h>    /* free */
+#include <string.h>    /* strstr */
+#include <sys/wait.h>    /* wait */
 
+char* get_current_task_name() {
+    static char task_name[1024] = {0};
+    char* pstr = nullptr;
+    readlink("/proc/self/exe", task_name, 1024);
+    pstr = task_name;
+    return pstr;
+}
+
+char* addr2line(const char* ptr, const char* elf_name) {
+    char *pstr = nullptr;
+    pid_t pid = 0;
+    static char addr2line_cmd[1024] = {0};
+    sprintf(addr2line_cmd, "addr2line %s -e %s -f -p", ptr, elf_name);
+    pid = fork();
+    if (pid == 0) {
+        system(addr2line_cmd);
+        exit(0);
+    } else {
+        wait(nullptr);
+    }
+    return pstr;
+}
 
 #define MAX_STACK_FRAMES    128
 void handle_signal(int signum) {
@@ -12,6 +36,9 @@ void handle_signal(int signum) {
     void* frames[MAX_STACK_FRAMES];
     char** symbols;
     int num_frames;
+    char* ptr = nullptr;
+    char* ptr_end = nullptr;
+    char* pstr = nullptr;
     switch(signum) {
         case SIGSEGV: name = "SIGSEGV"; break;
         case SIGABRT: name = "SIGABRT"; break;
@@ -33,8 +60,19 @@ void handle_signal(int signum) {
     /* Create readable strings to each frame. */
     symbols = (char**)backtrace_symbols(frames, num_frames);
     /* Print the stack trace, excluding calls handling the signal. */
+    //for (int i = 0; i < num_frames; i++) {
+    //    printf("%d %s\n", i, symbols[i]);
+    //}
     for (int i = 0; i < num_frames; i++) {
-        printf("%d %s\n", i, symbols[i]);
+        ptr = strstr(symbols[i], "[");
+        if (ptr != nullptr) {
+            ptr++;
+            ptr_end = strstr(ptr, "]");
+            if (ptr_end != nullptr) {
+                *ptr_end = '\0';
+            }
+            pstr = addr2line(ptr, get_current_task_name());
+        }
     }
     free(symbols);
     /* Reset and raise the signal so default handler runs. */
@@ -68,6 +106,13 @@ bool LockToCPU(int cpu_to_lock) {
 }
 
 int main(int argc, char** argv) {
+    long i = 0;
+    printf("pid %d\n", getpid());
     signal_handler();
+    while (true) {
+        sleep(1);
+        i++;
+        printf("sleep %ld s\n", i);
+    }
     return 0;
 }
