@@ -31,6 +31,39 @@ int optopt：
 函数定义：int getopt(int argc, char* const argv[], const char* optstring);
 头文件：getopt.h
 
+getopt_long
+函数说明：getopt被用来解析命令行选项参数。
+getopt_long支持长选项的命令行解析，函数中的argc和argv通常直接从main()的两个参数传递而来。
+字符串optstring可以下列元素:
+1.单个字符，表示选项，
+2.单个字符后接一个冒号：表示该选项后必须跟一个参数。参数紧跟在选项后或者以空格隔开。该参数的指针赋给optarg。
+3 单个字符后跟两个冒号，表示该选项后可以有参数也可以没有参数。如果有参数，参数必须紧跟在选项后不能以空格隔开。该参数的指针赋给optarg。（这个特性是GNU的扩张）。
+optstring是一个字符串，表示可以接受的参数。例如，"a:b:cd"，表示可以接受的参数是a,b,c,d，其中，a和b参数后面跟有更多的参数值。(例如：-a host -b name)
+参数longopts，其实是一个结构的实例：
+struct option {
+const char *name; // name表示的是长参数名
+int has_arg； 
+// has_arg有3个值，no_argument(或者是0)，表示该参数后面不跟参数值
+// required_argument(或者是1),表示该参数后面一定要跟个参数值
+// optional_argument(或者是2),表示该参数后面可以跟，也可以不跟参数值
+int *flag;
+// 用来决定，getopt_long()的返回值到底是什么。如果flag是null(通常情况)，则函数会返回与该项option匹配的val值;如果flag不是NULL，则将val值赋予flag所指向的内存，并且返回值设置为0。
+int val; // 和flag联合决定返回值：表示指定函数找到该选项时的返回值，或者当flag非空时指定flag指向的数据的值val。
+}
+参数longindex，表示当前长参数在longopts中的索引值。longindex非空，则是返回识别到struct option数组中元素的位置指针。
+返回值：
+1.如果短选项找到，那么将返回短选项对应的字符。
+2.如果长选项找到，如果flag为NULL，返回val。如果flag不为空，返回0
+3.如果遇到一个选项没有在短字符、长字符里面。或者在长字符里面存在二义性的，返回“?”
+4.如果解析完所有字符没有找到（一般是输入命令参数格式错误，eg： 连斜杠都没有加的选项），返回“-1”
+5.如果选项需要参数，忘了添加参数。返回值取决于optstring，如果其第一个字符是“:”，则返回“:”，否则返回“?”。
+ps：
+1、如果使用getopt_long想只接受短选项，设置longopts为NULL即可；如果只想接受长选项，相应地设置optstring为NULL即可；
+2、长选项名是可以使用缩写方式，比如：选项有--file\--create,那么输入--c/--cr/--cre等均会被正确识别为create选项。
+3、长选项可以采用两种形式：--arg=param或--arg param
+函数定义：int getopt_long(int argc, char* const argv[], const char* optstring, const struct option* longopts, int* longindex);
+头文件：getopt.h
+
 pthread_create
 函数说明：pthread_create是类Unix操作系统（Unix、Linux、Mac OS X等）的创建线程的函数。它的功能是创建线程（实际上就是确定调用该线程函数的入口点），在线程创建以后，就开始运行相关的线程函数。
 返回成功时，由tidp指向的内存单元被设置为新创建线程的线程ID。attr参数用于指定各种不同的线程属性。新创建的线程从start_rtn函数的地址开始运行，该函数只有一个万能指针参数arg，如果需要向start_rtn函数传递的参数不止一个，那么需要把这些参数放到一个结构中，然后把这个结构的地址作为arg的参数传入。
