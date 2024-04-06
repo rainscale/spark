@@ -1,0 +1,30 @@
+Python 保留字符
+下面的列表显示了在Python中的保留字。这些保留字不能用作常数或变数，或任何其他标识符名称。
+所有 Python 的关键字只包含小写字母。
+and			exec		not
+assert		finally		or
+break		for			pass
+class		from		print
+continue	global		raise
+def			if			return
+del			import		try
+elif		in			while
+else		is			with
+except		lambda		yield
+
+Python运算符优先级
+以下表格列出了从最高到最低优先级的所有运算符：
+运算符						描述
+**							指数 (最高优先级)
+~ + -						按位翻转, 一元加号和减号 (最后两个的方法名为 +@ 和 -@)
+* / % //					乘，除，取模和取整除
++ -							加法减法
+>> <<						右移，左移运算符
+&							位 'AND'
+^ |							位运算符
+<= < > >=					比较运算符
+<> == !=					等于运算符
+= %= /= //= -= += *= **=	赋值运算符
+is is not					身份运算符
+in not in					成员运算符
+not and or					逻辑运算符
