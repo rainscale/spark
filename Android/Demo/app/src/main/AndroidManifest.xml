@@ -5,101 +5,58 @@
 
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="false" />
-
-    <!-- 相机权限 -->
-    <uses-permission android:name="android.permission.CAMERA" />
-
-    <!-- 获取日历权限 -->
-    <uses-permission android:name="android.permission.READ_CALENDAR" />
-    <!-- 编辑日历权限 -->
-    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
-
-    <!-- 录音权限 -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
-    <!-- 位置权限 -->
+        android:required="false" /> <!-- 相机权限 -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- 获取日历权限 -->
+    <uses-permission android:name="android.permission.READ_CALENDAR" /> <!-- 编辑日历权限 -->
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" /> <!-- 录音权限 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- 位置权限 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-
-    <!-- 身体传感器权限 -->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /> <!-- 身体传感器权限 -->
     <uses-permission android:name="android.permission.BODY_SENSORS" />
-    <uses-permission android:name="android.permission.BODY_SENSORS_BACKGROUND" />
-
-    <!-- 活动识别权限 -->
-    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
-
-    <!-- 蓝牙权限 -->
+    <uses-permission android:name="android.permission.BODY_SENSORS_BACKGROUND" /> <!-- 活动识别权限 -->
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" /> <!-- 蓝牙权限 -->
     <uses-permission
         android:name="android.permission.BLUETOOTH"
         android:maxSdkVersion="30" />
     <uses-permission
         android:name="android.permission.BLUETOOTH_ADMIN"
         android:maxSdkVersion="30" />
-
     <uses-permission
         android:name="android.permission.BLUETOOTH_SCAN"
         android:usesPermissionFlags="neverForLocation"
         tools:targetApi="s" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
-    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-
-    <!-- 附近的设备权限 -->
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" /> <!-- 附近的设备权限 -->
     <uses-permission
         android:name="android.permission.NEARBY_WIFI_DEVICES"
-        android:usesPermissionFlags="neverForLocation" />
-
-    <!-- 获取图片中的地理位置信息权限 -->
-    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
-
-    <!-- 媒体库的访问权限 -->
+        android:usesPermissionFlags="neverForLocation" /> <!-- 获取图片中的地理位置信息权限 -->
+    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" /> <!-- 媒体库的访问权限 -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
-    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
-
-    <!-- 安装应用权限 -->
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-
-    <!-- 悬浮窗权限 -->
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-
-    <!-- 修改系统设置权限 -->
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" /> <!-- 安装应用权限 -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" /> <!-- 悬浮窗权限 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- 修改系统设置权限 -->
     <uses-permission
         android:name="android.permission.WRITE_SETTINGS"
-        tools:ignore="ProtectedPermissions" />
-
-    <!-- 应用程序使用统计权限 -->
+        tools:ignore="ProtectedPermissions" /> <!-- 应用程序使用统计权限 -->
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
-        tools:ignore="ProtectedPermissions" />
-
-    <!-- Alarm精准闹钟权限 -->
+        tools:ignore="ProtectedPermissions" /> <!-- Alarm精准闹钟权限 -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
-    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
-
-    <!-- APP通知显示在状态栏权限 -->
-    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
-
-    <!-- 忽略电池优化权限 -->
-    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
-
-    <!-- 获取安装应用列表权限 -->
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" /> <!-- APP通知显示在状态栏权限 -->
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" /> <!-- 忽略电池优化权限 -->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" /> <!-- 获取安装应用列表权限 -->
     <uses-permission android:name="com.android.permission.GET_INSTALLED_APPS" />
     <uses-permission
         android:name="android.permission.QUERY_ALL_PACKAGES"
-        tools:ignore="QueryAllPackagesPermission" />
-
-    <!-- 请求前台服务权限 -->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <!-- 请求通知的运行时权限 -->
+        tools:ignore="QueryAllPackagesPermission" /> <!-- 请求前台服务权限 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- 请求通知的运行时权限 -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <!--文件读写权限 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- 文件读写权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
-    <!-- 网络权限 -->
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" /> <!-- 网络权限 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -117,6 +74,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Demo"
         tools:targetApi="31">
+        <service
+            android:name=".EventBusService"
+            android:enabled="true"
+            android:exported="true"></service>
+
         <activity
             android:name=".activity.MainActivity"
             android:exported="true">
@@ -154,7 +116,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </service>
-
         <!-- 通知监听服务 -->
         <service
             android:name=".permission.NotificationMonitorService"

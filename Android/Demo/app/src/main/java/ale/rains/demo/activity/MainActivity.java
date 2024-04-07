@@ -12,11 +12,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
 import ale.rains.demo.HelloService;
 import ale.rains.demo.databinding.ActivityMainBinding;
+import ale.rains.demo.model.EventMessage;
 import ale.rains.demo.permission.PermissionTestActivity;
 import ale.rains.demo.utils.NotificationUtil;
 import ale.rains.demo.utils.Utils;
@@ -156,6 +159,21 @@ public class MainActivity extends AppCompatActivity {
 
         binding.btnTest.setOnClickListener((v) -> {
             Utils.test(getApplicationContext());
+        });
+
+        binding.btnThreadTest.setOnClickListener((v) -> {
+            Thread thread = new Thread(() -> {
+                thread_test(0, 8);
+            });
+            thread.setPriority(Thread.MAX_PRIORITY);
+            thread.start();
+        });
+
+        binding.btnEventbus.setOnClickListener((v) -> {
+            //发送数据给监听者
+            EventBus.getDefault().post("msg1 coming...");
+            EventMessage event = new EventMessage(1000, "msg2 coming...");
+            EventBus.getDefault().post(event);
         });
     }
 
