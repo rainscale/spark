@@ -192,4 +192,6 @@ public class MainActivity extends AppCompatActivity {
     public native String stringFromJNI();
 
     public native int test(int i, int j);
+
+    public native void thread_test(long time, int n);
 }

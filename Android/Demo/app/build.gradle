@@ -21,7 +21,7 @@ android {
         versionCode 1
         versionName "1.0" + "-" + new SimpleDateFormat("yyyyMMdd").format(new Date())
         ndk {
-            abiFilters 'x86', 'arm64-v8a'
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
         }
 
         buildConfigField "String", "AUTHOR", "\"${author}\""

@@ -295,6 +295,40 @@ atexit
 函数定义：int atexit(void (*func)(void));
 头文件：stdlib.h
 
+setpriority
+函数说明：用来设置进程、进程组和用户的进程执行优先权。参数which有三种数值，参数who则依which值有不同定义：
+PRIO_PROCESS who为进程识别码
+PRIO_PGRP who 为进程的组识别码
+PRIO_USER who为用户识别码
+参数prio介于-20至20之间。代表进程执行优先权，数值越低代表有较高的优先次序，执行会较频繁。此优先权默认是0，而只有超级用户（root）允许降低此值。执行成功则返回0，如果有错误发生返回值则为-1，错误原因存于errno。
+ESRCH 参数which或who可能有错，而找不到符合的进程
+EINVAL 参数which值错误。
+EPERM 权限不够，无法完成设置
+EACCES 一般用户无法降低优先权
+函数定义：int setpriority(int which, int who, int prio);
+头文件：sys/resource.h
+
+getpriority
+函数说明：用来取得进程、进程组和用户的进程执行优先权。参数 which 有三种数值, 参数who 则依which 值有不同定义。
+which who 代表的意义：
+1、PRIO_PROCESS who：为进程识别码
+2、PRIO_PGRP who：为进程的组识别码
+3、PRIO_USER who：为用户识别码此函数返回的数值介于-20 至20 之间, 代表进程执行优先权, 数值越低代表有较高的优先次序, 执行会较频繁。
+返回值：返回进程执行优先权, 如有错误发生返回值则为-1且错误原因存于errno。
+附加说明：由于返回值有可能是-1, 因此要同时检查errno是否存有错误原因。最好在调用次函数前先清除errno变量。
+错误代码：
+1、ESRCH：参数which或who可能有错, 而找不到符合的进程。
+2、EINVAL：参数which 值错误。
+函数定义：int getpriority(int which, int who);
+头文件：sys/resource.h
+
+nice
+函数说明：用来改变进程的执行优先顺序。参数inc数值越大则优先顺序排在越后面, 即表示进程执行会越慢。只有超级用户才能使用负的inc值, 代表优先顺序排在前面, 进程执行会较快。
+返回值：如果执行成功则返回0, 否则返回-1, 失败原因存于errno中。
+错误代码：
+EPERM：一般用户企图转用负的参数inc值改变进程优先顺序。
+函数定义：int nice(int inc);
+头文件：unistd.h
 
 系统信号
 1.SIGHUP
