@@ -1,0 +1,671 @@
+REM和::指令有点类似我们C语言的注释，但是有点不同。
+REM注释的描述，会在执行bat脚本的时候将描述回显出来，而::注释的描述，在指令bat脚本时，不会将描述回显。
+
+ECHO指令有点类似Python语言print打印内容或者变量的值等一些作用，但是ECHO除了可以打印我们想输出的文字或者变量值的功能之外，还有一些小功能。
+echo [on/off]：打开/关闭回显功能
+echo [context]：输出提示信息
+echo off：关闭DOS提示符的显示，使屏幕只留下一个下划线形状的光标，再输入echo on即可打开DOS提示符的显示
+echo.：输出一个空行，这里的.和echo之间不要有空格，其实除了echo.有这个效果，echo+、echo-、echo*、echo,都可以
+echo [文件内容] > [文件名]：建立新文件
+echo [文件内容] >> [文件名]：新增文件内容
+@指令的作用就没有echo那么大，但是也有作用，就是禁止某条命令回显
+
+pause指令，从它英文含义就知道是暂停的意思。
+平常执行bat脚本的时候，如果不加pause指令时，我们执行bat脚本就会是一闪而过的出现控制台窗口，如果加了pause指令，就可以让我们控制台窗口停留，
+并且还会给出一段提示语“请按任意键继续”，也可以更改提示语：
+@echo "请按enter退出脚本"&pause > nul
+
+ERRORLEVEL指令含义是“程序状态返回码”，返回上一条指令执行状态码，一般0代表正常，1或者其它数字代表错误
+echo 命令执行状态码：%errorlevel%
+
+TITLE指令修改控制台窗口的标题
+
+COLOR指令设置控制台的前景色和背景色
+使用指令"color /?"，即可查看color的颜色表
+color 0A：设置前景色为黑色，背景色为淡绿色
+
+GOTO和:指令含义就是跳转的意思，那GOTO跳转到哪里去呢？这里的GOTO是跳转到标签处，这里的标签就是用:来定义，
+标签格式:[name]，给标签取名最好取一些有含义的名字
+
+FIND指令，在文件中搜索字符串
+FIND [/V] [/C] [/N] [/I] [/OFF[LINE]] "string" [[drive:][path]filename[ ...]]
+/V 显示所有未包含指定字符串的行。
+/C 仅显示包含字符串行的次数。
+/N 显示行号。
+/I 搜索字符串时忽略大小写。
+/OFF[LINE]：不要跳过具有脱机属性集的文件。
+"string"：指定要搜索的文本字符串。
+[drive:][path]filename：指定要搜索的文件
+
+START指令，批处理中调用外部程序命令（该外部程序在新的窗口中运行，批处理程序继续往下执行，不理会外部程序执行的情况），
+如果直接运行外部程序则必须等待外部程序完成后才可以继续执行剩余的指令
+
+assoc指令，设置“文件扩展名”关联，关联到“文件类型”；
+比如.txt文件扩展名，代表的是文本文件，执行“assoc .txt”指令，即可看到输出内容是“.txt=txtfile”，
+及说明.txt文件扩展名代表着文本文件，在比如“assoc .doc”指令，输出内容是“.doc=Word.Document.8”，及说明.doc文件扩展名代表着文档文件
+ftype指令，设置“文件类型”关联，关联到“执行程序与参数”；
+
+pushd和popd指令，切换保存的目录
+
+CALL指令可以在批处理执行过程中调用另外一个批处理程序，当另外一个批处理程序执行完后，再继续执行原本的命令。
+格式：CALL [drive:][path]filename [batch-parameters]
+也可以调用自身脚本中的命令段，相当于调用子程序，但是被调用的命令段以标签开始，以“goto :eof”结束
+格式：CALL:label arguments
+另外，批脚本文本参数参照(%0、%1、等等）已如下改变：
+批脚本里的 %* 指出所有的参数(如 %1 %2 %3 %4 %5 ...)
+批参数(%n)的替代已被增强。你可以使用以下语法:
+%~1 - 删除引号(")，扩展 %1
+%~f1 - 将 %1 扩展到一个完全合格的路径名
+%~d1 - 仅将 %1 扩展到一个驱动器号
+%~p1 - 仅将 %1 扩展到一个路径
+%~n1 - 仅将 %1 扩展到一个文件名
+%~x1 - 仅将 %1 扩展到一个文件扩展名
+%~s1 - 扩展的路径只含有短名
+%~a1 - 将 %1 扩展到文件属性
+%~t1 - 将 %1 扩展到文件的日期/时间
+%~z1 - 将 %1 扩展到文件的大小
+%~$PATH:1 - 查找列在 PATH 环境变量的目录，并将 %1
+扩展到找到的第一个完全合格的名称。如果
+环境变量名未被定义，或者没有找到文件，
+此修改符会扩展到空字符串
+可以组合修改符来取得多重结
+%~dp1 - 只将 %1 扩展到驱动器号和路径
+%~nx1 - 只将 %1 扩展到文件名和扩展名
+%~dp$PATH:1 - 在列在 PATH 环境变量中的目录里查找 %1，
+并扩展到找到的第一个文件的驱动器号和路径。
+%~ftza1 - 将 %1 扩展到类似 DIR 的输出行。
+在上面的例子中，%1 和 PATH 可以被其他有效数值替换。
+%~ 语法被一个有效参数号码终止。%~ 修定符不能跟 %*
+注意：参数扩展时，不会理会参数是代表的文件是否真的存在，均是以当前工作目录进行扩展
+
+SHIFT指令更改批处理文件中可替换参数的位置，更改参数位置并不会影响%0和%1
+格式：SHIFT [/n]
+
+IF指令与其它编程语言一样是一种条件判断语句
+格式：
+IF [NOT] ERRORLEVEL number command
+IF [NOT] string1==string2 command
+IF [NOT] EXIST filename command
+IF ...... ( ...... ) ELSE ( ....... )
+<1> IF [NOT] ERRORLEVEL number command
+IF ERRORLEVEL这个语句必须放到某个命令的后面，执行命令后由IF ERRORLEVEL来判断命令的返回值
+number数值的范围为0~255，判断值的时候排序顺序是由大到小。这是因为IF ERRORLEVEL 1表示的是ERRORLEVEL大于等于1
+<2> IF [NOT] string1==string2 command
+string1和string2都是字符的数据，英文内字符的大小写将看作不相同（如果想不区分大小写成”IF /I [NOT] string1==string2 command“，即可不区分大小写）
+比较符号：
+==：等于、>=：大于等于、<=：小于等于、>：大于、<：小于
+也可以使用关键字来代表比较
+equ：等于、neq：不等于、geq：大于等于、leq：小于等于、gtr：大于、lss：小于
+为了防止字符串之间有空格不好进行比较时，可以使用字符串界定符，一般有以下格式：
+(1) IF [NOT] "string1"=="string2" command
+(2) IF [NOT] [string1]==[string2] command
+(3) IF [NOT] {string1}=={string2} command
+字符界定符实际上是将括号或者引号当作字符串的一部分，只要等号左右两边一致就行，比如下面的写法就不行
+IF [NOT] {string1}==[string2] command
+<3> IF [NOT] EXIST filename command
+EXIST filename为文件或者目录是否存在的意思
+<4> IF ...... ( ...... ) ELSE ( ....... )
+IF（）ELSE（）语句与其它编程语言的作用是一样
+
+setlocal与变量延迟
+批处理读取命令是按行读取，在处理之前要完成必要的预处理工作，这其中就包括对命令中变量复赋值。我们看个例子来理解变量延迟
+@echo off
+set a=4
+set a=5 & echo %a%
+pause
+运行结果：4
+这里我们可以看到输出的结果是4，这是为什么呢？前面不是说了吗，批处理读取命令是按行读取，在处理之前要完成必要的预处理工作，
+这其中就包括对命令中变量复赋值，a被我赋值了4，我们下一行不是给a赋值了5吗，为什么不是5呢，“set a=5 & echo %a%”的意思是：
+我们打印a的值时与给a赋值5的命令是同时执行的，正因为是同时执行的，所以批处理无法感知变量的动态变化。
+为了感知动态变化，批处理设计了变量延迟，简单来说，在读取一条完整的语句之后，不立即对该行的变量赋值，
+而会在某个单条语句执行之前再进行赋值，也就是说”延迟“了对变量的赋值。对示例1开启变量延迟
+开启变量延迟：
+@echo off
+setlocal enabledelayedexpansion
+set a=4
+set a=5 & echo !a!
+pause
+运行结果：5
+变量延迟的启动语句是”setlocal enabledelayedexpansion“，并且变量要用一对”!!“将变量括起来，否则就没有变量延迟的效果
+提供大家一个示例思考一下，为什么必须使用变量延迟才能一下输出
+@echo off
+setlocal enabledelayedexpansion
+for /l %%i in (1, 1, 5) do (
+	set a=%%i
+	echo !a!
+)
+pause
+运行结果：
+1
+2
+3
+4
+5
+
+%：批处理变量引导符
+%严格来说不算命令，它只是批处理中的参数而已，引用变量用%variableName%，也可以用来添加行内注释，格式：%注释内容%（作为行内注释时，不能出现重定向符和管道符）
+@echo off
+set var=10
+echo 引用变量的值
+echo %var%
+echo 行内注释
+echo %行内注释片段% %var%
+pause
+运行结果：
+引用变量的值
+10
+行内注释
+10
+从输出结果可以看出，“echo %行内注释片段% %var%”中的“%行内注释片段%”没有输出，为什么“%...%”可以起注释作用呢，
+因为“注释内容”其实被当作变量了，只不过它的值为空，故起注释作用
+
+>、>>、<：重定向符
+DOS的标准输入输出通常是在标准设备键盘和显示器上进行的，利用重定向可以方便将输入输出改向磁盘文件或者其它设备。
+>、>>：输出重定向命令
+>：将命令发送到文件或者设备（有些命令输出重定向，比如错误信息）
+>>：将命令输出添加到文件结尾，而不删除文件中已有的内容
+<：输入重定向命令
+<：从文件而不是键盘上获取命令所需的输入
+@echo off
+echo ">的示例"
+echo 创建一个文件 > .\temp.txt
+echo.
+echo 文件内容： & type .\temp.txt
+echo ---------分割线---------
+echo ">>的示例"
+echo 向temp.txt文件中新增内容 >> .\temp.txt
+echo.
+echo 新增后的文件内容： & type .\temp.txt
+echo ---------分割线---------
+echo "<的示例"
+set /p var="" < .\temp.txt 
+echo 重输入给变量的值：%var%
+pause
+运行结果：
+......
+重输入给变量的值：创建一个文件
+这里变量为什么会只有第一行的内容呢？因为输入重定向符遇到回车符就会停止输入
+
+|：命令管道符
+格式：command_1 | command_2 [| command_3...]
+将第一条命令的结果作为第二条命令的参数来使用
+@echo off
+rem 创建一个文件
+echo "hello world" > .\temp.txt
+echo "one" >> .\temp.txt
+echo "two" >> .\temp.txt
+echo 查找是否有one字符串
+type .\temp.txt | find "one"
+if errorlevel 1 goto 1
+if errorlevel 0 goto 0
+:0
+echo 有
+goto exit
+:1
+echo 没有
+goto exit
+:exit
+pause
+“type .\temp.txt | find "one"”这里是将”type .\temp.txt“产生的结果当作”find "one"“的输入使用
+
+^：转义字符
+^的作用与其它编程语言的”\“类似，将一些已存在的特殊字符，转义为普通字符
+echo context ^> temp.txt
+从输出结果可以看到echo将context ^> temp.txt当作内容输出了，没有创建一个temp.txt文件
+另外^除了有转义的作用，还有当作续作符号的作用
+@echo off
+echo 续作符号输出效果：
+echo 床前^
+明月^
+光
+echo -------分隔符-------
+echo 普通输出效果：
+echo 床前明月光
+pause
+可以看到续作符输出效果与普通输出的效果一样
+
+&、&&、||为组合命令，顾名思义就是可以将多条命令组合起来当一个命令来执行。
+&符号：允许在一行中使用2个以上不同的命令，如果第一个命令执行失败时，并不会影响到后面的命令执行，执行顺序是从左到右
+示例：
+dir z:\ & dir c:\ & dir d:\
+从命令结果可以看到没有Z磁盘，所以报出“系统找不到指定的路径”提示信息，但是并影响后面的命令执行
+&&符号：与&符号一样，可以同时执行多条命令，但是不同的是，当第一条命令执行失败不会执行第二条命令，
+当碰到执行正确的命令才执行后面的命令，如果没有出现正确的命令则报出错误提示信息就结果
+dir c:\ && dir z:\ && dir d:\
+从输出结果可以看出，执行dir z:\失败后，就没有执行后面的dir d:\命令
+||符号：与&&符号一样，可以同时执行多条命令，但是不同的是，当第一条命令执行失败才执行第二条命令，
+当碰到执行正确的命令将不执行后面的命令，如果没有出现正确的命令则一直执行完所有命令
+示例：
+dir z:\ || dir c:\ || dir d:\
+从输出结果可以看出执行dir z:\失败后就执行dir c:\，执行dir c:\正确后就不在执行后面的dir d:\命令
+备注：命令执行优先级：管道命令 > 重定向命令 > 组合命令
+
+""：字符界定符，允许在字符串中包含空格，比如进入包含空格的文件夹或者文件（cd "program files"）
+
+，：逗号相当与空格，在某些情况下“，”当作空格使用，比如尝试执行dir,c:\
+
+；：分号，当命令相同时，可以将不同的目标用“；”分隔开，并且执行效果不变，如果执行过程中发生错误，
+则值返回错误报告，但是程序仍会继续执行（这个继续执行是有条件的）
+示例1：
+dir c:\;z:\;d:\
+示例2：
+dir c:\;d:\temp
+从示例1和示例2可以看出，示例1中Z磁盘是不存在的，所以整句命令直接报出错误提示信息不继续执行，但是示例2中D盘中没有temp目录结果程序继续执行
+总结：
+1、如果目标路径不存在，则整个语句都不执行；
+2、如果路径存在，仅文件不存在，则继续执行，并且提示文件不存在的错误
+
+()：括号，在批处理编程中有特殊的作用，左右括号必须成对使用，括号中可以包括多行命令，这些命令将被看作一个整体，视为一条命令
+备注：括号在for语句或者if语句中常见，用来嵌套使用循环或者条件语句，其实括号也可以单独使用
+示例：
+echo 1 & echo 2 & echo 3
+::上述命令与下面的命令等价
+（
+echo 1
+echo 2
+echo 3
+）
+
+!：感叹号，主要是在变量延迟问题中，用来表示变量，即%var%应该表示为!var!
+
+*、？：文件通配符
+* 文件通配符：代表全部字符
+? 文件通配符：代表单个字符
+@echo off
+rem 创建测试使用的文件
+echo "1" > .\testFile_one.txt
+echo "1" > .\testFile_1.txt
+echo "2" > .\testFile_2.txt
+echo "2" > .\testFile_two.txt
+echo "text" > testFile.txt
+echo "text" > textFile.txt
+echo 测试文件创建完毕
+echo --------------------------------
+echo "*：代表全部字符"
+for %%i in (testFile_*.txt) do (
+	echo %%i
+)
+echo --------------------------------
+echo "?：代表单个字符"
+for %%i in (te?tFile.txt) do (
+	echo %%i
+)
+echo --------------------------------
+for %%i in (te?tFile*.txt) do (
+	del .\%%i
+)
+echo 收尾工作执行完毕
+pause
+从输出结果看，“testFile_*.txt”是查找以”testFile_“开头忽略后面所以字符的文件名；“te?tFile.txt”是查找以“te“与”tFile.txt”之间字符任意单个字符组成的文件名
+
+
+for命令详解
+一、基本格式
+FOR %variable IN (set) DO command [command-parameters]
+%variable 指定一个单一字母可替换的参数。
+(set) 指定一个或一组文件。可以使用通配符。
+command 指定对每个文件执行的命令。
+command-parameters 为特定命令指定参数或命令行开关
+FOR命令有4个参数“/D、/L、/R、/F”
+
+二、FOR参数
+<1> 参数 /D详解
+定义：FOR /D %variable IN (set) DO command [command-parameters]
+如果集中包含通配符，则指定与目录名匹配，而不与文件名匹配
+解析：如果集合（set）包含通配符（“*”和“?”），将对与集合（set）相匹配的每一个目录（不是指目录中的文件组）执行指定的Commoand，这个参数主要用于目录搜索，不会搜索文件
+示例：
+@echo off
+echo C盘根目录下所有目录名：
+for /d %%i in (c:\*) do (
+	echo %%i
+)
+pause
+备注：任何集合（set）中没有给出盘符，就是在当前脚本工作路径（%~dp0）下查找
+
+<2> 参数 /R详解
+定义：FOR /R [[drive:]path] %variable IN (set) DO command [command-parameters]
+检查以 [drive:]path 为根的目录树，指向每个目录中的 FOR 语句。
+如果在 /R 后没有指定目录规范，则使用当前目录。如果集仅为一个单点(.)字符，则枚举该目录树
+解析：通过/D参数知道，/D参数能显示指定路径或者当前路径下的目录名，/R也是跟目录有关，/R参数可以把指定路径下或者当前目录下的文件名全部读取，注意是文件名，不是目录名
+注意：
+1、集合（set）中文件名如果包含通配符（“*”和“?”），则列举/R参数指定的目录及其下面的所有子目录中与集合（set）相符合的所有文件，不相符文件的目录则不列举
+2、如果集合（set）中为具体文件名，不包含通配符，则枚举该目录树（即枚举该目录及其下面的所有子目录），而不管集合（set）中指定文件是否存在。这与前面所说的单点（.）枚举目录树是一个道理，单点代表当前目录，也可视为一个文件
+示例1：
+@echo off
+echo 搜索D盘根目录和子目录子所有以.bat结尾的文件：
+for /r d:\ %%i in (*.bat) do (
+	echo %%i
+)
+echo --------------------------------------------
+echo 搜索当前目录及其子目录下所有以.txt结尾的文件：
+for /r %%i in (*.txt) do (
+	echo %%i
+)
+pause
+示例2：
+@echo off
+echo 在C盘中搜索具体文件名为“temp.png”：
+for /r c:\ %%i in (temp.png) do (
+	echo %%i
+)
+pause
+备注：如果集合（set）中为具体文件名，不包含通配符，则枚举该目录树（即枚举该目录及其下面的所有子目录），而不管集合（set）中指定文件是否存在。
+什么意思呢，就是它会搜索C盘中一切可能有“temp.png”文件的路径，不管“temp.png”存在都会给出一个路径结果
+扩展：你可以将上方脚本修改为下面这种，看是否真的存在
+@echo off
+echo 在C盘中搜索具体文件名为“temp.png”：
+for /r c:\ %%i in (temp.png) do (
+	if exist %%i  echo %%i
+)
+pause
+
+<3> 参数 /L详解
+定义：FOR /L %variable IN (start,step,end) DO command [command-parameters]
+该集表示以增量形式从开始到结束的一个数字序列。因此，(1,1,5)将产生序列
+1 2 3 4 5，(5,-1,1)将产生序列(5 4 3 2 1)
+解析：使用迭代变量设置起始值（start），然后逐步执行一组范围值，直到该值超过所设置的终止值（end）。/L参数将通过对起始值与终止值进行比较来执行迭代变量，
+如果起始值小于终止值，就会执行指定给出的命令，如果迭代变量超过终止值，则命令解释程序退出循环。
+可以使用负的步进值（step）以递减数值的方式来逐步执行此范围内的值
+示例：
+@echo off
+echo 正的步进值（step）循环结果：
+for /l %%i in (1, 1, 5) do (
+	echo %%i
+)
+echo --------------------------------------------
+echo 负的步进值（step）循环结果：
+for /l %%i in (5, -1, 1) do (
+	echo %%i
+)
+pause
+
+<4> 参数 /F详解
+定义：
+FOR /F ["options"] %variable IN (file-set) DO command [command-parameters]
+FOR /F ["options"] %variable IN ("string") DO command [command-parameters]
+FOR /F ["options"] %variable IN ('command') DO command [command-parameters]
+或者，如果有 usebackq 选项:
+FOR /F ["usebackq options"] %variable IN (file-set) DO command [command-parameters]
+FOR /F ["usebackq options"] %variable IN ('string') DO command [command-parameters]
+FOR /F ["usebackq options"] %variable IN (`command`) DO command [command-parameters]
+fileset 为一个或多个文件名。继续到 fileset 中的下一个文件之前，每份文件都被打开、读取并经过处理。处理包括读取文件，将其分成一行行的文字，然后将每行解析成零或更多的符号。
+然后用已找到的符号字符串变量值调用 For 循环。以默认方式，/F 通过每个文件的每一行中分开的第一个空白符号。跳过空白行。
+你可通过指定可选 "options" 参数替代默认解析操作。这个带引号的字符串包括一个或多个指定不同解析选项的关键字。这些关键字为:
+eol=c - 指一个行注释字符的结尾(就一个)
+skip=n - 指在文件开始时忽略的行数。
+delims=xxx - 指分隔符集。这个替换了空格和制表符的
+默认分隔符集。
+tokens=x,y,m-n - 指每行的哪一个符号被传递到每个迭代
+的 for 本身。这会导致额外变量名称的分配。m-n
+格式为一个范围。通过 nth 符号指定 mth。如果
+符号字符串中的最后一个字符星号，
+那么额外的变量将在最后一个符号解析之后
+注意：tokens= 一行指定最多 26 个符号，只要不试图声明一个高于字母 "z" 或"Z" 的变量。请记住，FOR 变量是单一字母、分大小写和全局的变量；而且，不能同时使用超过 52 个
+解析：结合示例讲解
+（1）FOR /F ["options"] %variable IN (file-set) DO command [command-parameters]
+（2）FOR /F ["options"] %variable IN ("string") DO command [command-parameters]
+（3）FOR /F ["options"] %variable IN ('command') DO command [command-parameters]
+选项（options）参数：
+eol=c ：指一个行注释字符的结尾(就一个)
+skip=n：指在文件开始时忽略的行数
+delims=xxx：指分隔符集。这个替换了空格和制表符的默认分隔符集
+tokens=x,y,m-n：指每行的哪一个符号被传递到每个迭代的 for 本身。这会导致额外变量名称的分配。m-n格式 为一个范围。通过 nth 符号指定 mth。如果符号字符串中的最后一个字符星号，那么额外的变量将在最后一个符号解析之后
+示例1：
+@echo off
+rem 创建测试文件
+echo ;注释行，临时文件用完删除 > .\test.txt
+echo 11段 12段 13段 14段 15段 16段 >> .\test.txt
+echo 21段,22段,23段,24段,25段,26段 >> .\test.txt
+echo 31段-32段-33段-34段-35段-36段 >> .\test.txt
+echo 第一句话 > .\temp.txt
+echo 第二句话 >> .\temp.txt
+echo 第三句话 >> .\temp.txt
+echo hello;world >> .\temp.txt
+echo -------------------------------------------------------------
+echo /F参数解析文件内容：
+for /f "eol=; tokens=1,3* delims=,- " %%i in (.\test.txt) do (
+	echo %%i %%j %%k
+)
+echo -------------------------------------------------------------
+echo /F参数解析字符串：
+for /f "tokens=1,2,3 delims=,-;" %%i in ("hello,world-window;bat") do (
+	echo 第一列字符串：%%i；第二列字符串：%%j；第三列字符串：%%k
+)
+echo -------------------------------------------------------------
+echo temp.txt文件内容：
+type .\temp.txt
+echo -------------------------------------------------------------
+echo /F参数解析命令：
+rem 结果输出只显示最左侧的“hello”，因为tokens没有设置，所以只显示第一列
+for /f "skip=3 delims=; " %%i in ('type .\temp.txt') do (
+	echo %%i
+)
+pause
+del .\test.txt & del .\temp.txt
+解析：“eol=c”指定单个字符作为注释行的开头；“skip=n”指定忽略前n行；“delims=xxx”指定分隔符，将内容按照指定分隔符进行分割；
+“tokens=x,y,m-n”指定分割后的内容将按照“x，y，m-n”列显示内容（比如“tokens=1,2,3”显示分割后的第一列、第二列、第三列内容；
+而“tokens=1,3*”显示分割后的第一列、第三列、第三列后的内容当作一列内容）
+（4）FOR /F ["usebackq options"] %variable IN (file-set) DO command [command-parameters]
+（5）FOR /F ["usebackq options"] %variable IN ('string') DO command [command-parameters]
+（6）FOR /F ["usebackq options"] %variable IN (`command`) DO command [command-parameters]
+选项（options）参数：与上面一样
+示例2：
+@echo off
+rem 创建测试文件
+echo ;注释行，临时文件用完删除 > .\test.txt
+echo 11段 12段 13段 14段 15段 16段 >> .\test.txt
+echo 21段,22段,23段,24段,25段,26段 >> .\test.txt
+echo 31段-32段-33段-34段-35段-36段 >> .\test.txt
+echo 第一句话 > .\temp.txt
+echo 第二句话 >> .\temp.txt
+echo 第三句话 >> .\temp.txt
+echo hello;world >> .\temp.txt
+echo -------------------------------------------------------------
+echo /F参数解析文件内容：
+for /f "usebackq eol=; tokens=1,3* delims=,- " %%i in (.\test.txt) do (
+	echo %%i %%j %%k
+)
+echo -------------------------------------------------------------
+echo /F参数解析字符串：
+for /f "usebackq tokens=1,2,3 delims=,-;" %%i in ('hello,world-window;bat') do (
+	echo 第一列字符串：%%i；第二列字符串：%%j；第三列字符串：%%k
+)
+echo -------------------------------------------------------------
+echo temp.txt文件内容：
+type .\temp.txt
+echo -------------------------------------------------------------
+echo /F参数解析命令：
+for /f "usebackq skip=3 delims=; " %%i in (`type .\temp.txt`) do (
+	echo %%i
+)
+pause
+del .\test.txt & del .\temp.txt
+
+三、FOR命令中的变量
+%~I - 删除任何引号(")，扩展 %I，删除引号规则为：无头不删，有头连尾删
+%~fI - 将 %I 扩展到一个完全合格的路径名
+%~dI - 仅将 %I 扩展到一个驱动器号
+%~pI - 仅将 %I 扩展到一个路径
+%~nI - 仅将 %I 扩展到一个文件名
+%~xI - 仅将 %I 扩展到一个文件扩展名
+%~sI - 扩展的路径只含有短名
+%~aI - 将 %I 扩展到文件的文件属性
+%~tI - 将 %I 扩展到文件的日期/时间
+%~zI - 将 %I 扩展到文件的大小
+%~$PATH:I - 查找列在路径环境变量的目录，并将 %I 扩展
+到找到的第一个完全合格的名称。如果环境变量名
+未被定义，或者没有找到文件，此组合键会扩展到
+空字符串
+另外，还可以组合修饰符来得到多重结果:
+%~dpI - 仅将 %I 扩展到一个驱动器号和路径
+%~nxI - 仅将 %I 扩展到一个文件名和扩展名
+%~fsI - 仅将 %I 扩展到一个带有短名的完整路径名
+%~dp$PATH:I - 搜索列在路径环境变量的目录，并将 %I 扩展
+到找到的第一个驱动器号和路径。
+%~ftzaI - 将 %I 扩展到类似输出线路的 DIR
+示例：这里就不给示例，你可以尝试一下自己写，不会可以参考“第一节CALL那节的“文本参数扩展-示例””
+
+
+批处理中的变量详解
+批处理中变量分为两种，一种是“自定义变量”和“系统变量”
+系统变量
+解析：系统变量由系统将其根据事先定义的条件自动赋值，也就是这些变量系统已经给它们定义了值，不需要我们来给它们赋值，我们只需要调用即可
+列举一些常见指令的系统变量：
+%CD% - 扩展到当前目录字符串
+%DATE% - 用跟 DATE 命令同样的格式扩展到当前日期
+%TIME% - 用跟 TIME 命令同样的格式扩展到当前时间
+%RANDOM% - 扩展到 0 和 32767 之间的任意十进制数字
+%ERRORLEVEL% - 扩展到当前 ERRORLEVEL 数值
+你可以使用“echo %系统变量名%”来查看值
+另外，还有一些系统变量，它们是代表一个意思，或者一个操作。分别是%0、%1、%2、%3、.......、一直到%9，还有一个%*
+%1：返回批处理的第一个参数；%2：返回批处理的第二个参数；......依此类推
+示例：
+先进入脚本工作目录：cd scriptPath
+任何输入脚本名后面再跟参数值：scriptName parameter_1 parameter_2 [parameter_n]
+脚本代码：
+@echo off
+rem 处理批处理参数
+echo 第一个参数：%1
+echo 第二个参数：%2
+echo 第三个参数：%3
+pause
+备注：%*的作用是返回全部参数的值，不用在输入%1、%2......
+
+自定义变量
+解析：自定义变量就是由我们来它们赋值的变量，要使用自定义变量就得使用set关键字
+基本格式：
+SET [options] [variable=[string]]
+variable 指定环境变量名。
+string 指定要指派给变量的一系列字符串
+options 可选参数，分别由“/p”、"/a"两个可选参数
+备注：可选参数解析
+1、SET /p [变量名=[键盘输入的值]]
+2、SET /a [变量名=[可作数值自增计算]]
+示例1：
+@echo off
+rem 自定义变量赋值
+echo 普通的变量赋值
+set var_1="hello world"
+echo 变量的值：%var_1%
+echo ------------------------------
+echo 可选参数/p赋值
+set /p var_2=请输入你想输入的值:
+echo 变量的值：%var_2%
+echo ------------------------------
+echo 可选参数/a赋值
+set var_3=0
+for /l %%i in (1, 1, 5) do (
+	set  /a var_3 += 1
+)
+echo 变量的值：%var_3%
+pause
+从输出结果可以看出，set /p可以将你键盘输入的值赋给变量，set /a可以支持变量做自增运算，/a参数除了支持自增运算，还支持一下运算
+() - 分组
+! ~ - - 一元运算符
+* / % - 算数运算符
++ - - 算数运算符
+<< >> - 逻辑移位
+& - 按位“与”
+^ - 按位“异”
+| - 按位“或”
+= *= /= %= += -= - 赋值
+&= ^= |= <<= >>= , - 表达式分隔符
+
+字符串截取
+字符串截取：可以截取字符串中的特定位置的一个或多个字符
+示例：
+@echo off
+set string=abcdefghijklmnopqrstuvwxyz0123456789
+echo 原字符串：
+echo %string%
+echo ----------------------------------------------
+echo 截取前5个字符：
+echo %string:~0,5%
+echo ----------------------------------------------
+echo 截取最后5个字符：
+echo %string:~-5%
+echo ----------------------------------------------
+echo 从第5个字符到最后：
+echo %string:~5%
+echo ----------------------------------------------
+echo 截取第一个到倒数第6个字符：
+echo %string:~0,-5%
+echo ----------------------------------------------
+echo 从第4个字符开始，截取5个字符：
+echo %string:~3,5%
+echo ----------------------------------------------
+echo 从倒数第14个字符开始，截取5个字符：
+echo %string:~-14,5%
+echo ----------------------------------------------
+pause
+备注：字符是从0开始算，“%varName:~m,n%”中的m是指偏移量，n是指步进值（代表截取几位，如果不填写，就代表*，即从偏移量开始位置的字符一直到结束）
+
+替换字符串
+替换字符串：将某一字符串中的特定字符或字符串替换为给定的字符串
+示例：
+@echo off
+set string=伟大的中国！我为你自豪！
+echo 替换前：
+echo 原字符串：%string%
+echo ------------------------------------
+echo 替换后：
+set string=%string:中国=中华人民共和国%
+echo 新字符串：%string%
+pause
+
+字符串合并
+字符串合并：将两个字符串拼接在一起
+示例：
+@echo off
+set string_1=伟大的中国！
+set string_2=我为你自豪！
+echo 拼接前：
+echo 原字符：string_1、%string_1%；string_2、%string_2%
+echo -------------------------------------
+echo 拼接后：
+set string_3=%string_1%%string_2%
+echo 新字符：%string_3%
+pause
+
+交互界面设计
+一个好的交互界面设计是很有必要的
+示例：
+@echo off
+rem 创建菜单
+echo 1、红烧鲫鱼		2、油闷大虾 > .\menu.txt
+echo 3、番茄炒鸡蛋		4、干煸土豆丝 >> .\menu.txt
+echo 5、口水鸡 >> .\menu.txt
+echo ==========================================================
+echo.
+for /l %%i in (1, 1, 18) do set /p=■<nul & ping -n 1 127.0.0.1>nul
+echo 100%%
+echo.
+echo ==========================================================
+echo 菜单初始化完成
+echo.
+echo 菜单：
+echo.
+echo ----------------------------------------------------------
+echo.
+type .\menu.txt
+echo.
+echo ----------------------------------------------------------
+set /p menuName=请输入菜名后按回车：
+echo 好的，客官，您稍等，马上来！
+echo.
+echo ----------------------------------------------------------
+echo.
+echo 厨师炒菜中
+for /l %%i in (1, 1, 18) do set /p=.<nul & ping -n 2 127.0.0.1>nul
+echo.
+echo ----------------------------------------------------------
+echo.
+echo 客官，您的%menuName%好了，请慢用！
+echo.
+echo ----------------------------------------------------------
+echo.
+del .\menu.txt
+echo 收尾工作完毕
+pause
+运行结果：你尝试一下，看有什么效果
+备注：代码里面有一个延时命令“ping -n 2 127.0.0.1>nul”，这个是什么意思呢？就是“ping -n 2 127.0.0.1”这个指令会去ping IP地址为127.0.0.1两秒钟，然后将ping的结果输出，但是没有输出，因为把重定向到了”nul“，这个”nul“你可以把它理解为”垃圾站“，这里里没有任何东西，ping输出的内容丢到垃圾站，什么没有输出内容，这样就可以起到一个延时作用了
