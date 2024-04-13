@@ -1,6 +1,6 @@
 Python 保留字符
 下面的列表显示了在Python中的保留字。这些保留字不能用作常数或变数，或任何其他标识符名称。
-所有 Python 的关键字只包含小写字母。
+所有Python的关键字只包含小写字母。
 and			exec		not
 assert		finally		or
 break		for			pass
@@ -11,6 +11,14 @@ del			import		try
 elif		in			while
 else		is			with
 except		lambda		yield
+打印keyword：
+import keyword
+print(keyword.kwlist)
+'''
+['False', 'None', 'True', 'and', 'as', 'assert', 'async', 'await', 'break', 'class', 'continue', 'def', 'del', 'elif', 
+'else', 'except', 'finally', 'for', 'from', 'global', 'if', 'import', 'in', 'is', 'lambda', 'nonlocal', 'not', 'or', 
+'pass', 'raise', 'return', 'try', 'while', 'with', 'yield']
+'''
 
 Python运算符优先级
 以下表格列出了从最高到最低优先级的所有运算符：
@@ -28,3 +36,702 @@ Python运算符优先级
 is is not					身份运算符
 in not in					成员运算符
 not and or					逻辑运算符
+
+标准数据类型
+Python3中常见的数据类型有：
+Number（数字）
+String（字符串）
+bool（布尔类型）
+List（列表）
+Tuple（元组）
+Set（集合）
+Dictionary（字典）
+Python3 的六个标准数据类型中：
+不可变数据（3 个）：Number（数字）、String（字符串）、Tuple（元组）；
+可变数据（3 个）：List（列表）、Dictionary（字典）、Set（集合）。
+
+Number（数字）
+Python3支持int、float、bool、complex（复数）。
+在Python3里，只有一种整数类型int，表示为长整型，没有python2中的Long。
+内置的type()函数可以用来查询变量所指的对象类型。
+a=20
+b=5.5
+c=True
+d=4+3j
+print(type(a), type(b), type(c), type(d)) # <class 'int'> <class 'float'> <class 'bool'> <class 'complex'>
+此外还可以用isinstance来判断：
+a = 111
+print(isinstance(a, int)) # True
+isinstance 和type的区别在于：
+type()不会认为子类是一种父类类型。
+isinstance()会认为子类是一种父类类型。
+注意：Python3中，bool是int的子类，True和False可以和数字相加， True==1、False==0会返回True，但可以通过is来判断类型。
+在Python2中是没有布尔型的，它用数字0表示False，用1表示True。
+注意: 在Python中，所有非零的数字和非空的字符串、列表、元组等数据类型都被视为True，
+只有 0、空字符串、空列表、空元组等被视为 False。因此，在进行布尔类型转换时，需要注意数据类型的真假性。
+
+List（列表）
+List（列表）是Python中使用最频繁的数据类型。
+列表可以完成大多数集合类的数据结构实现。列表中元素的类型可以不相同，它支持数字，字符串甚至可以包含列表（所谓嵌套）。
+列表是写在方括号 [] 之间、用逗号分隔开的元素列表。
+和字符串一样，列表同样可以被索引和截取，列表被截取后返回一个包含所需元素的新列表。
+列表截取的语法格式如下：
+变量[头下标:尾下标]
+索引值以 0 为开始值，-1 为从末尾的开始位置。
+加号 + 是列表连接运算符，星号 * 是重复操作。
+与Python字符串不一样的是，列表中的元素是可以改变的
+List内置了有很多方法，例如append()、pop()等等，这在后面会讲到。
+注意：
+1、列表写在方括号之间，元素用逗号隔开。
+2、和字符串一样，列表可以被索引和切片。
+3、列表可以使用 + 操作符进行拼接。
+4、列表中的元素是可以改变的。
+Python列表截取可以接收第三个参数，参数作用是截取的步长，如果第三个参数为负数表示逆向读取。
+
+Tuple（元组）
+元组（tuple）与列表类似，不同之处在于元组的元素不能修改。元组写在小括号 () 里，元素之间用逗号隔开。
+元组中的元素类型也可以不相同
+元组与字符串类似，可以被索引且下标索引从0开始，-1 为从末尾开始的位置。也可以进行截取（看上面，这里不再赘述）。
+其实，可以把字符串看作一种特殊的元组。
+虽然tuple的元素不可改变，但它可以包含可变的对象，比如list列表。
+构造包含 0 个或 1 个元素的元组比较特殊，所以有一些额外的语法规则：
+tup1 = ()    # 空元组
+tup2 = (20,) # 一个元素，需要在元素后添加逗号
+如果你想创建只有一个元素的元组，需要注意在元素后面添加一个逗号，以区分它是一个元组而不是一个普通的值，
+这是因为在没有逗号的情况下，Python会将括号解释为数学运算中的括号，而不是元组的表示。
+如果不添加逗号，如下所示，它将被解释为一个普通的值而不是元组：
+not_a_tuple = (42)
+这样的话，not_a_tuple 将是整数类型而不是元组类型。
+string、list 和 tuple 都属于 sequence（序列）。
+注意：
+1、与字符串一样，元组的元素不能修改。
+2、元组也可以被索引和切片，方法一样。
+3、注意构造包含 0 或 1 个元素的元组的特殊语法规则。
+4、元组也可以使用 + 操作符进行拼接。
+
+Set（集合）
+Python 中的集合（Set）是一种无序、可变的数据类型，用于存储唯一的元素。
+集合中的元素不会重复，并且可以进行交集、并集、差集等常见的集合操作。
+在 Python 中，集合使用大括号 {} 表示，元素之间用逗号,分隔。
+另外，也可以使用 set() 函数创建集合。
+注意：创建一个空集合必须用 set() 而不是{}，因为{}是用来创建一个空字典。
+创建格式：
+parame = {value01,value02,...}
+或者
+set(value)
+
+Dictionary（字典）
+字典（dictionary）是Python中另一个非常有用的内置数据类型。
+列表是有序的对象集合，字典是无序的对象集合。两者之间的区别在于：字典当中的元素是通过键来存取的，而不是通过偏移存取。
+字典是一种映射类型，字典用 { } 标识，它是一个无序的 键(key) : 值(value) 的集合。
+键(key)必须使用不可变类型。
+在同一个字典中，键(key)必须是唯一的。
+构造函数 dict() 可以直接从键值对序列中构建字典。
+{x: x**2 for x in (2, 4, 6)} 该代码使用的是字典推导式，更多推导式内容可以参考：Python推导式。
+另外，字典类型也有一些内置的函数，例如 clear()、keys()、values()等。
+注意：
+1、字典是一种映射类型，它的元素是键值对。
+2、字典的关键字必须为不可变类型，且不能重复。
+3、创建空字典使用{}。
+
+bytes 类型
+在 Python3 中，bytes 类型表示的是不可变的二进制序列（byte sequence）。
+与字符串类型不同的是，bytes 类型中的元素是整数值（0 到 255 之间的整数），而不是Unicode字符。
+bytes类型通常用于处理二进制数据，比如图像文件、音频文件、视频文件等等。在网络编程中，也经常使用bytes类型来传输二进制数据。
+创建bytes对象的方式有多种，最常见的方式是使用 b 前缀：
+此外，也可以使用bytes()函数将其他类型的对象转换为bytes类型。bytes()函数的第一个参数是要转换的对象，
+第二个参数是编码方式，如果省略第二个参数，则默认使用UTF-8编码：
+x = bytes("hello", encoding="utf-8")
+与字符串类型类似，bytes 类型也支持许多操作和方法，如切片、拼接、查找、替换等等。
+同时，由于bytes类型是不可变的，因此在进行修改操作时需要创建一个新的 bytes 对象。例如：
+x = b"hello"
+y = x[1:3]  # 切片操作，得到 b"el"
+z = x + b"world"  # 拼接操作，得到 b"helloworld"
+需要注意的是，bytes类型中的元素是整数值，因此在进行比较操作时需要使用相应的整数值。例如：
+x = b"hello"
+if x[0] == ord("h"):
+    print("The first element is 'h'")
+其中ord()函数用于将字符转换为相应的整数值。
+
+Python数据类型转换
+以下几个内置的函数可以执行数据类型之间的转换。这些函数返回一个新的对象，表示转换的值。
+函数						描述
+int(x [,base])				将x转换为一个整数
+float(x)					将x转换到一个浮点数
+complex(real [,imag])		创建一个复数
+str(x)						将对象 x 转换为字符串
+repr(x)						将对象 x 转换为表达式字符串
+eval(str)					用来计算在字符串中的有效Python表达式,并返回一个对象
+tuple(s)					将序列 s 转换为一个元组
+list(s)						将序列 s 转换为一个列表
+set(s)						转换为可变集合
+dict(d)						创建一个字典。d 必须是一个 (key, value)元组序列。
+frozenset(s)				转换为不可变集合
+chr(x)						将一个整数转换为一个字符
+ord(x)						将一个字符转换为它的整数值
+hex(x)						将一个整数转换为一个十六进制字符串
+oct(x)						将一个整数转换为一个八进制字符串
+
+Python算术运算符
+运算符		描述
++			加 - 两个对象相加
+-			减 - 得到负数或是一个数减去另一个数
+*			乘 - 两个数相乘或是返回一个被重复若干次的字符串
+/			除 - x除以y
+%			取模 - 返回除法的余数
+**			幂 - 返回x的y次幂
+//			取整除 - 往小的方向取整数
+>>> 9//2
+4
+>>> -9//2
+-5
+
+Python 比较运算符
+所有比较运算符返回1表示真，返回0表示假。这分别与特殊的变量True和False等价。注意，这些变量名的大写。
+以下假设变量a为10，变量b为20：
+运算符		描述								实例
+==			等于 - 比较对象是否相等				(a == b) 返回False。
+!=			不等于 - 比较两个对象是否不相等		(a != b) 返回True。
+>			大于 - 返回x是否大于y				(a > b) 返回False。
+<			小于 - 返回x是否小于y。				(a < b) 返回True。
+>=			大于等于 - 返回x是否大于等于y。		(a >= b) 返回False。
+<=			小于等于 - 返回x是否小于等于y。		(a <= b) 返回True。
+
+Python赋值运算符
+以下假设变量a为10，变量b为20：
+运算符		描述					实例
+=			简单的赋值运算符		c = a + b 将 a + b 的运算结果赋值为 c
++=			加法赋值运算符			c += a 等效于 c = c + a
+-=			减法赋值运算符			c -= a 等效于 c = c - a
+*=			乘法赋值运算符			c *= a 等效于 c = c * a
+/=			除法赋值运算符			c /= a 等效于 c = c / a
+%=			取模赋值运算符			c %= a 等效于 c = c % a
+**=			幂赋值运算符			c **= a 等效于 c = c ** a
+//=			取整除赋值运算符		c //= a 等效于 c = c // a
+:=			海象运算符，这个运算符的主要目的是在表达式中同时进行赋值和返回赋值的值。Python3.8 版本新增运算符。
+在这个示例中，赋值表达式可以避免调用 len() 两次:
+if (n := len(a)) > 10:
+    print(f"List is too long ({n} elements, expected <= 10)")
+在 Python 3.8 及更高版本中，引入了一种新的语法特性，称为"海象运算符"（Walrus Operator），它使用 := 符号。
+这个运算符的主要目的是在表达式中同时进行赋值和返回赋值的值。
+使用海象运算符可以在一些情况下简化代码，尤其是在需要在表达式中使用赋值结果的情况下。
+这对于简化循环条件或表达式中的重复计算很有用。
+# 传统写法
+n = 10
+if n > 5:
+    print(n)
+# 使用海象运算符
+if (n := 10) > 5:
+    print(n)
+
+Python位运算符
+按位运算符是把数字看作二进制来进行计算的。
+下表中变量a为60，b为13二进制格式如下：
+a = 0011 1100
+b = 0000 1101
+-----------------
+a&b = 0000 1100
+a|b = 0011 1101
+a^b = 0011 0001
+~a  = 1100 0011
+运算符		描述
+&			按位与运算符：参与运算的两个值,如果两个相应位都为1,则该位的结果为1,否则为0
+|			按位或运算符：只要对应的二个二进位有一个为1时，结果位就为1
+^			按位异或运算符：当两对应的二进位相异时，结果为1
+~			按位取反运算符：对数据的每个二进制位取反,即把1变为0,把0变为1。~x 类似于-x-1
+<<			左移动运算符：运算数的各二进位全部左移若干位，由"<<"右边的数指定移动的位数，高位丢弃，低位补0
+>>			右移动运算符：把">>"左边的运算数的各二进位全部右移若干位，">>"右边的数指定移动的位数
+
+Python逻辑运算符
+Python语言支持逻辑运算符。
+运算符		逻辑表达式		描述
+and			x and y			布尔"与" - 如果x为False，x and y返回x的值，否则返回y的计算值。
+or			x or y			布尔"或" - 如果x是True，它返回x的值，否则它返回y的计算值。
+not			not x			布尔"非" - 如果x为True，返回False。如果x为False，它返回True。
+
+Python成员运算符
+除了以上的一些运算符之外，Python还支持成员运算符，测试实例中包含了一系列的成员，包括字符串，列表或元组。
+运算符		描述
+in			如果在指定的序列中找到值返回True，否则返回False
+not in		如果在指定的序列中没有找到值返回True，否则返回False
+
+Python身份运算符
+身份运算符用于比较两个对象的存储单元
+运算符		描述
+is			is是判断两个标识符是不是引用自一个对象：x is y, 类似id(x) == id(y), 如果引用的是同一个对象则返回True，否则返回False
+is not		is not是判断两个标识符是不是引用自不同对象：x is not y ， 类似id(x) != id(y)。如果引用的不是同一个对象则返回结果True，否则返回False。
+注： id()函数用于获取对象内存地址。
+is与==区别：
+is用于判断两个变量引用对象是否为同一个，==用于判断引用变量的值是否相等。
+
+Python运算符优先级
+以下表格列出了从最高到最低优先级的所有运算符，相同单元格内的运算符具有相同优先级。运算符均指二元运算，除非特别指出。 相同单元格内的运算符从左至右分组（除了幂运算是从右至左分组）：
+运算符														描述
+(expressions...),
+[expressions...], {key: value...}, {expressions...}			圆括号的表达式
+x[index], x[index:index], x(arguments...), x.attribute		读取，切片，调用，属性引用
+await x														await 表达式
+**															乘方(指数)
++x, -x, ~x													正，负，按位非 NOT
+*, @, /, //, %												乘，矩阵乘，除，整除，取余
++, -														加和减
+<<, >>														移位
+&															按位与 AND
+^															按位异或 XOR
+|															按位或 OR
+in,not in, is,is not, <, <=, >, >=, !=, ==					比较运算，包括成员检测和标识号检测
+not x														逻辑非 NOT
+and															逻辑与 AND
+or															逻辑或 OR
+if -- else													条件表达式
+lambda														lambda 表达式
+:=															赋值表达式
+注意：Python3 已不支持 <> 运算符，可以使用!=代替，如果你一定要使用这种比较运算符，可以使用以下的方式：
+>>> from __future__ import barry_as_FLUFL
+>>> 1 <> 2
+True
+
+Python 字符串格式化
+Python 支持格式化字符串的输出 。尽管这样可能会用到非常复杂的表达式，但最基本的用法是将一个值插入到一个有字符串格式符%s的字符串中。
+在 Python 中，字符串格式化使用与C中sprintf函数一样的语法。
+#!/usr/bin/python3
+print ("我叫 %s 今年 %d 岁!" % ('小明', 10))
+以上实例输出结果：
+我叫 小明 今年 10 岁!
+python字符串格式化符号:
+符号			描述
+%c				格式化字符及其ASCII码
+%s				格式化字符串
+%d				格式化整数
+%u				格式化无符号整型
+%o				格式化无符号八进制数
+%x				格式化无符号十六进制数
+%X				格式化无符号十六进制数（大写）
+%f				格式化浮点数字，可指定小数点后的精度
+%e				用科学计数法格式化浮点数
+%E				作用同%e，用科学计数法格式化浮点数
+%g				%f和%e的简写
+%G				%f 和 %E 的简写
+%p				用十六进制数格式化变量的地址
+格式化操作符辅助指令:
+符号			功能
+*				定义宽度或者小数点精度
+-				用做左对齐
++				在正数前面显示加号( + )
+<sp>			在正数前面显示空格
+#				在八进制数前面显示零('0')，在十六进制前面显示'0x'或者'0X'(取决于用的是'x'还是'X')
+0				显示的数字前面填充'0'而不是默认的空格
+%				'%%'输出一个单一的'%'
+(var)			映射变量(字典参数)
+m.n.			m是显示的最小总宽度, n是小数点后的位数(如果可用的话)
+Python2.6 开始，新增了一种格式化字符串的函数 str.format()，它增强了字符串格式化的功能。
+
+Python三引号
+python三引号允许一个字符串跨多行，字符串中可以包含换行符、制表符以及其他特殊字符。
+#!/usr/bin/python3
+para_str = """这是一个多行字符串的实例
+多行字符串可以使用制表符
+TAB ( \t )。
+也可以使用换行符 [ \n ]。
+"""
+print(para_str)
+以上实例执行结果为：
+这是一个多行字符串的实例
+多行字符串可以使用制表符
+TAB (    )。
+也可以使用换行符 [ 
+ ]。
+
+f-string
+f-string 是 python3.6 之后版本添加的，称之为字面量格式化字符串，是新的格式化字符串的语法。
+之前我们习惯用百分号(%):
+>>> name = 'Runoob'
+>>> 'Hello %s' % name
+'Hello Runoob'
+f-string 格式化字符串以f开头，后面跟着字符串，字符串中的表达式用大括号{}包起来，它会将变量或表达式计算后的值替换进去，实例如下：
+>>> name = 'Runoob'
+>>> f'Hello {name}'  # 替换变量
+'Hello Runoob'
+>>> f'{1+2}'         # 使用表达式
+'3'
+>>> w = {'name': 'Runoob', 'url': 'www.runoob.com'}
+>>> f'{w["name"]}: {w["url"]}'
+'Runoob: www.runoob.com'
+用了这种方式明显更简单了，不用再去判断使用%s，还是%d。
+在 Python 3.8 的版本中可以使用 = 符号来拼接运算表达式与结果：
+>>> x = 1
+>>> print(f'{x+1}')   # Python 3.6
+2
+>>> x = 1
+>>> print(f'{x+1=}')   # Python 3.8
+x+1=2
+
+Unicode 字符串
+在Python2中，普通字符串是以8位ASCII码进行存储的，而Unicode字符串则存储为16位unicode字符串，这样能够表示更多的字符集。
+使用的语法是在字符串前面加上前缀u。
+在Python3中，所有的字符串都是Unicode字符串。
+
+Python 的字符串内建函数
+Python 的字符串常用内建函数如下：
+1、capitalize()
+将字符串的第一个字符转换为大写
+2、center(width, fillchar)
+返回一个指定的宽度 width 居中的字符串，fillchar 为填充的字符，默认为空格。
+3、count(str, beg= 0,end=len(string))
+返回str在string里面出现的次数，如果beg或者end指定则返回指定范围内str出现的次数
+4、bytes.decode(encoding="utf-8", errors="strict")
+Python3中没有decode方法，但我们可以使用bytes对象的decode()方法来解码给定的bytes对象，这个bytes对象可以由str.encode()来编码返回。
+5、encode(encoding='UTF-8',errors='strict')
+以 encoding 指定的编码格式编码字符串，如果出错默认报一个ValueError 的异常，除非 errors 指定的是'ignore'或者'replace'
+6、endswith(suffix, beg=0, end=len(string))
+检查字符串是否以 suffix 结束，如果 beg 或者 end 指定则检查指定的范围内是否以 suffix 结束，如果是，返回 True,否则返回 False。
+7、expandtabs(tabsize=8)
+把字符串 string 中的 tab 符号转为空格，tab 符号默认的空格数是 8 。
+8、find(str, beg=0, end=len(string)
+检测 str 是否包含在字符串中，如果指定范围 beg 和 end ，则检查是否包含在指定范围内，如果包含返回开始的索引值，否则返回-1
+9、index(str, beg=0, end=len(string))
+跟find()方法一样，只不过如果str不在字符串中会报一个异常。
+10、isalnum()
+如果字符串至少有一个字符并且所有字符都是字母或数字则返 回 True，否则返回 False
+11、isalpha()
+如果字符串至少有一个字符并且所有字符都是字母或中文字则返回 True, 否则返回 False
+12、isdigit()
+如果字符串只包含数字则返回 True 否则返回 False..
+13、islower()
+如果字符串中包含至少一个区分大小写的字符，并且所有这些(区分大小写的)字符都是小写，则返回 True，否则返回 False
+14、isnumeric()
+如果字符串中只包含数字字符，则返回 True，否则返回 False
+15、isspace()
+如果字符串中只包含空白，则返回 True，否则返回 False.
+16、istitle()
+如果字符串是标题化的(见 title())则返回 True，否则返回 False
+17、isupper()
+如果字符串中包含至少一个区分大小写的字符，并且所有这些(区分大小写的)字符都是大写，则返回 True，否则返回 False
+18、join(seq)
+以指定字符串作为分隔符，将se中所有的元素(的字符串表示)合并为一个新的字符串
+19、len(string)
+返回字符串长度
+20、ljust(width[, fillchar])
+返回一个原字符串左对齐,并使用fillchar填充至长度width的新字符串，fillchar默认为空格。
+21、lower()
+转换字符串中所有大写字符为小写.
+22、lstrip()
+截掉字符串左边的空格或指定字符。
+23、maketrans()
+创建字符映射的转换表，对于接受两个参数的最简单的调用方式，第一个参数是字符串，表示需要转换的字符，第二个参数也是字符串表示转换的目标。
+24、max(str)
+返回字符串 str 中最大的字母。
+25、min(str)
+返回字符串 str 中最小的字母。
+26、replace(old, new [, max])
+把 将字符串中的 old 替换成 new,如果 max 指定，则替换不超过 max 次。
+27、rfind(str, beg=0,end=len(string))
+类似于 find()函数，不过是从右边开始查找.
+28、rindex( str, beg=0, end=len(string))
+类似于 index()，不过是从右边开始.
+29、rjust(width,[, fillchar])
+返回一个原字符串右对齐,并使用fillchar(默认空格）填充至长度 width 的新字符串
+30、rstrip()
+删除字符串末尾的空格或指定字符。
+31、split(str="", num=string.count(str))
+以str为分隔符截取字符串，如果num有指定值，则仅截取num+1个子字符串
+32、splitlines([keepends])
+按照行('\r', '\r\n', \n')分隔，返回一个包含各行作为元素的列表，如果参数 keepends 为 False，不包含换行符，如果为 True，则保留换行符。
+33、startswith(substr, beg=0,end=len(string))
+检查字符串是否是以指定子字符串 substr 开头，是则返回 True，否则返回 False。如果beg 和 end 指定值，则在指定范围内检查。
+34、strip([chars])
+在字符串上执行 lstrip()和 rstrip()
+35、swapcase()
+将字符串中大写转换为小写，小写转换为大写
+36、title()
+返回"标题化"的字符串,就是说所有单词都是以大写开始，其余字母均为小写(见 istitle())
+37、translate(table, deletechars="")
+根据table给出的表(包含 256 个字符)转换string的字符, 要过滤掉的字符放到deletechars参数中
+38、upper()
+转换字符串中的小写字母为大写
+39、zfill (width)
+返回长度为 width 的字符串，原字符串右对齐，前面填充0
+40、isdecimal()
+检查字符串是否只包含十进制字符，如果是返回 true，否则返回 false。
+
+列表比较
+列表比较需要引入 operator 模块的 eq 方法（详见：Python operator 模块）：
+# 导入 operator 模块
+import operator
+a = [1, 2]
+b = [2, 3]
+c = [2, 3]
+print("operator.eq(a,b): ", operator.eq(a,b))
+print("operator.eq(c,b): ", operator.eq(c,b))
+以上代码输出结果为：
+operator.eq(a,b):  False
+operator.eq(c,b):  True
+
+Python列表函数&方法
+Python包含以下函数:
+1、len(list)
+列表元素个数
+2、max(list)
+返回列表元素最大值
+3、min(list)
+返回列表元素最小值
+4、list(seq)
+将元组转换为列表
+Python包含以下方法:
+1、list.append(obj)
+在列表末尾添加新的对象
+2、list.count(obj)
+统计某个元素在列表中出现的次数
+3、list.extend(seq)
+在列表末尾一次性追加另一个序列中的多个值（用新列表扩展原来的列表）
+4、list.index(obj)
+从列表中找出某个值第一个匹配项的索引位置
+5、list.insert(index, obj)
+将对象插入列表
+6、list.pop([index=-1])
+移除列表中的一个元素（默认最后一个元素），并且返回该元素的值
+7、list.remove(obj)
+移除列表中某个值的第一个匹配项
+8、list.reverse()
+反向列表中元素
+9、list.sort( key=None, reverse=False)
+对原列表进行排序
+10、list.clear()
+清空列表
+11、list.copy()
+复制列表
+
+元组内置函数
+Python元组包含了以下内置函数
+1、len(tuple)
+计算元组元素个数。
+>>> tuple1 = ('Google', 'Runoob', 'Taobao')
+>>> len(tuple1)
+3
+2、max(tuple)
+返回元组中元素最大值。
+>>> tuple2 = ('5', '4', '8')
+>>> max(tuple2)
+'8'
+3、min(tuple)
+返回元组中元素最小值。
+>>> tuple2 = ('5', '4', '8')
+>>> min(tuple2)
+'4'
+4、tuple(iterable)
+将可迭代系列转换为元组。
+>>> list1= ['Google', 'Taobao', 'Runoob', 'Baidu']
+>>> tuple1=tuple(list1)
+>>> tuple1
+('Google', 'Taobao', 'Runoob', 'Baidu')
+关于元组是不可变的
+所谓元组的不可变指的是元组所指向的内存中的内容不可变。
+>>> tup = ('r', 'u', 'n', 'o', 'o', 'b')
+>>> tup[0] = 'g'     # 不支持修改元素
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'tuple' object does not support item assignment
+>>> id(tup)     # 查看内存地址
+4440687904
+>>> tup = (1,2,3)
+>>> id(tup)
+4441088800    # 内存地址不一样了
+从以上实例可以看出，重新赋值的元组 tup，绑定到新的对象了，不是修改了原来的对象。
+
+字典内置函数&方法
+Python字典包含了以下内置函数：
+1、len(dict)
+计算字典元素个数，即键的总数。
+>>> tinydict = {'Name': 'Runoob', 'Age': 7, 'Class': 'First'}
+>>> len(tinydict)
+3
+2、str(dict)
+输出字典，可以打印的字符串表示。
+>>> tinydict = {'Name': 'Runoob', 'Age': 7, 'Class': 'First'}
+>>> str(tinydict)
+"{'Name': 'Runoob', 'Class': 'First', 'Age': 7}"
+3、type(variable)
+返回输入的变量类型，如果变量是字典就返回字典类型。
+>>> tinydict = {'Name': 'Runoob', 'Age': 7, 'Class': 'First'}
+>>> type(tinydict)
+<class 'dict'>
+Python字典包含了以下内置方法：
+1、dict.clear()
+删除字典内所有元素
+2、dict.copy()
+返回一个字典的浅复制
+3、dict.fromkeys()
+创建一个新字典，以序列seq中元素做字典的键，val为字典所有键对应的初始值
+4、dict.get(key, default=None)
+返回指定键的值，如果键不在字典中返回 default 设置的默认值
+5、key in dict
+如果键在字典dict里返回true，否则返回false
+6、dict.items()
+以列表返回一个视图对象
+7、dict.keys()
+返回一个视图对象
+8、dict.setdefault(key, default=None)
+和get()类似, 但如果键不存在于字典中，将会添加键并将值设为default
+9、dict.update(dict2)
+把字典dict2的键/值对更新到dict里
+10、dict.values()
+返回一个视图对象
+11、pop(key[,default])
+删除字典 key（键）所对应的值，返回被删除的值。
+12、popitem()
+返回并删除字典中的最后一对键和值。
+
+集合内置方法完整列表
+方法							描述
+add()							为集合添加元素
+clear()							移除集合中的所有元素
+copy()							拷贝一个集合
+difference()					返回多个集合的差集
+difference_update()				移除集合中的元素，该元素在指定的集合也存在。
+discard()						删除集合中指定的元素
+intersection()					返回集合的交集
+intersection_update()			返回集合的交集。
+isdisjoint()					判断两个集合是否包含相同的元素，如果没有返回 True，否则返回 False。
+issubset()						判断指定集合是否为该方法参数集合的子集。
+issuperset()					判断该方法的参数集合是否为指定集合的子集
+pop()							随机移除元素
+remove()						移除指定元素
+symmetric_difference()			返回两个集合中不重复的元素集合。
+symmetric_difference_update()	移除当前集合中在另外一个指定集合相同的元素，并将另外一个指定集合中不同的元素插入到当前集合中。
+union()							返回两个集合的并集
+update()						给集合添加元素
+len()							计算集合元素个数
+
+match...case
+Python 3.10 增加了 match...case 的条件判断，不需要再使用一连串的 if-else 来判断了。
+match 后的对象会依次与 case 后的内容进行匹配，如果匹配成功，则执行匹配到的表达式，否则直接跳过，_ 可以匹配一切。
+语法格式如下：
+match subject:
+    case <pattern_1>:
+        <action_1>
+    case <pattern_2>:
+        <action_2>
+    case <pattern_3>:
+        <action_3>
+    case _:
+        <action_wildcard>
+case _: 类似于 C 和 Java 中的 default:，当其他 case 都无法匹配时，匹配这条，保证永远会匹配成功。
+
+while循环使用else语句
+如果while后面的条件语句为false时，则执行else的语句块。
+语法格式如下：
+while <expr>:
+    <statement(s)>
+else:
+    <additional_statement(s)>
+expr条件语句为true则执行statement(s)语句块，如果为false，则执行additional_statement(s)。
+循环输出数字，并判断大小：
+#!/usr/bin/python3
+count = 0
+while count < 5:
+   print (count, " 小于 5")
+   count = count + 1
+else:
+   print (count, " 大于或等于 5")
+
+for 语句
+Python for 循环可以遍历任何可迭代对象，如一个列表或者一个字符串。
+for循环的一般格式如下：
+for <variable> in <sequence>:
+    <statements>
+else:
+    <statements>
+
+break 语句可以跳出 for 和 while 的循环体。如果你从 for 或 while 循环中终止，任何对应的循环 else 块将不执行。
+continue 语句被用来告诉 Python 跳过当前循环块中的剩余语句，然后继续进行下一轮循环。
+pass 语句
+Python pass是空语句，是为了保持程序结构的完整性。
+pass 不做任何事情，一般用做占位语句，如下实例
+>>>while True:
+...     pass  # 等待键盘中断 (Ctrl+C)
+
+end关键字
+关键字end可以用于将结果输出到同一行，或者在输出的末尾添加不同的字符，实例如下：
+#!/usr/bin/python3
+# Fibonacci series: 斐波纳契数列
+# 两个元素的总和确定了下一个数
+a, b = 0, 1
+while b < 1000:
+    print(b, end=',')
+    a, b = b, a+b
+执行以上程序，输出结果为：
+1,1,2,3,5,8,13,21,34,55,89,144,233,377,610,987,
+
+Python 推导式
+Python 推导式是一种独特的数据处理方式，可以从一个数据序列构建另一个新的数据序列的结构体。
+Python 支持各种数据结构的推导式：
+列表(list)推导式
+字典(dict)推导式
+集合(set)推导式
+元组(tuple)推导式
+列表推导式格式为：
+[表达式 for 变量 in 列表] 
+[out_exp_res for out_exp in input_list]
+或者 
+[表达式 for 变量 in 列表 if 条件]
+[out_exp_res for out_exp in input_list if condition]
+out_exp_res：列表生成元素表达式，可以是有返回值的函数。
+for out_exp in input_list：迭代 input_list 将 out_exp 传入到 out_exp_res 表达式中。
+if condition：条件语句，可以过滤列表中不符合条件的值。
+过滤掉长度小于或等于3的字符串列表，并将剩下的转换成大写字母：
+>>> names = ['Bob','Tom','alice','Jerry','Wendy','Smith']
+>>> new_names = [name.upper()for name in names if len(name)>3]
+>>> print(new_names)
+['ALICE', 'JERRY', 'WENDY', 'SMITH']
+计算 30 以内可以被 3 整除的整数：
+>>> multiples = [i for i in range(30) if i % 3 == 0]
+>>> print(multiples)
+[0, 3, 6, 9, 12, 15, 18, 21, 24, 27]
+
+字典推导式
+字典推导基本格式：
+{ key_expr: value_expr for value in collection }
+或
+{ key_expr: value_expr for value in collection if condition }
+使用字符串及其长度创建字典：
+listdemo = ['Google','Runoob', 'Taobao']
+# 将列表中各字符串值为键，各字符串的长度为值，组成键值对
+>>> newdict = {key:len(key) for key in listdemo}
+>>> newdict
+{'Google': 6, 'Runoob': 6, 'Taobao': 6}
+提供三个数字，以三个数字为键，三个数字的平方为值来创建字典：
+>>> dic = {x: x**2 for x in (2, 4, 6)}
+>>> dic
+{2: 4, 4: 16, 6: 36}
+>>> type(dic)
+<class 'dict'>
+
+集合推导式
+集合推导式基本格式：
+{ expression for item in Sequence }
+或
+{ expression for item in Sequence if conditional }
+计算数字 1,2,3 的平方数：
+>>> setnew = {i**2 for i in (1,2,3)}
+>>> setnew
+{1, 4, 9}
+判断不是 abc 的字母并输出：
+>>> a = {x for x in 'abracadabra' if x not in 'abc'}
+>>> a
+{'d', 'r'}
+>>> type(a)
+<class 'set'>
+
+元组推导式（生成器表达式）
+元组推导式可以利用 range 区间、元组、列表、字典和集合等数据类型，快速生成一个满足指定需求的元组。
+元组推导式基本格式：
+(expression for item in Sequence )
+或
+(expression for item in Sequence if conditional )
+元组推导式和列表推导式的用法也完全相同，只是元组推导式是用 () 圆括号将各部分括起来，而列表推导式用的是中括号 []，另外元组推导式返回的结果是一个生成器对象。
+例如，我们可以使用下面的代码生成一个包含数字 1~9 的元组：
+>>> a = (x for x in range(1,10))
+>>> a
+<generator object <genexpr> at 0x7faf6ee20a50>  # 返回的是生成器对象
+>>> tuple(a)       # 使用 tuple() 函数，可以直接将生成器对象转换成元组
+(1, 2, 3, 4, 5, 6, 7, 8, 9)

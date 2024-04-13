@@ -37,6 +37,7 @@ days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday',
 
 print('Number of arguments:', len(sys.argv), 'arguments.')
 print('Argument List:', str(sys.argv))
+print('path:', str(sys.path))
 
 # 第一个注释
 print('Hello, Python!') # 第二个注释
@@ -44,7 +45,7 @@ print('Hello, Python!') # 第二个注释
 # 在Python3中， print函数的参数end默认值为"\n"，即end="\n"，表示换行，
 # 给end赋值为空, 即end=""，就不会换行了
 # Hello,World!
-print('Hello,', end="")
+print('Hello,', end="") # 不换行输出
 print('World!')
 # 可以设置一些特色符号或字符串，如end="@":admin@127.0.0.1
 print('admin', end="@")
