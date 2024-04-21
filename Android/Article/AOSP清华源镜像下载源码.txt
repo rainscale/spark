@@ -1,0 +1,23 @@
+https://mirrors.tuna.tsinghua.edu.cn/help/AOSP/
+
+repo下载
+curl https://mirrors.tuna.tsinghua.edu.cn/git/git-repo -o repo
+chmod a+x repo
+为了方便可以将其拷贝到你的PATH里。
+
+更新
+repo的运行过程中会尝试访问官方的git源更新自己，如果想使用tuna的镜像源进行更新，可以将如下内容复制到你的~/.bashrc里
+export REPO_URL='https://mirrors.tuna.tsinghua.edu.cn/git/git-repo'
+并重启终端模拟器。
+
+建立工作目录:
+mkdir WORKING_DIRECTORY
+cd WORKING_DIRECTORY
+初始化仓库:
+repo init -u https://mirrors.tuna.tsinghua.edu.cn/git/AOSP/platform/manifest
+如果需要某个特定的 Android 版本(列表)：
+repo init -u https://mirrors.tuna.tsinghua.edu.cn/git/AOSP/platform/manifest -b android-4.0.1_r1
+同步源码树（以后只需执行这条命令来同步，完整下载所有仓库代码）
+repo sync
+仅仅下载某一个仓库如system/core(详细仓库地址可以查看.repo/manifests/default.xml文件)：
+repo sync system/core
