@@ -17,6 +17,15 @@ pause指令，从它英文含义就知道是暂停的意思。
 
 ERRORLEVEL指令含义是“程序状态返回码”，返回上一条指令执行状态码，一般0代表正常，1或者其它数字代表错误
 echo 命令执行状态码：%errorlevel%
+@echo off
+echo 执行命令前
+dir non_existing_file.txt
+if %ERRORLEVEL% neq 0 (
+    echo 命令执行失败，ERRORLEVEL = %ERRORLEVEL%
+) else (
+    echo 命令执行成功，ERRORLEVEL = %ERRORLEVEL%
+)
+echo 执行命令后
 
 TITLE指令修改控制台窗口的标题
 
@@ -393,14 +402,10 @@ fileset 为一个或多个文件名。继续到 fileset 中的下一个文件之
 你可通过指定可选 "options" 参数替代默认解析操作。这个带引号的字符串包括一个或多个指定不同解析选项的关键字。这些关键字为:
 eol=c - 指一个行注释字符的结尾(就一个)
 skip=n - 指在文件开始时忽略的行数。
-delims=xxx - 指分隔符集。这个替换了空格和制表符的
-默认分隔符集。
-tokens=x,y,m-n - 指每行的哪一个符号被传递到每个迭代
-的 for 本身。这会导致额外变量名称的分配。m-n
-格式为一个范围。通过 nth 符号指定 mth。如果
-符号字符串中的最后一个字符星号，
-那么额外的变量将在最后一个符号解析之后
-注意：tokens= 一行指定最多 26 个符号，只要不试图声明一个高于字母 "z" 或"Z" 的变量。请记住，FOR 变量是单一字母、分大小写和全局的变量；而且，不能同时使用超过 52 个
+delims=xxx - 指分隔符集。这个替换了空格和制表符的默认分隔符集。
+tokens=x,y,m-n - 指每行的哪一个符号被传递到每个迭代的for本身。这会导致额外变量名称的分配。m-n格式为一个范围。通过nth符号指定mth。
+如果符号字符串中的最后一个字符星号，那么额外的变量将在最后一个符号解析之后
+注意：tokens=一行指定最多26个符号，只要不试图声明一个高于字母"z" 或"Z"的变量。请记住，FOR变量是单一字母、分大小写和全局的变量；而且，不能同时使用超过52个
 解析：结合示例讲解
 （1）FOR /F ["options"] %variable IN (file-set) DO command [command-parameters]
 （2）FOR /F ["options"] %variable IN ("string") DO command [command-parameters]
@@ -409,7 +414,7 @@ tokens=x,y,m-n - 指每行的哪一个符号被传递到每个迭代
 eol=c ：指一个行注释字符的结尾(就一个)
 skip=n：指在文件开始时忽略的行数
 delims=xxx：指分隔符集。这个替换了空格和制表符的默认分隔符集
-tokens=x,y,m-n：指每行的哪一个符号被传递到每个迭代的 for 本身。这会导致额外变量名称的分配。m-n格式 为一个范围。通过 nth 符号指定 mth。如果符号字符串中的最后一个字符星号，那么额外的变量将在最后一个符号解析之后
+tokens=x,y,m-n：指每行的哪一个符号被传递到每个迭代的 for 本身。这会导致额外变量名称的分配。m-n格式为一个范围。通过nth符号指定mth。如果符号字符串中的最后一个字符星号，那么额外的变量将在最后一个符号解析之后
 示例1：
 @echo off
 rem 创建测试文件
@@ -555,7 +560,7 @@ echo ------------------------------
 echo 可选参数/a赋值
 set var_3=0
 for /l %%i in (1, 1, 5) do (
-	set  /a var_3 += 1
+	set /a var_3 += 1
 )
 echo 变量的值：%var_3%
 pause
