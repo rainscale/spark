@@ -1,0 +1,128 @@
+1.任务
+任务是 Gradle 中的基本单位，它代表了构建过程中的一个操作。在 Gradle 中定义任务的语法如下：
+task <taskName> {
+    // 任务的配置
+}
+其中 <taskName> 表示任务的名称，可以自定义。任务的配置可以是一些操作或者一些属性等等。
+
+2. 依赖关系
+Gradle 中的任务可以有依赖关系，这意味着一个任务必须在其依赖的任务完成后才能被执行。在 Gradle 中定义依赖关系的语法如下：
+task taskName1(param: ParamType) {
+    // 任务的配置
+}
+
+task taskName2(param1: ParamType) {
+    dependsOn taskName1(param1)
+    // 任务的配置
+}
+其中 <taskName2> 依赖于 <taskName1> ，因此 <taskName1> 必须在 <taskName2> 之前执行。
+
+3. 插件
+Gradle 中的插件可以为项目提供额外的功能，例如 Java 插件可以为 Java 项目提供编译、打包等功能。在 Gradle 中使用插件的语法如下：
+
+plugins {
+    id '<pluginId>' version '<pluginVersion>'
+}
+其中 <pluginId> 表示插件的 ID，<pluginVersion> 表示插件的版本号。
+
+构建 Java 项目
+使用 Gradle 构建 Java 项目的项目结构大致如下：
+root-project
+  |--gradle #目录下gradle的配置信息和gradle的jar包
+  |  |--wraper
+  |  |--gradle-wraper.jar #的jar包
+  |  |--gradle-wraper.properties #gradle的配置信息
+  |--sub-porject-1
+  |  |--build.gradle #子模块sub-project-1的配置信息文件
+  |  |--sub-project-a
+  |    |--build.gradle #子模块sub-project-a的配置信息文件
+  |  |--sub-project-b
+  |    |--build.gradle #子模块sub-project-b的配置信息文件
+  |--sub-project-2
+  |  |--build.gradle #子模块sub-project-2的配置信息文件
+  |--build.gradle #项目配置信息问题
+  |--gradle.properties #项目全局参数文件
+  |--settings.gradle #项目模块信息文件
+  |--gradlew #gradle shell脚本适用于linux系统上执行gradle命令
+  |--gradle.bat #gradle bat脚本适用于windows系统上执行gradle命令
+  
+settings.gradle
+settings.gradle文件里面定义了项目的模块结构。以上的模块结构在settings.gradle的定义如下：
+rootProject.name = 'root-project'
+include 'sub-project-1'
+include 'sub-project-2'
+include 'sub-project-1:sub-project-a',
+        'sub-project-1:sub-project-b'
+
+gradle wrapper
+当把本地一个项目放入到远程版本库的时候，如果这个项目是以gradle构建的，那么其他人从远程仓库拉取代码之后如果本地没有安装过gradle会无法编译运行，如果对gradle不熟悉，会使得无法很好的去快速构建项目代码。所以gradle可以自动生成一键运行的脚本，把这些一起上传远程仓库，使得即使没有安装gradle也可以自动去安装并且编译项目代码。
+
+build.gradle文件
+1. 配置插件
+在 build.gradle 文件中，配置 Java 插件以及项目的基本信息，例如项目的组名、版本号等等。
+plugins {
+    id 'java'
+    id 'application'
+}
+group 'com.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+2. 配置依赖
+在 build.gradle 文件中，配置项目所需的依赖项，例如 JUnit 测试框架。声明依赖时有两种风格，一种是声明式的写法：
+dependencies {
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
+}
+另一种是函数式的写法：
+dependencies {
+    # 当依赖项目当中的其他模块是，则可以定义如下：
+    implementation (project('sub-project-1'))
+    # 定义只有运行单元测试是才需要的依赖时，可以定义如下：
+    testImplementation ('junit:junit:4.12')
+    # 当在build.properties文件中定义了相应的版本变量时
+    # javaxValidationVersion=x.x.x则可以定义如下：
+    implementation ("javax.validation:validation-api:$javaxValidationVersion")
+    # 注意，''中的字符串中表示的是纯字符串，无法插入占位符
+    # ""中的字符串则可插入占位符$javaxValidationVersion
+}
+3. 定义任务
+在 build.gradle 文件中，定义项目的构建任务，例如编译、打包、测试等等。
+task compileJava(type: JavaCompile) {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    options.encoding = 'UTF-8'
+    source = fileTree('src/main/java')
+    classpath = sourceSets.main.compileClasspath
+    destinationDir = file('build/classes/java/main')
+}
+
+task jar(type: Jar) {
+    dependsOn compileJava
+    from('build/classes/java/main')
+    manifest {
+        attributes 'Main-Class': 'com.example.App'
+    }
+    destinationDir = file('build/libs')
+    archiveFileName = 'my-app.jar'
+}
+
+task test(type: Test) {
+    dependsOn compileJava
+    testClassesDir = file('build/classes/java/test')
+    classpath = sourceSets.test.runtimeClasspath
+}
+
+check.dependsOn test
+其中，compileJava 任务用于编译 Java 代码，jar 任务用于打包项目，test 任务用于运行测试。最后， check 任务依赖于 test 任务，用于在构建过程中运行测试。
+4. 运行任务
+在命令行中运行 Gradle 命令来执行任务，例如：
+#触发整个项目的编译
+./gradlew build
+#触发模块sub-project-1下的sub-project-2的build任务编译整个项目
+./gradlew :sub-project-1:sub-project-2:build
+#触发模块sub-project-1的运行任务，此任务依赖application插件
+./gradlew :sub-project-1:run 
+#触发整个项目的编译
+./gradlew build 该命令将执行 build 任务，该任务依赖于 jar 任务和 test 任务。执行完成后，可在 build/libs 目录下找到打包好的 JAR 文件。
