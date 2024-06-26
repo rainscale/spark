@@ -28,6 +28,7 @@ End of search list.
 
 $ clang++ const_cast.cpp -o const_cast
 $ ./const_cast
+const_cast进行强制类型转换可以突破 C/C++的常数限制，修改常数的值。
 */
 #include <iostream>
 
@@ -38,7 +39,12 @@ int main()
     const int n = 100;
     int *p = const_cast<int*>(&n);
     *p = 123;
-    cout << "&n=" << &n << ", n=" << n << endl; // &n=0x7ffde80874a8, n=100
+    cout << "&n=" << &n << ", n=" << n << endl; // &n=0x7ffde80874a8, n=100 编译期生成100
     cout << "p=" << p << ", *p=" << *p << endl; // p=0x7ffde80874a8, *p=123
+    int& ref = const_cast<int&>(n);
+    ref = 456;
+    cout << "&n=" << &n << ", n=" << n << endl; // &n=0x7ffde80874a8, n=100
+    cout << "p=" << p << ", *p=" << *p << endl; // p=0x7ffde80874a8, *p=456
+    cout << "&ref=" << &ref << ", ref=" << ref <<endl; // &ref=0x7ffde80874a8, ref=456
     return 0;
 }
