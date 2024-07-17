@@ -40,42 +40,42 @@ public class TimeUtils {
     }
 
     public static String getDateTime() {
-        return getDateTimeStringByFormat("yyyy-MM-dd");
+        return getDateTimeStringByFormat(DateTimePattern.DATE_TIME_TYPE);
     }
 
-    public static String getDateTimeStringByFormat(long paramLong, String pattern) {
+    public static String getDateTimeStringByFormat(long timeStamp, String pattern) {
         if (TextUtils.isEmpty(pattern))
             return "";
-        if (paramLong == 0L)
-            paramLong = System.currentTimeMillis();
-        return (new SimpleDateFormat(pattern)).format(Long.valueOf(paramLong));
+        if (timeStamp == 0L)
+            timeStamp = System.currentTimeMillis();
+        return (new SimpleDateFormat(pattern)).format(Long.valueOf(timeStamp));
     }
 
-    public static String getDateTimeStringByFormat(String paramString) {
-        if (TextUtils.isEmpty(paramString))
+    public static String getDateTimeStringByFormat(String pattern) {
+        if (TextUtils.isEmpty(pattern))
             return "";
-        long l = System.currentTimeMillis();
-        return (new SimpleDateFormat(paramString, Locale.ENGLISH)).format(Long.valueOf(l));
+        long now = System.currentTimeMillis();
+        return (new SimpleDateFormat(pattern, Locale.ENGLISH)).format(Long.valueOf(now));
     }
 
     public static String getDefaultTime() {
-        return getDateTimeStringByFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        return getDateTimeStringByFormat(DateTimePattern.DEFAULT_TIME_FORMAT);
     }
 
     public static String getFileTypeTime() {
-        return getDateTimeStringByFormat("yyyy_MM_dd_HH_mm_ss");
+        return getDateTimeStringByFormat(DateTimePattern.FILE_TIME_TYPE);
     }
 
     public static String getLogFileTypeTime() {
-        return getDateTimeStringByFormat("yyyyMMdd_HHmmss");
+        return getDateTimeStringByFormat(DateTimePattern.LOG_FILE_TIME_TYPE);
     }
 
     public static String getLogTypeTime() {
-        return getDateTimeStringByFormat("yyyy_MM_dd_HHmmss");
+        return getDateTimeStringByFormat(DateTimePattern.LOG_TIME_TYPE);
     }
 
     public static long getLogcatTimeStamp(String source) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.ENGLISH);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DateTimePattern.DEFAULT_TIME_FORMAT, Locale.ENGLISH);
         try {
             return simpleDateFormat.parse(source).getTime();
         } catch (ParseException e) {
@@ -85,21 +85,21 @@ public class TimeUtils {
     }
 
     public static String getLongTime() {
-        return getDateTimeStringByFormat("yyyy-MM-dd HH:mm:ss");
+        return getDateTimeStringByFormat(DateTimePattern.LONG_TIME_TYPE);
     }
 
     public static String getMicroTime() {
-        return getDateTimeStringByFormat("yyyy-MM-dd HH:mm:ss");
+        return getDateTimeStringByFormat(DateTimePattern.MICRO_TIME_TYPE);
     }
 
     public static String getShortTime() {
-        return getDateTimeStringByFormat("HH:mm:ss");
+        return getDateTimeStringByFormat(DateTimePattern.SHORT_TIME_TYPE);
     }
 
-    public static String getTimeSpanString(long start, long end) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+    public static String getTimeSpanString(long begin, long end) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DateTimePattern.SHORT_TIME_TYPE);
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-        return simpleDateFormat.format(Long.valueOf(end - start));
+        return simpleDateFormat.format(Long.valueOf(end - begin));
     }
 
     public static long getTimeStamp(String pattern, String source) {
@@ -118,12 +118,13 @@ public class TimeUtils {
 
     /**
      * 判断时间是否超过指定的间隔
-     * @param begin 开始时间
+     *
+     * @param begin    开始时间
      * @param interval 时间间隔
      * @return
      */
     public static boolean isTimeExceed(long begin, long interval) {
         long passTime = System.currentTimeMillis() - begin;
-        return passTime  > (1000L * interval);
+        return passTime > (1000L * interval);
     }
 }
