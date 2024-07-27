@@ -12,7 +12,7 @@ public class TimeUtils {
     public static class DateTimePattern {
         public static final String DATE_TIME_TYPE = "yyyy-MM-dd";
 
-        public static final String DEFAULT_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
+        public static final String DEFAULT_TIME_TYPE = "yyyy-MM-dd HH:mm:ss.SSS";
 
         public static final String FILE_TIME_TYPE = "yyyy_MM_dd_HH_mm_ss";
 
@@ -59,7 +59,7 @@ public class TimeUtils {
     }
 
     public static String getDefaultTime() {
-        return getDateTimeStringByFormat(DateTimePattern.DEFAULT_TIME_FORMAT);
+        return getDateTimeStringByFormat(DateTimePattern.DEFAULT_TIME_TYPE);
     }
 
     public static String getFileTypeTime() {
@@ -75,11 +75,11 @@ public class TimeUtils {
     }
 
     public static long getLogcatTimeStamp(String source) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DateTimePattern.DEFAULT_TIME_FORMAT, Locale.ENGLISH);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DateTimePattern.DEFAULT_TIME_TYPE, Locale.ENGLISH);
         try {
             return simpleDateFormat.parse(source).getTime();
         } catch (ParseException e) {
-            LogUtils.e(e.toString());
+            Logger.e(e);
             return 0L;
         }
     }
@@ -107,7 +107,7 @@ public class TimeUtils {
         try {
             return simpleDateFormat.parse(source).getTime();
         } catch (ParseException e) {
-            LogUtils.e(e.toString());
+            Logger.e(e);
             return 0L;
         }
     }
@@ -121,7 +121,7 @@ public class TimeUtils {
      *
      * @param begin    开始时间
      * @param interval 时间间隔
-     * @return
+     * @return 是否超过间隔
      */
     public static boolean isTimeExceed(long begin, long interval) {
         long passTime = System.currentTimeMillis() - begin;

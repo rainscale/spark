@@ -16,7 +16,7 @@ import android.os.Process;
 import android.widget.Toast;
 
 import ale.rains.demo.activity.MainActivity;
-import ale.rains.util.LogUtils;
+import ale.rains.util.Logger;
 
 public class HelloService extends Service {
     // 渠道ID
@@ -61,26 +61,26 @@ public class HelloService extends Service {
         // Get the HandlerThread's Looper and use it for our Handler
         serviceLooper = thread.getLooper();
         serviceHandler = new ServiceHandler(serviceLooper);
-        LogUtils.d("onCreate");
+        Logger.d("onCreate");
     }
 
-    /*
-    START_NOT_STICKY
-    如果系统在 onStartCommand() 返回后终止服务，则除非有待传递的挂起 Intent，否则系统不会重建服务。
-    这是最安全的选项，可以避免在不必要时以及应用能够轻松重启所有未完成的作业时运行服务。
-    START_STICKY
-    如果系统在 onStartCommand() 返回后终止服务，则其会重建服务并调用 onStartCommand()，
-    但不会重新传递最后一个 Intent。相反，除非有挂起 Intent 要启动服务，
-    否则系统会调用包含空 Intent 的 onStartCommand()。在此情况下，系统会传递这些 Intent。
-    此常量适用于不执行命令、但无限期运行并等待作业的媒体播放器（或类似服务）。
-    START_REDELIVER_INTENT
-    如果系统在 onStartCommand() 返回后终止服务，则其会重建服务，
-    并通过传递给服务的最后一个 Intent 调用 onStartCommand()。
-    所有挂起 Intent 均依次传递。此常量适用于主动执行应立即恢复的作业（例如下载文件）的服务。
+    /**
+     * START_NOT_STICKY
+     * 如果系统在 onStartCommand() 返回后终止服务，则除非有待传递的挂起 Intent，否则系统不会重建服务。
+     * 这是最安全的选项，可以避免在不必要时以及应用能够轻松重启所有未完成的作业时运行服务。
+     * START_STICKY
+     * 如果系统在 onStartCommand() 返回后终止服务，则其会重建服务并调用 onStartCommand()，
+     * 但不会重新传递最后一个 Intent。相反，除非有挂起 Intent 要启动服务，
+     * 否则系统会调用包含空 Intent 的 onStartCommand()。在此情况下，系统会传递这些 Intent。
+     * 此常量适用于不执行命令、但无限期运行并等待作业的媒体播放器（或类似服务）。
+     * START_REDELIVER_INTENT
+     * 如果系统在 onStartCommand() 返回后终止服务，则其会重建服务，
+     * 并通过传递给服务的最后一个 Intent 调用 onStartCommand()。
+     * 所有挂起 Intent 均依次传递。此常量适用于主动执行应立即恢复的作业（例如下载文件）的服务。
      */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        LogUtils.d("onStartCommand");
+        Logger.d("onStartCommand");
         Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
 
         // For each start request, send a message to start a job and deliver the
@@ -112,14 +112,14 @@ public class HelloService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        LogUtils.d("onBind");
+        Logger.d("onBind");
         // We don't provide binding, so return null
         return null;
     }
 
     @Override
     public void onDestroy() {
-        LogUtils.d("onDestroy");
+        Logger.d("onDestroy");
         Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show();
         stopForeground(true);
     }

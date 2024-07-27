@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import ale.rains.demo.R;
-import ale.rains.util.LogUtils;
+import ale.rains.util.Logger;
 
 public class FloatView extends FrameLayout {
     /**
@@ -62,13 +62,13 @@ public class FloatView extends FrameLayout {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         ImageView imageView = new ImageView(this.context);
         imageView.setImageResource(R.drawable.icon);
-        LogUtils.d(String.format("imageView size: %dx%d", imageView.getWidth(), imageView.getHeight()));
+        Logger.d(String.format("imageView size: %dx%d", imageView.getWidth(), imageView.getHeight()));
         addView(imageView);
     }
 
     public void show() {
         if (this.isShown()) {
-            LogUtils.i("already shown");
+            Logger.i("already shown");
             return;
         }
         Point size = new Point();
@@ -195,7 +195,7 @@ public class FloatView extends FrameLayout {
         else if (mParams.y + getHeight() + gap >= screenHeight) {
             yDistance = screenHeight - gap - mParams.y - getHeight();
         }
-        LogUtils.d("xDistance  " + xDistance + "   yDistance" + yDistance);
+        Logger.d("xDistance  " + xDistance + "   yDistance" + yDistance);
 
         animTime = Math.abs(xDistance) > Math.abs(yDistance) ? (int) (((float) xDistance / (float) screenWidth) * 600f)
                 : (int) (((float) yDistance / (float) screenHeight) * 900f);
@@ -240,7 +240,7 @@ public class FloatView extends FrameLayout {
             float delta = interpolator.getInterpolation((System.currentTimeMillis() - currentStartTime) / (float) animTime);
             int xMoveDistance = (int) (xDistance * delta);
             int yMoveDistance = (int) (yDistance * delta);
-            LogUtils.d("delta:  " + delta + "  xMoveDistance  " + xMoveDistance + "   yMoveDistance  " + yMoveDistance);
+            Logger.d("delta:  " + delta + "  xMoveDistance  " + xMoveDistance + "   yMoveDistance  " + yMoveDistance);
             mParams.x = startX + xMoveDistance;
             mParams.y = startY + yMoveDistance;
             windowManager.updateViewLayout(FloatView.this, mParams);
@@ -252,7 +252,7 @@ public class FloatView extends FrameLayout {
         // 增加移动误差
         mParams.x = (int) (xInScreen - xInView);
         mParams.y = (int) (yInScreen - yInView);
-        LogUtils.d("x  " + mParams.x + "   y  " + mParams.y);
+        Logger.d("x  " + mParams.x + "   y  " + mParams.y);
         windowManager.updateViewLayout(this, mParams);
     }
 }

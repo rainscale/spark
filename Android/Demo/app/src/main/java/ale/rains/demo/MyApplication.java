@@ -7,7 +7,7 @@ import android.app.NotificationManager;
 import ale.rains.toast.Toaster;
 import ale.rains.toast.style.WhiteToastStyle;
 import ale.rains.util.InitManager;
-import ale.rains.util.LogUtils;
+import ale.rains.util.Logger;
 
 public class MyApplication extends Application {
     // 渠道名
@@ -34,6 +34,6 @@ public class MyApplication extends Application {
         // 初始化吐司工具类
         Toaster.init(this, new WhiteToastStyle());
         createNotificationChannel();
-        LogUtils.d("onCreate");
+        Logger.d("onCreate");
     }
 }

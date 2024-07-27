@@ -17,7 +17,7 @@ import ale.rains.nanohttpd.protocols.http.content.ContentType;
 import ale.rains.nanohttpd.protocols.http.request.Method;
 import ale.rains.nanohttpd.protocols.http.response.Response;
 import ale.rains.nanohttpd.protocols.http.response.Status;
-import ale.rains.util.LogUtils;
+import ale.rains.util.Logger;
 
 public class AutomatorHttpServer extends NanoHTTPD {
 
@@ -34,7 +34,7 @@ public class AutomatorHttpServer extends NanoHTTPD {
     }
 
     private Response dealWith(IHTTPSession session) {
-        LogUtils.i("session.getMethod() = " + session.getMethod());
+        Logger.i("session.getMethod() = " + session.getMethod());
         if (Method.POST == session.getMethod()) {
             //获取请求头数据
             Map<String, String> header = session.getHeaders();

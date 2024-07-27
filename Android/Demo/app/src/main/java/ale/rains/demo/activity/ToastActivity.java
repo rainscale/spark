@@ -8,7 +8,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import ale.rains.demo.view.FloatView;
-import ale.rains.util.LogUtils;
+import ale.rains.util.Logger;
 
 public class ToastActivity extends Activity {
     private static FloatView floatView;
@@ -17,7 +17,7 @@ public class ToastActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        LogUtils.i("onCreate");
+        Logger.i("onCreate");
         Intent intent = getIntent();
 
         String message = intent.getStringExtra("message");
@@ -26,7 +26,7 @@ public class ToastActivity extends Activity {
         }
 
         String showFloat = intent.getStringExtra("showFloatWindow");
-        LogUtils.i("showFloat: " + showFloat);
+        Logger.i("showFloat: " + showFloat);
         if ("true".equals(showFloat)) {
             getFloatView().show();
         } else if ("false".equals(showFloat)) {

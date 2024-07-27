@@ -17,7 +17,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import ale.rains.util.LogUtils;
+import ale.rains.util.Logger;
 
 /**
  *
@@ -32,13 +32,13 @@ public class Stub {
 
     @Before
     public void setUp() throws Exception {
-        LogUtils.i("setUp");
+        Logger.i("setUp");
         launchService();
         server.start();
     }
 
     private void launchPackage(String packageName) {
-        LogUtils.i("Launch " + packageName);
+        Logger.i("Launch " + packageName);
         UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         Context context = InstrumentationRegistry.getContext();
         final Intent intent = context.getPackageManager()
@@ -59,7 +59,7 @@ public class Stub {
         String launcherPackage = device.getLauncherPackageName();
         Boolean ready = device.wait(Until.hasObject(By.pkg(launcherPackage).depth(0)), LAUNCH_TIMEOUT);
         if (!ready) {
-            LogUtils.i("Wait for launcher timeout");
+            Logger.i("Wait for launcher timeout");
             return;
         }
         startMonitorService(context);
@@ -73,7 +73,7 @@ public class Stub {
 
     @After
     public void tearDown() {
-        LogUtils.i("tearDown");
+        Logger.i("tearDown");
         server.stop();
         Context context = InstrumentationRegistry.getContext();
         stopMonitorService(context);
@@ -88,7 +88,7 @@ public class Stub {
     @Test
     @LargeTest
     public void testUIAutomatorStub() throws InterruptedException {
-        LogUtils.i("testUIAutomatorStub");
+        Logger.i("testUIAutomatorStub");
         while (server.isAlive()) {
             Thread.sleep(100);
         }

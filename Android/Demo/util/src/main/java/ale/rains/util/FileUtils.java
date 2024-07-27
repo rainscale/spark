@@ -32,7 +32,7 @@ public class FileUtils {
             method.setAccessible(true);
             method.invoke(System.class, src, srcPos, dst, dstPos, length);
         } catch (Exception e) {
-            LogUtils.e(e.getMessage());
+            Logger.e(e);
         }
     }
 
@@ -44,7 +44,7 @@ public class FileUtils {
                 try {
                     closeable.close();
                 } catch (IOException e) {
-                    LogUtils.e(e.toString());
+                    Logger.e(e.toString());
                 }
             }
         }
@@ -56,7 +56,7 @@ public class FileUtils {
             is = new FileInputStream(srcPath);
             return writeFile(dstPath, is, false);
         } catch (FileNotFoundException e) {
-            LogUtils.e(e.getMessage());
+            Logger.e(e.getMessage());
             return false;
         } finally {
             closeIO(is);
@@ -73,11 +73,11 @@ public class FileUtils {
         }
         File f = new File(srcPath);
         if (!f.exists()) {
-            LogUtils.i(srcPath + " does not exist");
+            Logger.i(srcPath + " does not exist");
             return;
         }
         if (!f.isDirectory()) {
-            LogUtils.i(srcPath + " is not directory");
+            Logger.i(srcPath + " is not directory");
             return;
         }
         try {
@@ -106,7 +106,7 @@ public class FileUtils {
                 }
             }
         } catch (Exception e) {
-            LogUtils.e(e.getMessage());
+            Logger.e(e.getMessage());
         }
     }
 
@@ -146,10 +146,10 @@ public class FileUtils {
             }
             return true;
         } catch (FileNotFoundException e) {
-            LogUtils.e(e.getMessage());
+            Logger.e(e.getMessage());
             return false;
         } catch (IOException e) {
-            LogUtils.e(e.getMessage());
+            Logger.e(e.getMessage());
             return false;
         } finally {
             closeIO(fos);
@@ -358,7 +358,7 @@ public class FileUtils {
             try {
                 f.createNewFile();
             } catch (IOException e) {
-                LogUtils.e(e.getMessage());
+                Logger.e(e.getMessage());
             }
         }
     }
@@ -372,11 +372,18 @@ public class FileUtils {
 
     public static void moveFile(String srcPath, String dstPath) {
         if (TextUtils.isEmpty(srcPath) || TextUtils.isEmpty(dstPath)) {
-            LogUtils.e("Both srcPath and dstPath cannot be null");
+            Logger.e("Both srcPath and dstPath cannot be null");
         }
         moveFile(new File(srcPath), new File(dstPath));
     }
 
+    /**
+     * 读取指定文件的内容
+     *
+     * @param filePath    文件路径
+     * @param charsetName 字符编码
+     * @return 文件内容
+     */
     public static String readFile(String filePath, String charsetName) {
         String result = "";
         FileInputStream fis = null;
@@ -389,11 +396,11 @@ public class FileUtils {
                 result = new String(buffer, charsetName);
             }
         } catch (FileNotFoundException e) {
-            LogUtils.e(e.getMessage());
+            Logger.e(e.getMessage());
         } catch (UnsupportedEncodingException e) {
-            LogUtils.e(e.getMessage());
+            Logger.e(e.getMessage());
         } catch (IOException e) {
-            LogUtils.e(e.getMessage());
+            Logger.e(e.getMessage());
         } finally {
             closeIO(fis);
         }
@@ -416,13 +423,13 @@ public class FileUtils {
             }
             return list;
         } catch (FileNotFoundException e) {
-            LogUtils.e(e.getMessage());
+            Logger.e(e);
             return null;
         } catch (UnsupportedEncodingException e) {
-            LogUtils.e(e.getMessage());
+            Logger.e(e);
             return null;
         } catch (IOException e) {
-            LogUtils.e(e.getMessage());
+            Logger.e(e);
             return null;
         } finally {
             closeIO(reader);
@@ -443,11 +450,11 @@ public class FileUtils {
             }
             result = sb.toString();
         } catch (FileNotFoundException e) {
-            LogUtils.e(e.getMessage());
+            Logger.e(e.getMessage());
         } catch (UnsupportedEncodingException e) {
-            LogUtils.e(e.getMessage());
+            Logger.e(e.getMessage());
         } catch (IOException e) {
-            LogUtils.e(e.getMessage());
+            Logger.e(e.getMessage());
         } finally {
             closeIO(reader, bufferedReader);
         }
@@ -471,10 +478,10 @@ public class FileUtils {
             os.flush();
             return true;
         } catch (FileNotFoundException e) {
-            LogUtils.e(e.getMessage());
+            Logger.e(e.getMessage());
             return false;
         } catch (IOException e) {
-            LogUtils.e(e.getMessage());
+            Logger.e(e.getMessage());
             return false;
         } finally {
             closeIO(os, stream);
@@ -512,7 +519,7 @@ public class FileUtils {
             writer.write(charArray, 0, charArray.length);
             return true;
         } catch (IOException e) {
-            LogUtils.e(e.getMessage());
+            Logger.e(e.getMessage());
             return false;
         } finally {
             closeIO(writer);

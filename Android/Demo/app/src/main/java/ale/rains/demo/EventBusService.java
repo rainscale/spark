@@ -9,7 +9,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import ale.rains.demo.model.EventMessage;
-import ale.rains.util.LogUtils;
+import ale.rains.util.Logger;
 
 public class EventBusService extends Service {
     @Override
@@ -26,12 +26,12 @@ public class EventBusService extends Service {
 
     @Subscribe
     public void onMsgEventReceived(String msg) {
-        LogUtils.i("msg: " + msg);
+        Logger.i("msg: " + msg);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true, priority = 1)
     public void onMsgEventReceived(EventMessage event) {
-        LogUtils.i("MsgEvent msg: " + event.getMessage());
+        Logger.i("MsgEvent msg: " + event.getMessage());
     }
 
     @Override

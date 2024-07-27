@@ -27,6 +27,7 @@ import ale.rains.demo.view.FloatView;
 import ale.rains.lz4.LZ4JNI;
 import ale.rains.permission.FloatWindowManager;
 import ale.rains.util.Logger;
+import ale.rains.util.ShellUtils;
 
 public class MainActivity extends AppCompatActivity {
     // 渠道名

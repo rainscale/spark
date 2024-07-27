@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * Shell执行线程，默认为非阻塞
+ */
 public class ShellThread extends Thread {
     public static final int WAIT_ASYNC = -1;
     public static final int WAIT_FOREVER = 0;
@@ -25,29 +28,31 @@ public class ShellThread extends Thread {
 
     @Override
     public void run() {
+        long tid = getId();
         long i = 0L;
+        Logger.i("begin: " + tid);
         do {
-            LogUtils.d("loop: " + i);
+            Logger.i("loop: " + i);
             runShellCommand(mCommand);
             try {
                 Thread.sleep(mSleepTime);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Logger.e(e);
             }
             i++;
         } while (isLoop);
-        LogUtils.i("finish");
+        Logger.i("end: " + tid);
     }
 
     @Override
     public void start() {
-        LogUtils.d("timeout: " + mTimeout);
+        Logger.d("timeout: " + mTimeout);
         super.start();
         if (mTimeout != WAIT_ASYNC) {
             try {
                 this.join(mTimeout);
             } catch (InterruptedException e) {
-                LogUtils.e(e.getMessage());
+                Logger.e(e);
             } finally {
                 stopShellProcess();
             }
@@ -55,9 +60,10 @@ public class ShellThread extends Thread {
     }
 
     private void runShellCommand(String command) {
-        LogUtils.i("command: " + command);
+        Logger.i("command: " + command);
         BufferedReader reader = null;
         try {
+            // 错误输出流合并到标准输出流
             mProcess = new ProcessBuilder().redirectErrorStream(true).command(command.split("\\s+")).start();
             // mProcess = Runtime.getRuntime().exec(command);
             reader = new BufferedReader(new InputStreamReader(mProcess.getInputStream()));
@@ -68,18 +74,18 @@ public class ShellThread extends Thread {
                 }
             }
             int result = mProcess.waitFor();
-            LogUtils.i("exit value: " + result);
+            Logger.i("exit: " + result);
         } catch (IOException e) {
-            LogUtils.e(e.getMessage());
+            Logger.e(e);
         } catch (InterruptedException e) {
-            LogUtils.e(e.getMessage());
+            Logger.e(e);
         } finally {
             if (reader != null) {
                 try {
                     reader.close();
                     reader = null;
                 } catch (IOException e) {
-                    LogUtils.e(e.getMessage());
+                    Logger.e(e);
                 }
             }
             if (mProcess != null) {
@@ -93,6 +99,7 @@ public class ShellThread extends Thread {
         isLoop = false;
         if (mProcess != null) {
             mProcess.destroy();
+            // 针对sleep的情况
             interrupt();
             mProcess = null;
         }
@@ -136,6 +143,11 @@ public class ShellThread extends Thread {
     }
 
     public static interface OnReadListener {
+        /**
+         * 读取命令执行返回的一行信息
+         *
+         * @param line 命令返回的一行字符串
+         */
         void onRead(String line);
     }
 }
