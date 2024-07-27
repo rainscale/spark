@@ -26,7 +26,7 @@ import ale.rains.demo.utils.Utils;
 import ale.rains.demo.view.FloatView;
 import ale.rains.lz4.LZ4JNI;
 import ale.rains.permission.FloatWindowManager;
-import ale.rains.util.LogUtils;
+import ale.rains.util.Logger;
 
 public class MainActivity extends AppCompatActivity {
     // 渠道名
@@ -72,13 +72,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startForegroundService() {
-        LogUtils.d("startForegroundService");
+        Logger.d("startForegroundService");
         Intent intent = new Intent(this, HelloService.class);
         startService(intent);
     }
 
     private void stopForegroundService() {
-        LogUtils.d("stopForegroundService");
+        Logger.d("stopForegroundService");
         Intent intent = new Intent(this, HelloService.class);
         stopService(intent);
     }
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onNext() {
                 Toast.makeText(MainActivity.this, "已开启通知权限", Toast.LENGTH_SHORT).show();
-                LogUtils.d("已开启通知权限");
+                Logger.d("已开启通知权限");
             }
         });
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -107,32 +107,32 @@ public class MainActivity extends AppCompatActivity {
 
         Button tvNotification = binding.btnNotification;
         tvNotification.setOnClickListener((View v) -> {
-            LogUtils.d("tv_notification onClick");
+            Logger.d("tv_notification onClick");
             startForegroundService();
         });
 
         Button btnPermission = binding.btnPermission;
         btnPermission.setOnClickListener((View v) -> {
-            LogUtils.d("btn_permission onClick");
+            Logger.d("btn_permission onClick");
             Intent it = new Intent(MainActivity.this, PermissionTestActivity.class);
             startActivity(it);
         });
 
         Button btnLz4 = binding.btnLz4;
         btnLz4.setOnClickListener((View v) -> {
-            LogUtils.d("btn_lz4 onClick");
+            Logger.d("btn_lz4 onClick");
             new Thread(() -> {
-                LogUtils.d("lz4 compress");
+                Logger.d("lz4 compress");
                 try {
                     byte[] data = "1234512345123451234512345345234572".getBytes("UTF-8");
                     final int decompressedLength = data.length;
                     int maxCompressedLength = LZ4JNI.LZ4_compressBound(decompressedLength);
                     byte[] compressedData = new byte[maxCompressedLength];
                     int compressedLength = LZ4JNI.LZ4_compressHC(data, null, 0, decompressedLength, compressedData, null, 0, maxCompressedLength, 9);
-                    LogUtils.d("compressedLength = " + compressedLength);
-                    LogUtils.d("compressedData = " + Arrays.toString(compressedData));
+                    Logger.d("compressedLength = " + compressedLength);
+                    Logger.d("compressedData = " + Arrays.toString(compressedData));
                 } catch (UnsupportedEncodingException e) {
-                    LogUtils.e(e.getMessage());
+                    Logger.e(e.getMessage());
                 }
             }).start();
         });
@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
             if (isFloatViewShown) {
                 boolean floatEnabled = FloatWindowManager.getInstance().checkFloatPermission(MainActivity.this);
                 if (!floatEnabled) {
-                    LogUtils.i("float permission not checked");
+                    Logger.i("float permission not checked");
                     return;
                 }
                 if (floatView == null) {
@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                 floatView.show();
             } else {
                 if (floatView != null) {
-                    LogUtils.d("remove floatView immediate");
+                    Logger.d("remove floatView immediate");
                     floatView.hide();
                 }
             }
@@ -180,26 +180,26 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        LogUtils.d("onResume");
+        Logger.d("onResume");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        LogUtils.d("onPause");
+        Logger.d("onPause");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        LogUtils.d("onStop");
+        Logger.d("onStop");
         releaseWakelock();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LogUtils.d("onDestroy");
+        Logger.d("onDestroy");
         stopForegroundService();
     }
 

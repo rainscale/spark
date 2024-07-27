@@ -7,6 +7,7 @@
         android:name="android.hardware.camera"
         android:required="false" /> <!-- 相机权限 -->
     <uses-permission android:name="android.permission.CAMERA" /> <!-- 获取日历权限 -->
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS" />
     <uses-permission android:name="android.permission.READ_CALENDAR" /> <!-- 编辑日历权限 -->
     <uses-permission android:name="android.permission.WRITE_CALENDAR" /> <!-- 录音权限 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- 位置权限 -->
@@ -125,6 +126,33 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
+
+        <!--进程间通信服务-->
+        <service
+            android:name="ale.rains.comm.CommunicateService"
+            android:enabled="true"
+            android:exported="true"
+            android:priority="1000">
+            <intent-filter>
+                <action android:name="ale.rains.communicate.service" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+
+        <!--接收应用重启广播，进程拉活时使用-->
+        <receiver
+            android:name="ale.rains.wakeup.HelpWakeupReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="ale.rains.wakeup.restart" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+
+        <meta-data
+            android:name="ale.rains.communicate.package.name"
+            android:value="${communicateName}" />
     </application>
 
 </manifest>
