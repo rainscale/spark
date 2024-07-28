@@ -4,6 +4,7 @@ import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 
+import ale.rains.remote.RemoteManager;
 import ale.rains.toast.Toaster;
 import ale.rains.toast.style.WhiteToastStyle;
 import ale.rains.util.InitManager;
@@ -31,9 +32,17 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         InitManager.init(this, "Demo", true);
+        initCommunication();
         // 初始化吐司工具类
         Toaster.init(this, new WhiteToastStyle());
         createNotificationChannel();
         Logger.d("onCreate");
+    }
+
+    public void initCommunication() {
+        RemoteManager.getInstance().init(getApplicationContext());
+        Logger.i("remote service " + (RemoteManager.getInstance().isBound() ? "connected" : "disconnected"));
+        RemoteManager.getInstance().registerOnServiceConnection(
+                state -> Logger.i("remote service " + (state ? "connected" : "disconnected")));
     }
 }

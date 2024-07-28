@@ -129,12 +129,12 @@
 
         <!--进程间通信服务-->
         <service
-            android:name="ale.rains.comm.CommunicateService"
+            android:name="ale.rains.remote.RemoteService"
             android:enabled="true"
             android:exported="true"
             android:priority="1000">
             <intent-filter>
-                <action android:name="ale.rains.communicate.service" />
+                <action android:name="ale.rains.remote.service" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
@@ -145,14 +145,14 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="ale.rains.wakeup.restart" />
+                <action android:name="ale.rains.wakeup" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
 
         <meta-data
-            android:name="ale.rains.communicate.package.name"
-            android:value="${communicateName}" />
+            android:name="ale.rains.remote.package"
+            android:value="${remotePackage}" />
     </application>
 
 </manifest>

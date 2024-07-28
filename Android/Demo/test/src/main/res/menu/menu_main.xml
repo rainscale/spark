@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="ale.rains.test.MainActivity">
+    <item
+        android:id="@+id/action_reset"
+        android:orderInCategory="101"
+        android:title="初始化"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_exit"
+        android:orderInCategory="102"
+        android:title="退出"
+        app:showAsAction="never" />
+</menu>

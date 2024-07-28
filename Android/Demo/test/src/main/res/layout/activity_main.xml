@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="22dp"
+    android:paddingRight="22dp">
+
+    <TextView
+        android:id="@+id/tv_version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/bt_permission"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="applyPermission"
+        android:text="申请权限" />
+
+    <EditText
+        android:id="@+id/et_command"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入命令" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="runCommand"
+        android:text="执行" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="getPid"
+        android:text="获取PID" />
+
+    <EditText
+        android:id="@+id/et_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入消息" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="sendMessage"
+        android:text="发送消息" />
+
+    <Button
+        android:id="@+id/bt_log_catch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="catchLog"
+        android:text="抓取日志" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="testCommunication"
+        android:text="测试通信" />
+
+</LinearLayout>

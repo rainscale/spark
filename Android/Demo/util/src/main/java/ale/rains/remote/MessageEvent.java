@@ -1,9 +1,9 @@
-package ale.rains.comm;
+package ale.rains.remote;
 
 /**
- * 字符串消息事件
+ * 消息事件结构体
  */
-public class StringMsgEvent {
+public class MessageEvent {
     /**
      * 消息类型
      */
@@ -13,7 +13,7 @@ public class StringMsgEvent {
      */
     public String msg;
 
-    public StringMsgEvent(int type, String msg) {
+    public MessageEvent(int type, String msg) {
         this.type = type;
         this.msg = msg;
     }
