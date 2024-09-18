@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: demo
+  profiles:
+    active: dev #默认为开发环境
+  servlet:
+    multipart:
+      enabled: true #开启文件上传
+      max-file-size: 10MB #限制文件上传大小为10M
+      max-request-size: 10MB #total request size for a multipart/form-data cannot exceed 10MB
+
+mybatis:
+  mapper-locations:
+    - classpath:dao/*.xml
+    - classpath*:com/**/mapper/*.xml

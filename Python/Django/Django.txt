@@ -1,0 +1,63 @@
+1、Django安装
+pip install Django
+
+验证：
+>>> import django
+>>> print(django.get_version())
+5.1.1
+$ python -m django --version
+5.1.1
+
+2、配置PATH
+~/.bashrc添加
+export PATH=$PATH:~/.local/bin
+
+3、创建项目
+$ django-admin startproject mysite
+$ cd mysite
+$ python manage.py runserver
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have 18 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth, contenttypes, sessions.
+Run 'python manage.py migrate' to apply them.
+September 16, 2024 - 13:25:40
+Django version 5.1.1, using settings 'mysite.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+
+指定端口
+$ python manage.py runserver 8080
+修改服务器的ip地址整个局域网内都可以访问
+$ python manage.py runserver 0.0.0.0:8080
+
+4、创建投票应用
+$ python manage.py startp polls
+编写第一个视图polls/views.py
+from django.http import HttpResponse
+
+
+def index(request):
+    return HttpResponse("Hello, world. You're at the polls index.")
+
+编写urlconf，也就是路由路径。新增polls/urls.py
+from django.urls import path
+
+from . import views
+
+urlpatterns = [
+    path("", views.index, name="index"),
+]
+
+在项目的主urls文件中添加urlpattern条目，指向我们刚才建立的polls这个app独有的urls文件，这里需要导入include模块。修改mysite/urls.py
+from django.conf.urls import include, url
+from django.contrib import admin
+
+urlpatterns = [
+    url(r'^polls/', include('polls.urls')),
+    url(r'^admin/', admin.site.urls),
+]
+启动服务器，然后在浏览器中访问地址http://localhost:8000/polls/
+$ python manage.py runserver
