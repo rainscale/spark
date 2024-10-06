@@ -144,21 +144,22 @@ int main(int argc, char** argv) {
     return EXIT_SUCCESS;
 }
 
+
 /*
-pid 12048
-pthread_join ttid failed: Invalid argument
-timer tid 12049 running
-signal tid 12050 running
-sleep 1 s
-sleep 2 s
-sleep 3 s
-a
-catch SIGUSR1
-sleep 4 s
-timer_fn exit
-q
-catch SIGUSR2, sleep 2s and exit
-signal_fn exit
-finish
-pthread_join stid failed: No such process
-*/
+   pid 12048
+   pthread_join ttid failed: Invalid argument
+   timer tid 12049 running
+   signal tid 12050 running
+   sleep 1 s
+   sleep 2 s
+   sleep 3 s
+   a
+   catch SIGUSR1
+   sleep 4 s
+   timer_fn exit
+   q
+   catch SIGUSR2, sleep 2s and exit
+   signal_fn exit
+   finish
+   pthread_join stid failed: No such process
+   */

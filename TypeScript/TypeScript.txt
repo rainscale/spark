@@ -1,0 +1,882 @@
+1、安装
+确保已安装npm
+$ npm -v
+10.5.0
+$ npm install -g typescript
+$ tsc -v
+Version 5.6.2
+
+2、新建app.ts
+var message:string = "Hello World" 
+console.log(message)
+TypeScript转换为JavaScript
+$ tsc app.ts
+生存app.js
+var message = "Hello World!";
+console.log(message);
+使用node命令执行
+$ node app.js 
+Hello World!
+
+3、TypeScript 保留关键字
+break as catch switch case if throw else
+var number string get module type instanceof typeof
+public private enum	export finally for while void
+null super this new in return true false
+any extends static let package implements interface function
+do try yield const continue
+
+4、TypeScript 支持两种类型的注释
+单行注释 (//) − 在//后面的文字都是注释内容。
+多行注释 (/* */) − 这种注释可以跨越多行。
+
+5、TypeScript 基础类型
+5.1 任意类型	any
+声明为any的变量可以赋予任意类型的值。
+
+5.2 数字类型	number
+双精度64位浮点值。它可以用来表示整数和分数。
+let binaryLiteral: number = 0b1010; // 二进制
+let octalLiteral: number = 0o744;   // 八进制
+let decLiteral: number = 6;    // 十进制
+let hexLiteral: number = 0xf00d;    // 十六进制
+
+5.3 字符串类型string	
+一个字符系列，使用单引号（'）或双引号（"）来表示字符串类型。反引号（`）来定义多行文本和内嵌表达式。
+let name: string = "Runoob";
+let years: number = 5;
+let words: string = `您好，今年是 ${ name } 发布 ${ years + 1} 周年`;
+
+5.4 布尔类型	boolean	
+表示逻辑值：true 和 false。
+let flag: boolean = true;
+
+5.5 数组类型
+声明变量为数组。
+// 在元素类型后面加上[]
+let arr: number[] = [1, 2];
+// 或者使用数组泛型
+let arr: Array<number> = [1, 2];
+
+5.6 元组	
+元组类型用来表示已知元素数量和类型的数组，各元素的类型不必相同，对应位置的类型需要相同。
+let x: [string, number];
+x = ['Runoob', 1];    // 运行正常
+x = [1, 'Runoob'];    // 报错
+console.log(x[0]);    // 输出 Runoob
+
+5.7 枚举	enum	
+枚举类型用于定义数值集合。
+enum Color {Red, Green, Blue};
+let c: Color = Color.Blue;
+console.log(c);    // 输出 2
+
+5.8 void	
+用于标识方法返回值的类型，表示该方法没有返回值。
+function hello(): void {
+    alert("Hello Runoob");
+}
+
+5.9 null	
+表示对象值缺失。
+
+5.10 undefined	
+用于初始化变量为一个未定义的值
+
+5.11 never	
+never是其它类型（包括 null 和 undefined）的子类型，代表从不会出现的值。
+
+6、声明变量的类型及初始值：
+var [变量名] : [类型] = 值;
+声明变量的类型，但没有初始值，变量值会设置为 undefined：
+var [变量名] : [类型];
+
+7、类型断言（Type Assertion）
+类型断言可以用来手动指定一个值的类型，即允许变量从一种类型更改为另一种类型，是编译时语法。
+<类型> 值
+或:
+值 as 类型
+
+8、变量作用域
+变量作用域指定了变量定义的位置。
+程序中变量的可用性由变量作用域决定。
+TypeScript有以下几种作用域：
+全局作用域 − 全局变量定义在程序结构的外部，它可以在你代码的任何位置使用。
+类作用域 − 这个变量也可以称为字段。类变量声明在一个类里头，但在类的方法外面。 该变量可以通过类的对象来访问。类变量也可以是静态的，静态的变量可以通过类名直接访问。
+局部作用域 − 局部变量，局部变量只能在声明它的一个代码块（如：方法）中使用。
+
+9、三元运算符 (?)
+Test ? expr1 : expr2
+Test − 指定的条件语句
+expr1 − 如果条件语句 Test 返回 true 则返回该值
+expr2 − 如果条件语句 Test 返回 false 则返回该值
+
+10、类型运算符
+10.1 typeof运算符
+typeof是一元运算符，返回操作数的数据类型。
+var num = 12 
+console.log(typeof num); //输出结果: number
+使用 tsc 命令编译以上代码得到如下 JavaScript 代码：
+var num = 12;
+console.log(typeof num); //输出结果: number
+
+10.2 instanceof
+instanceof运算符用于判断对象是否是指定的类型，如果是返回 true，否则返回 false。
+
+11、for...in 循环
+for...in 语句用于一组值的集合或列表进行迭代输出。
+for (var val in list) { 
+    //语句 
+}
+val 需要为 string 或 any 类型。
+
+12、for...of 循环
+for...of 语句创建一个循环来迭代可迭代的对象。在 ES6 中引入的 for...of 循环，以替代 for...in 和 forEach() ，
+并支持新的迭代协议。for...of 允许你遍历 Arrays（数组）, Strings（字符串）, Maps（映射）, Sets（集合）等可迭代的数据结构等。
+let someArray = [1, "string", false];
+for (let entry of someArray) {
+    console.log(entry); // 1, "string", false
+}
+
+13、forEach、every 和 some是JavaScript的循环语法，TypeScript作为JavaScript的语法超集，当然默认也是支持的。
+因为 forEach在iteration中是无法返回的，所以可以使用 every和 some来取代 forEach。
+TypeScript forEach循环
+let list = [4, 5, 6];
+list.forEach((val, idx, array) => {
+    // val: 当前值
+    // idx：当前index
+    // array: Array
+});
+TypeScript every循环
+let list = [4, 5, 6];
+list.every((val, idx, array) => {
+    // val: 当前值
+    // idx：当前index
+    // array: Array
+    return true; // Continues
+    // Return false will quit the iteration
+});
+
+14、函数定义
+function function_name(param1 [:datatype], param2 [:datatype]):return_type { 
+    // 语句
+    return value; 
+}
+param1、param2为参数名。
+datatype为参数类型。
+return_type是返回值的类型。
+return关键词后跟着要返回的结果。
+一般情况下，一个函数只有一个 return语句。
+返回值的类型需要与函数定义的返回类型(return_type)一致。
+
+14.1 可选参数
+在 TypeScript函数里，如果我们定义了参数，则我们必须传入这些参数，除非将这些参数设置为可选，可选参数使用问号标识 ？
+可选参数必须跟在必需参数后面。
+function buildName(firstName: string, lastName?: string) {
+    if (lastName)
+        return firstName + " " + lastName;
+    else
+        return firstName;
+}
+let result1 = buildName("Bob");  // 正确
+let result2 = buildName("Bob", "Adams", "Sr.");  // 错误，参数太多了
+let result3 = buildName("Bob", "Adams");  // 正确
+
+14.2 默认参数
+可以设置参数的默认值，这样在调用函数的时候，如果不传入该参数的值，则使用默认参数，语法格式为：
+function function_name(param1[:type],param2[:type] = default_value) { 
+}
+注意：参数不能同时设置为可选和默认。
+
+14.3 剩余参数
+有一种情况，我们不知道要向函数传入多少个参数，这时候我们就可以使用剩余参数来定义。
+剩余参数语法允许我们将一个不确定数量的参数作为一个数组传入。
+function buildName(firstName: string, ...restOfName: string[]) {
+    return firstName + " " + restOfName.join(" ");
+}
+let employeeName = buildName("Joseph", "Samuel", "Lucas", "MacKinzie");
+函数的最后一个命名参数 restOfName以 ... 为前缀，它将成为一个由剩余参数组成的数组，
+索引值从0（包括）到 restOfName.length（不包括）。
+
+14.4 匿名函数
+匿名函数是一个没有函数名的函数。
+匿名函数在程序运行时动态声明，除了没有函数名外，其他的与标准函数一样。
+我们可以将匿名函数赋值给一个变量，这种表达式就成为函数表达式。
+var res = function( [arguments] ) { ... }
+匿名函数自调用
+匿名函数自调用在函数后使用 () 即可：
+(function () { 
+    var x = "Hello!!";   
+    console.log(x)     
+ })()
+
+14.5 构造函数
+TypeScript也支持使用JavaScript内置的构造函数Function()来定义函数：
+语法格式如下：
+var res = new Function ([arg1[, arg2[, ...argN]],] functionBody)
+参数说明：
+arg1, arg2, ... argN：参数列表。
+functionBody：一个含有包括函数定义的 JavaScript语句的字符串。
+var myFunction = new Function("a", "b", "return a * b"); 
+var x = myFunction(4, 3); 
+console.log(x);
+
+14.6 Lambda函数（箭头函数）
+Lambda函数也称之为箭头函数。
+箭头函数表达式的语法比函数表达式更短。
+函数只有一行语句：
+( [param1, param2,…param n] ) => statement;
+函数返回两个数的和：
+var foo = (x:number)=>10 + x 
+console.log(foo(100))    // 输出结果为 110
+函数是一个语句块：
+( [param1, param2,…param n] ) => {
+    // 代码块
+}
+var foo = (x:number) => {    
+    x = 10 + x 
+    console.log(x)  
+} 
+foo(100)
+我们可以不指定函数的参数类型，通过函数内来推断参数类型:
+var func = (x) => { 
+    if (typeof x == "number") { 
+        console.log(x + " 是一个数字") 
+    } else if (typeof x == "string") { 
+        console.log(x + " 是一个字符串") 
+    }  
+} 
+func(12) 
+func("Tom")
+单个参数()是可选的：
+var display = x => { 
+    console.log("输出为 "+x) 
+} 
+display(12)
+无参数时可以设置空括号：
+var disp = () => { 
+    console.log("Function invoked"); 
+} 
+disp();
+
+15、Map对象
+Map 对象保存键值对，并且能够记住键的原始插入顺序。
+任何值(对象或者原始值) 都可以作为一个键或一个值。
+Map是ES6中引入的一种新的数据结构
+TypeScript使用Map类型和new关键字来创建 Map：
+let myMap = new Map();
+初始化 Map，可以以数组的格式来传入键值对：
+let myMap = new Map([
+        ["key1", "value1"],
+        ["key2", "value2"]
+    ]); 
+Map 相关的函数与属性：
+map.clear() – 移除 Map 对象的所有键/值对 。
+map.set() – 设置键值对，返回该 Map 对象。
+map.get() – 返回键对应的值，如果不存在，则返回 undefined。
+map.has() – 返回一个布尔值，用于判断 Map 中是否包含键对应的值。
+map.delete() – 删除 Map 中的元素，删除成功返回 true，失败返回 false。
+map.size – 返回 Map 对象键/值对的数量。
+map.keys() - 返回一个 Iterator 对象， 包含了 Map 对象中每个元素的键 。
+map.values() – 返回一个新的Iterator对象，包含了Map对象中每个元素的值 。
+map.entries() – 返回一个包含 Map 中所有键值对的迭代器 。
+
+16、元组
+我们知道数组中元素的数据类型都一般是相同的（any[] 类型的数组可以不同），如果存储的元素数据类型不同，则需要使用元组。
+TypeScript 中的元组（Tuple）是一种特殊类型的数组，它允许在数组中存储不同类型的元素，与普通数组不同，元组中的每个元素都有明确的类型和位置。
+元组可以在很多场景下用于表示固定长度、且各元素类型已知的数据结构。
+创建元组的语法格式如下：
+let tuple: [类型1, 类型2, 类型3, ...];
+let mytuple: [number, string];
+mytuple = [42,"Runoob"];
+在上面的例子中，mytuple是一个元组，它包含一个 number 类型和一个 string 类型的元素。
+
+16.1 访问元组
+元组中元素使用索引来访问，第一个元素的索引值为0，第二个为1，以此类推第 n个为 n-1，语法格式如下:
+tuple_name[index]
+
+16.2 元组运算
+push() 向元组添加元素，添加在最后面。
+pop() 从元组中移除元素（最后一个），并返回移除的元素。
+push方法可以向元组的末尾添加一个元素，类型必须符合元组定义中的类型约束。如果超出元组的类型约束，TypeScript会报错。
+
+16.3 更新元组
+元组是可变的，这意味着我们可以对元组进行更新操作：
+var mytuple = [42, "Runoob", "Taobao", "Google"]; // 创建一个元组
+console.log("元组的第一个元素为：" + mytuple[0]) 
+// 更新元组元素
+mytuple[0] = 121     
+console.log("元组中的第一个元素更新为："+ mytuple[0])
+
+16.4 解构元组
+我们也可以把元组元素赋值给变量，如下所示：
+let a: [number, string, boolean] = [42, "Hello", true];// 创建一个元组
+var [b,c] = a 
+console.log( b )    // 42
+console.log( c )    // Hello
+
+16.5 使用标签元组
+TypeScript还允许为元组中的每个元素添加标签，这使得元组的含义更加清晰：
+let tuple: [id: number, name: string] = [1, "John"];
+在这个例子中，id 和 name 是元组的标签，可以让代码更加可读。
+
+16.6 元组的实际应用
+元组常用于函数返回多个值的场景，或者表示某些固定结构的数据，比如：
+function getUserInfo(): [number, string] {
+    return [1, "John Doe"];
+}
+const [userId, userName] = getUserInfo();
+console.log(userId);   // 输出: 1
+console.log(userName); // 输出: John Doe
+
+16.7 连接元组
+元组可以使用数组的 concat 方法进行连接，但需要注意连接后的结果是一个普通的数组，而不是元组。
+let tuple1: [number, string] = [42, "Hello"];
+let tuple2: [boolean, number] = [true, 100];
+let result = tuple1.concat(tuple2); // 结果是一个数组: [42, "Hello", true, 100]
+console.log(result); // 输出: [42, "Hello", true, 100]
+
+16.8 切片元组
+你可以使用数组的slice方法对元组进行切片操作，返回一个新的数组。
+let tuple: [number, string, boolean] = [42, "Hello", true];
+let sliced = tuple.slice(1); // 从索引 1 开始切片
+console.log(sliced); // 输出: ["Hello", true]
+
+16.9 遍历元组
+你可以使用 for...of 循环或者 forEach 方法遍历元组中的元素。
+let tuple: [number, string, boolean] = [42, "Hello", true];
+// 使用 for...of 循环
+for (let item of tuple) {
+    console.log(item);
+}
+// 使用 forEach 方法
+tuple.forEach(item => console.log(item));
+
+16.10 转换为普通数组
+虽然元组是一个固定长度、固定类型的数组，但可以通过 Array.prototype 的方法将其转换为普通数组进行进一步处理。
+let tuple: [number, string, boolean] = [42, "Hello", true];
+// 转换为数组并使用数组方法
+let array = Array.from(tuple);
+array.push("New Element");
+console.log(array); // 输出: [42, "Hello", true, "New Element"]
+
+16.11 扩展元组
+使用剩余运算符可以轻松地将多个元组合并成一个新的元组：
+let tuple1: [number, string] = [42, "Hello"];
+let tuple2: [boolean] = [true];
+let extendedTuple: [number, string, ...typeof tuple2] = [42, "Hello", ...tuple2];
+console.log(extendedTuple); // 输出: [42, "Hello", true]
+
+17、Array(数组)
+声明数组的语法格式如下所示：
+var array_name[:datatype];        //声明 
+array_name = [val1,val2,valn..]   //初始化
+或者直接在声明时初始化：
+var array_name[:datatype] = [val1,val2…valn]
+如果数组声明时未设置类型，则会被认为是 any 类型，在初始化时根据第一个元素的类型来推断数组的类型。
+创建一个 number 类型的数组：
+var numlist:number[] = [2,4,6,8]
+Array 对象
+我们也可以使用Array对象创建数组。
+Array 对象的构造函数接受以下两种值：
+表示数组大小的数值。
+初始化的数组列表，元素使用逗号分隔值。
+指定数组初始化大小：
+var arr_names:number[] = new Array(4)  
+for(var i = 0; i<arr_names.length; i++) { 
+        arr_names[i] = i * 2 
+        console.log(arr_names[i]) 
+}
+以下实例我们直接初始化数组元素：
+var sites:string[] = new Array("Google","Runoob","Taobao","Facebook") 
+for(var i = 0;i<sites.length;i++) { 
+        console.log(sites[i]) 
+}
+
+18、联合类型
+联合类型（Union Types）可以通过管道(|)将变量设置多种类型，赋值时可以根据设置的类型来赋值。
+注意：只能赋值指定的类型，如果赋值其它类型就会报错。
+创建联合类型的语法格式如下：
+Type1|Type2|Type3
+function disp(name:string|string[]) { 
+        if(typeof name == "string") { 
+                console.log(name) 
+        } else { 
+                var i; 
+                for(i = 0;i<name.length;i++) { 
+                    console.log(name[i])
+                } 
+        } 
+}
+
+19、接口
+接口是一系列抽象方法的声明，是一些方法特征的集合，这些方法都应该是抽象的，需要由具体的类去实现，然后第三方就可以通过这组抽象方法调用，让具体的类执行具体的方法。
+TypeScript接口定义如下：
+interface interface_name { 
+}
+interface IPerson { 
+    firstName:string, 
+    lastName:string, 
+    sayHi: ()=>string 
+} 
+var customer:IPerson = { 
+    firstName:"Tom",
+    lastName:"Hanks", 
+    sayHi: ():string =>{return "Hi there"} 
+} 
+console.log("Customer 对象 ") 
+console.log(customer.firstName) 
+console.log(customer.lastName) 
+console.log(customer.sayHi())
+
+19.1 联合类型和接口
+interface RunOptions { 
+    program:string; 
+    commandline:string[]|string|(()=>string); 
+} 
+// commandline 是字符串
+var options:RunOptions = {program:"test1",commandline:"Hello"}; 
+console.log(options.commandline)  
+// commandline 是字符串数组
+options = {program:"test1",commandline:["Hello","World"]}; 
+console.log(options.commandline[0]); 
+console.log(options.commandline[1]);  
+// commandline 是一个函数表达式
+options = {program:"test1",commandline:()=>{return "**Hello World**";}}; 
+var fn:any = options.commandline; 
+console.log(fn());
+
+19.2 接口和数组
+接口中我们可以将数组的索引值和元素设置为不同类型，索引值可以是数字或字符串。
+设置元素为字符串类型：
+interface namelist { 
+   [index:number]:string 
+} 
+// 类型一致，正确
+var list2:namelist = ["Google","Runoob","Taobao"]
+// 错误元素 1 不是 string 类型
+// var list2:namelist = ["Runoob",1,"Taobao"]
+interface ages { 
+   [index:string]:number 
+} 
+var agelist:ages; 
+ // 类型正确 
+agelist["runoob"] = 15  
+// 类型错误，输出  error TS2322: Type '"google"' is not assignable to type 'number'.
+// agelist[2] = "google"
+
+19.3 接口继承
+接口继承就是说接口可以通过其他接口来扩展自己。
+Typescript 允许接口继承多个接口。
+继承使用关键字 extends。
+单接口继承语法格式：
+Child_interface_name extends super_interface_name
+多接口继承语法格式：
+Child_interface_name extends super_interface1_name, super_interface2_name,…,super_interfaceN_name
+继承的各个接口使用逗号 , 分隔。
+
+20、类
+TypeScript是面向对象的JavaScript。
+类描述了所创建的对象共同的属性和方法。
+TypeScript支持面向对象的所有特性，比如 类、接口等。
+TypeScript 类定义方式如下：
+class class_name { 
+    // 类作用域
+}
+定义类的关键字为 class，后面紧跟类名，类可以包含以下几个模块（类的数据成员）：
+字段 − 字段是类里面声明的变量。字段表示对象的有关数据。
+构造函数 − 类实例化时调用，可以为类的对象分配内存。
+方法 − 方法为对象要执行的操作。
+class Car { 
+    // 字段 
+    engine:string; 
+    // 构造函数 
+    constructor(engine:string) { 
+        this.engine = engine 
+    }  
+    // 方法 
+    disp():void { 
+        console.log("发动机为 :   "+this.engine) 
+    } 
+}
+创建实例化对象
+我们使用 new 关键字来实例化类的对象，语法格式如下：
+var object_name = new class_name([ arguments ])
+类实例化时会调用构造函数，例如：
+var obj = new Car("Engine 1")
+类中的字段属性和方法可以使用 . 号来访问：
+// 访问属性
+obj.field_name 
+// 访问方法
+obj.function_name()
+
+20.1 类的继承
+TypeScript支持继承类，即我们可以在创建类的时候继承一个已存在的类，这个已存在的类称为父类，继承它的类称为子类。
+类继承使用关键字 extends，子类除了不能继承父类的私有成员(方法和属性)和构造函数，其他的都可以继承。
+TypeScript 一次只能继承一个类，不支持继承多个类，但 TypeScript支持多重继承（A 继承 B，B 继承 C）。
+语法格式如下：
+class child_class_name extends parent_class_name
+class Shape { 
+   Area:number 
+   constructor(a:number) { 
+      this.Area = a 
+   } 
+} 
+class Circle extends Shape { 
+   disp():void { 
+      console.log("圆的面积:  "+this.Area) 
+   } 
+}
+var obj = new Circle(223); 
+obj.disp()
+
+20.2 继承类的方法重写
+类继承后，子类可以对父类的方法重新定义，这个过程称之为方法的重写。
+其中 super 关键字是对父类的直接引用，该关键字可以引用父类的属性和方法。
+class PrinterClass { 
+   doPrint():void {
+      console.log("父类的 doPrint() 方法。") 
+   } 
+} 
+class StringPrinter extends PrinterClass { 
+   doPrint():void { 
+      super.doPrint() // 调用父类的函数
+      console.log("子类的 doPrint()方法。")
+   } 
+}
+
+20.3 static关键字
+static 关键字用于定义类的数据成员（属性和方法）为静态的，静态成员可以直接通过类名调用。
+class StaticMem {  
+   static num:number; 
+   static disp():void { 
+      console.log("num 值为 "+ StaticMem.num) 
+   } 
+} 
+StaticMem.num = 12     // 初始化静态变量
+StaticMem.disp()       // 调用静态方法
+
+20.4 instanceof 运算符
+instanceof运算符用于判断对象是否是指定的类型，如果是返回 true，否则返回 false。
+class Person{ } 
+var obj = new Person() 
+var isPerson = obj instanceof Person; 
+console.log("obj 对象是 Person 类实例化来的吗？ " + isPerson);
+
+20.5 访问控制修饰符
+TypeScript中，可以使用访问控制符来保护对类、变量、方法和构造方法的访问。TypeScript支持 3 种不同的访问权限。
+public（默认） : 公有，可以在任何地方被访问。
+protected : 受保护，可以被其自身以及其子类访问。
+private : 私有，只能被其定义所在的类访问。
+以下实例定义了两个变量 str1 和 str2，str1 为 public，str2 为 private，实例化后可以访问 str1，如果要访问 str2 则会编译错误。
+class Encapsulate { 
+   str1:string = "hello" 
+   private str2:string = "world" 
+}
+var obj = new Encapsulate() 
+console.log(obj.str1)   // 可访问 
+console.log(obj.str2)   // 编译错误， str2 是私有的
+
+20.6 类和接口
+类可以实现接口，使用关键字 implements，并将 interest 字段作为类的属性使用。
+以下实例中 AgriLoan 类实现了 ILoan 接口：
+interface ILoan { 
+   interest:number 
+} 
+class AgriLoan implements ILoan { 
+   interest:number 
+   rebate:number 
+   constructor(interest:number,rebate:number) { 
+      this.interest = interest 
+      this.rebate = rebate 
+   } 
+} 
+var obj = new AgriLoan(10,1) 
+console.log("利润为: " + obj1.interest + "，抽成为: " + obj1.rebate)
+
+21、对象
+对象是包含一组键值对的实例。 值可以是标量、函数、数组、对象等，如下实例：
+var object_name = { 
+    key1: "value1", // 标量
+    key2: "value",  
+    key3: function() {
+        // 函数
+    }, 
+    key4:["content1", "content2"] //集合
+}
+以上对象包含了标量，函数，集合(数组或元组)。
+对象实例
+var sites = { 
+   site1:"Runoob", 
+   site2:"Google" 
+}; 
+// 访问对象的值
+console.log(sites.site1) 
+console.log(sites.site2)
+
+21.1 类型模板
+假如我们在 JavaScript 定义了一个对象：
+var sites = { 
+   site1:"Runoob", 
+   site2:"Google" 
+};
+这时如果我们想在对象中添加方法，可以做以下修改：
+sites.sayHello = function(){ return "hello";}
+如果在 TypeScript中使用以上方式则会出现编译错误，因为Typescript中的对象必须是特定类型的实例。
+var sites = {
+    site1: "Runoob",
+    site2: "Google",
+    sayHello: function () { } // 类型模板
+};
+sites.sayHello = function () {
+    console.log("hello " + sites.site1);
+};
+sites.sayHello();
+此外对象也可以作为一个参数传递给函数，如下实例：
+var sites = { 
+    site1:"Runoob", 
+    site2:"Google",
+}; 
+var invokesites = function(obj: { site1:string, site2 :string }) { 
+    console.log("site1 :"+obj.site1) 
+    console.log("site2 :"+obj.site2) 
+} 
+invokesites(sites)
+
+22、泛型
+泛型（Generics）是一种编程语言特性，允许在定义函数、类、接口等时使用占位符来表示类型，而不是具体的类型。
+泛型是一种在编写可重用、灵活且类型安全的代码时非常有用的功能。
+使用泛型的主要目的是为了处理不特定类型的数据，使得代码可以适用于多种数据类型而不失去类型检查。
+泛型的优势包括：
+代码重用： 可以编写与特定类型无关的通用代码，提高代码的复用性。
+类型安全： 在编译时进行类型检查，避免在运行时出现类型错误。
+抽象性： 允许编写更抽象和通用的代码，适应不同的数据类型和数据结构。
+泛型标识符
+在泛型中，通常使用一些约定俗成的标识符，比如常见的 T（表示 Type）、U、V 等，但实际上你可以使用任何标识符。
+T: 代表 "Type"，是最常见的泛型类型参数名。
+function identity<T>(arg: T): T {
+    return arg;
+}
+K, V: 用于表示键（Key）和值（Value）的泛型类型参数。
+interface KeyValuePair<K, V> {
+    key: K;
+    value: V;
+}
+E: 用于表示数组元素的泛型类型参数。
+function printArray<E>(arr: E[]): void {
+    arr.forEach(item => console.log(item));
+}
+R: 用于表示函数返回值的泛型类型参数。
+function getResult<R>(value: R): R {
+    return value;
+}
+U, V: 通常用于表示第二、第三个泛型类型参数。
+function combine<U, V>(first: U, second: V): string {
+    return `${first} ${second}`;
+}
+这些标识符是约定俗成的，实际上你可以选择任何符合标识符规范的名称。
+关键是使得代码易读和易于理解，所以建议在泛型类型参数上使用描述性的名称，以便于理解其用途。
+
+22.1 泛型约束（Generic Constraints）
+有时候你想限制泛型的类型范围，可以使用泛型约束：
+// 基本语法
+interface Lengthwise {
+    length: number;
+}
+function logLength<T extends Lengthwise>(arg: T): void {
+    console.log(arg.length);
+}
+// 正确的使用
+logLength("hello"); // 输出: 5
+// 错误的使用，因为数字没有 length 属性
+logLength(42); // 错误
+解析： 在这个例子中，定义了一个泛型函数 logLength，它接受一个类型为 T 的参数，但有一个约束条件，
+即 T 必须实现 Lengthwise 接口，该接口要求有 length 属性。因此，可以正确调用 logLength("hello")，
+但不能调用 logLength(42)，因为数字没有 length 属性。
+
+22.2 泛型与默认值
+可以给泛型设置默认值，使得在不指定类型参数时能够使用默认类型：
+// 基本语法
+function defaultValue<T = string>(arg: T): T {
+    return arg;
+}
+// 使用带默认值的泛型函数
+let result1 = defaultValue("hello"); // 推断为 string 类型
+let result2 = defaultValue(42);      // 推断为 number 类型
+说明： 这个例子展示了带有默认值的泛型函数。函数 defaultValue 接受一个泛型参数 T，并给它设置了默认类型为 string。在使用时，如果没有显式指定类型，会使用默认类型。在例子中，第一个调用中 result1 推断为 string 类型，第二个调用中 result2 推断为 number 类型。
+
+23、命名空间
+命名空间一个最明确的目的就是解决重名问题。
+命名空间定义了标识符的可见范围，一个标识符可在多个命名空间中定义，它在不同命名空间中的含义是互不相干的。
+这样，在一个新的命名空间中可定义任何标识符，它们不会与任何已有的标识符发生冲突，因为已有的定义都处于其他命名空间中。
+TypeScript中命名空间使用 namespace来定义，语法格式如下：
+namespace SomeNameSpaceName { 
+   export interface ISomeInterfaceName {      }  
+   export class SomeClassName {      }  
+}
+以上定义了一个命名空间 SomeNameSpaceName，如果我们需要在外部可以调用SomeNameSpaceName中的类和接口，则需要在类和接口添加export关键字。
+要在另外一个命名空间调用语法格式为：
+SomeNameSpaceName.SomeClassName;
+如果一个命名空间在一个单独的 TypeScript文件中，则应使用三斜杠///引用它，语法格式如下：
+/// <reference path = "SomeFileName.ts" />
+以下实例演示了命名空间的使用，定义在不同文件中：
+IShape.ts 文件代码：
+namespace Drawing { 
+    export interface IShape { 
+        draw(); 
+    }
+}
+Circle.ts 文件代码：
+/// <reference path = "IShape.ts" /> 
+namespace Drawing { 
+    export class Circle implements IShape { 
+        public draw() { 
+            console.log("Circle is drawn"); 
+        }  
+    }
+}
+Triangle.ts 文件代码：
+/// <reference path = "IShape.ts" /> 
+namespace Drawing { 
+    export class Triangle implements IShape { 
+        public draw() { 
+            console.log("Triangle is drawn"); 
+        } 
+    } 
+}
+TestShape.ts 文件代码：
+/// <reference path = "IShape.ts" />   
+/// <reference path = "Circle.ts" /> 
+/// <reference path = "Triangle.ts" />  
+function drawAllShapes(shape:Drawing.IShape) { 
+    shape.draw(); 
+} 
+drawAllShapes(new Drawing.Circle());
+drawAllShapes(new Drawing.Triangle());
+
+24、模块
+TypeScript模块的设计理念是可以更换的组织代码。
+模块是在其自身的作用域里执行，并不是在全局作用域，这意味着定义在模块里面的变量、函数和类等在模块外部是不可见的，除非明确地使用 export 导出它们。
+类似地，我们必须通过 import 导入其他模块导出的变量、函数、类等。
+两个模块之间的关系是通过在文件级别上使用 import 和 export 建立的。
+模块使用模块加载器去导入其它的模块。 在运行时，模块加载器的作用是在执行此模块代码前去查找并执行这个模块的所有依赖。 
+大家最熟知的JavaScript模块加载器是服务于 Node.js 的 CommonJS 和服务于 Web 应用的 Require.js。
+此外还有有 SystemJs 和 Webpack。
+模块导出使用关键字export关键字，语法格式如下：
+// 文件名 : SomeInterface.ts 
+export interface SomeInterface { 
+   // 代码部分
+}
+要在另外一个文件使用该模块就需要使用 import 关键字来导入:
+import someInterfaceRef = require("./SomeInterface");
+IShape.ts 文件代码：
+/// <reference path = "IShape.ts" /> 
+export interface IShape { 
+   draw(); 
+}
+Circle.ts 文件代码：
+import shape = require("./IShape"); 
+export class Circle implements shape.IShape { 
+   public draw() { 
+      console.log("Cirlce is drawn (external module)"); 
+   } 
+}
+Triangle.ts 文件代码：
+import shape = require("./IShape"); 
+export class Triangle implements shape.IShape { 
+   public draw() { 
+      console.log("Triangle is drawn (external module)"); 
+   } 
+}
+TestShape.ts 文件代码：
+import shape = require("./IShape"); 
+import circle = require("./Circle"); 
+import triangle = require("./Triangle");  
+function drawAllShapes(shapeToDraw: shape.IShape) {
+   shapeToDraw.draw(); 
+}
+drawAllShapes(new circle.Circle()); 
+drawAllShapes(new triangle.Triangle());
+
+25、声明文件
+TypeScript 作为 JavaScript 的超集，在开发过程中不可避免要引用其他第三方的 JavaScript 的库。虽然通过直接引用可以调用库的类和方法，
+但是却无法使用TypeScript 诸如类型检查等特性功能。为了解决这个问题，需要将这些库里的函数和方法体去掉后只保留导出类型声明，
+而产生了一个描述 JavaScript 库和模块信息的声明文件。通过引用这个声明文件，就可以借用 TypeScript 的各种特性来使用库文件了。
+假如我们想使用第三方库，比如 jQuery，我们通常这样获取一个 id 是 foo 的元素：
+$('#foo');
+// 或
+jQuery('#foo');
+但是在 TypeScript 中，我们并不知道 $ 或 jQuery 是什么东西：
+jQuery('#foo');
+// index.ts(1,1): error TS2304: Cannot find name 'jQuery'.
+这时，我们需要使用 declare 关键字来定义它的类型，帮助 TypeScript 判断我们传入的参数类型对不对：
+declare var jQuery: (selector: string) => any;
+jQuery('#foo');
+declare 定义的类型只会用于编译时的检查，编译结果中会被删除。
+上例的编译结果是：
+jQuery('#foo');
+声明文件以 .d.ts 为后缀，例如：
+runoob.d.ts
+声明文件或模块的语法格式如下：
+declare module Module_Name {
+}
+TypeScript 引入声明文件语法格式：
+/// <reference path = " runoob.d.ts" />
+当然，很多流行的第三方库的声明文件不需要我们定义了，比如 jQuery 已经有人帮我们定义好了：jQuery in DefinitelyTyped。
+以下定义一个第三方库来演示：
+CalcThirdPartyJsLib.js 文件代码：
+var Runoob;  
+(function(Runoob) {
+    var Calc = (function () { 
+        function Calc() { 
+        } 
+    })
+    Calc.prototype.doSum = function (limit) {
+        var sum = 0; 
+ 
+        for (var i = 0; i <= limit; i++) { 
+            sum = sum + i; 
+        }
+        return sum; 
+    }
+    Runoob.Calc = Calc; 
+    return Calc; 
+})(Runoob || (Runoob = {})); 
+var test = new Runoob.Calc();
+如果我们想在 TypeScript 中引用上面的代码，则需要设置声明文件 Calc.d.ts，代码如下：
+Calc.d.ts 文件代码：
+declare module Runoob { 
+   export class Calc { 
+      doSum(limit:number) : number; 
+   }
+}
+声明文件不包含实现，它只是类型声明，把声明文件加入到 TypeScript 中：
+CalcTest.ts 文件代码：
+/// <reference path = "Calc.d.ts" /> 
+var obj = new Runoob.Calc(); 
+// obj.doSum("Hello"); // 编译错误
+console.log(obj.doSum(10));
+下面这行导致编译错误，因为我们需要传入数字参数：
+obj.doSum("Hello");
+使用 tsc 命令来编译以上代码文件：
+tsc CalcTest.ts
+生成的 JavaScript 代码如下：
+CalcTest.js 文件代码：
+/// <reference path = "Calc.d.ts" /> 
+var obj = new Runoob.Calc();
+//obj.doSum("Hello"); // 编译错误
+console.log(obj.doSum(10));
+最后我们编写一个 runoob.html 文件，引入 CalcTest.js 文件及第三方库 CalcThirdPartyJsLib.js：
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+<script src = "CalcThirdPartyJsLib.js"></script> 
+<script src = "CalcTest.js"></script> 
+</head>
+<body>
+    <h1>声明文件测试</h1>
+    <p>菜鸟测试一下。</p>
+</body>
+</html>

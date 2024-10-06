@@ -1,0 +1,44 @@
+1.安装vundle
+https://github.com/VundleVim/Vundle.vim
+:BundleList           列举列表（也就是.vimrc）中配置的所有插件
+:BundleInstall        安装列表中的全部插件
+:BundleInstall!       更新列表中的全部插件
+:BundleSearch foo     查找foo插件
+:BundleSearch! foo    刷新foo插件缓存
+:BundleClean          清除列表中没有的插件
+:BundleClean!         清除列表中没有的插件
+
+2.安装gvim
+sudo apt install vim-gtk3
+
+3.ctags使用
+$ cd <source_code_dir>
+$ ctags -R .
+指定要处理的语言
+$ ctags -R --languages=python
+排除特定文件或目录
+$ ctags -R --exclude=.git --exclude=build
+指定生成的标签文件名
+$ ctags -R -f mytags
+
+在.vimrc中增加如下行
+set tags=tags; "分号不能省略"
+
+在利用vim打开一个文件时，将光标移动到需要查询定义的字符串中：
+a. “g” + “]” – 跳转至定义；
+b. “ctrl” + “t” – 返回到上一次跳转的位置；
+Ctrl-]            Jump to the tag undemeath the cursor
+:ts <tag> <RET>   Search for a particular tag
+:tn               Go to the next definition for the last tag
+:tp               Go to the previous definition for the last tag
+:ts               List all of the definitions of the last tag
+Ctrl-t            Jump back up in the tag stack
+在shell命令下输入：vim -t <string_name> ，可直接打开string_name的定义所在的文件。
+在 Vim中，打开代码文件后，可以使用 :tag <tagname> 命令跳转到标签位置。例如： vim命令行模式 :tag main
+
+4.taglist插件
+打开关闭
+:TlistOpen/TlistClose
+添加到自己大taglist
+:TlistAddFiles /my/project/dir/*.c
+:TlistAddFilesRecursive /my/project/dir *.c

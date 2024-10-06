@@ -183,3 +183,17 @@ enum和 set
 enum: 用来存储给出的一个值
 set: 用来存储给出的值中一个或多个值
 
+时间类型
+date        日期值，格式：YYYY-MM-DD
+time        时间值或持续时间，格式：HH:MM:SS
+year        年份值，格式：YYYY
+datetime    混合日期和时间值，格式：YYYY-MM-DD HH:MM:SS
+timestamp   混合日期和时间值，时间戳，格式：YYYY-MM-DD HH:MM:SS
+
+19、mysqlsh使用
+连接数据库
+方式一：mysqlsh --user root --host localhost --port 3306
+方式二：\connect root@localhost:3306
+方式三：shell.connect({'user':'root', 'host':'localhost', 'port':3306})
+
+
