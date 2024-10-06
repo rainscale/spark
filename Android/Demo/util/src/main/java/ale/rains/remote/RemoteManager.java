@@ -269,9 +269,9 @@ public class RemoteManager {
             Logger.e("service " + mRemotePackageName + "disconnected");
             mService = null;
 
-            // 1-通过广播拉活另一个进程。
+            // 1.通过广播拉活另一个进程。
             sendWakupBroadcast();
-            // 2-通过绑定服务拉活另一个进程。
+            // 2.通过绑定服务拉活另一个进程。
             onBindService();
 
             // 服务连接断开状态回调

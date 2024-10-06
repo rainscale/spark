@@ -4,6 +4,7 @@ import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 
+import ale.rains.adb.cmd.AdbChecker;
 import ale.rains.remote.RemoteManager;
 import ale.rains.toast.Toaster;
 import ale.rains.toast.style.WhiteToastStyle;
@@ -37,6 +38,15 @@ public class MyApplication extends Application {
         Toaster.init(this, new WhiteToastStyle());
         createNotificationChannel();
         Logger.d("onCreate");
+
+        AdbChecker adbChecker = new AdbChecker();
+        adbChecker.addAction(new AdbChecker.Action() {
+            @Override
+            public void action() {
+                Logger.i("adbd connected");
+            }
+        });
+        adbChecker.check();
     }
 
     public void initCommunication() {

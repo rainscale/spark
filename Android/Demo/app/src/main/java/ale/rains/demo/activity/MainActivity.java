@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -18,6 +20,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
 import ale.rains.demo.HelloService;
+import ale.rains.demo.R;
 import ale.rains.demo.databinding.ActivityMainBinding;
 import ale.rains.demo.model.EventMessage;
 import ale.rains.demo.permission.PermissionTestActivity;
@@ -26,8 +29,11 @@ import ale.rains.demo.utils.Utils;
 import ale.rains.demo.view.FloatView;
 import ale.rains.lz4.LZ4JNI;
 import ale.rains.permission.FloatWindowManager;
+import ale.rains.toast.Toaster;
+import ale.rains.util.AdbUtils;
 import ale.rains.util.Logger;
 import ale.rains.util.ShellUtils;
+import ale.rains.util.StringUtils;
 
 public class MainActivity extends AppCompatActivity {
     // 渠道名
@@ -82,6 +88,21 @@ public class MainActivity extends AppCompatActivity {
         Logger.d("stopForegroundService");
         Intent intent = new Intent(this, HelloService.class);
         stopService(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_reset) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -175,6 +196,24 @@ public class MainActivity extends AppCompatActivity {
             EventBus.getDefault().post("msg1 coming...");
             EventMessage event = new EventMessage(1000, "msg2 coming...");
             EventBus.getDefault().post(event);
+        });
+
+        binding.btnAdbcmd.setOnClickListener((v)-> {
+            String cmd = binding.etCmd.getText().toString().trim();
+            if (StringUtils.isBlank(cmd)) {
+                Toaster.show("Please input command!");
+                return;
+            }
+            String result = AdbUtils.execCommandReturnResult(cmd);
+            Logger.i("adb cmd result:\n" + result);
+        });
+
+        binding.btnShellcmd.setOnClickListener((v)-> {
+            String cmd = binding.etCmd.getText().toString().trim();
+            if (StringUtils.isBlank(cmd)) {
+                Toaster.show("Please input command!");
+                return;
+            }
         });
     }
 

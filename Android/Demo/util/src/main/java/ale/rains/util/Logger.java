@@ -148,7 +148,7 @@ public class Logger {
         @Override
         public Thread newThread(Runnable r) {
             Thread thread = new Thread(r);
-            thread.setName(String.format("%s#%d", "LoggerThread", thread.getId()));
+            thread.setName(String.format("%s#%d", "Logger", thread.getId()));
             return thread;
         }
     }
@@ -262,10 +262,11 @@ public class Logger {
      */
     private static void saveLog(String log) {
         int currentPid = Process.myPid();
-        long currentThreadId = Thread.currentThread().getId();
+        // long currentThreadId = Thread.currentThread().getId();
+        long currentThreadId = Process.myTid();
 
         String msg = TimeUtils.getDateTimeStringByFormat(TimeUtils.
-                DateTimePattern.LONG_TIME_TYPE) + " " + currentPid + "-" + currentThreadId + " #" + log + FILE_NEWLINE;
+                DateTimePattern.DEFAULT_TIME_TYPE) + " " + currentPid + "-" + currentThreadId + " " + log + FILE_NEWLINE;
 
         if (sLogExecutor == null) {
             initLogExecutor();
@@ -434,6 +435,24 @@ public class Logger {
         }
     }
 
+    private static String getLevelText(int level) {
+        switch (level) {
+            case Log.VERBOSE:
+                return "V";
+            case Log.DEBUG:
+                return "D";
+            case Log.INFO:
+                return "I";
+            case Log.WARN:
+                return "W";
+            case Log.ERROR:
+                return "E";
+            case Log.ASSERT:
+                return "A";
+        }
+        return "N";
+    }
+
     /**
      * 日志文件打印和保存
      * isSave-保存到指定文件
@@ -453,9 +472,9 @@ public class Logger {
                 .split(FILE_SPLIT_SEPARATOR);
         String methodName = Thread.currentThread().getStackTrace()[index].getMethodName();
         String className = clazzNames[clazzNames.length - 1];
-        String msg = "@" + className + "#" + methodName + ":" + log;
+        String msg = className + "@" + methodName + ": " + log;
         if (isSave) {
-            saveLog((tag + msg));
+            saveLog(tag + " " + getLevelText(level) + " " + msg);
         }
         if (!isPrint) {
             return;
@@ -478,8 +497,6 @@ public class Logger {
                 Log.w(tag, msg);
                 break;
             case Log.ERROR:
-                Log.e(tag, msg);
-                break;
             case Log.ASSERT:
                 Log.e(tag, msg);
                 break;
