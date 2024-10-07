@@ -137,7 +137,7 @@ final class PermissionIntentManager {
     }
 
     /**
-     * 获取 vivo 悬浮窗权限设置意图
+     * 获取vivo悬浮窗权限设置意图
      */
     @Nullable
     static Intent getOriginOsWindowPermissionPageIntent(Context context) {

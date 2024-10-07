@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Arrays;
 import java.util.List;
 
+import ale.rains.permissions.PermissionUtils;
+import ale.rains.processors.logcat.LogcatProcessors;
 import ale.rains.remote.RemoteConstants;
 import ale.rains.remote.RemoteManager;
 import ale.rains.remote.IMessageCallback;
@@ -28,7 +30,8 @@ import ale.rains.util.ThreadManager;
 public class MainActivity extends AppCompatActivity {
     private EditText mCommandEt;
     private EditText mMessageEt;
-    private Button mLogCatchBt;
+    private Button mLogcatchBt;
+    private boolean isCatchLog = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mCommandEt = findViewById(R.id.et_command);
         mMessageEt = findViewById(R.id.et_message);
-        mLogCatchBt = findViewById(R.id.bt_log_catch);
+        mLogcatchBt = findViewById(R.id.bt_log_catch);
         ((TextView) findViewById(R.id.tv_version)).setText("当前版本:" + BuildConfig.VERSION_NAME + ", pid:" + AppUtils.getPidByPackageName(getPackageName()));
         requestPermissions();
         RemoteManager.getInstance().registerRemoteMessageCallback(new IMessageCallback() {
@@ -67,8 +70,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_reset) {
+            ShellUtils.run("pm clear " + AppContext.getContext().getPackageName());
             return true;
         } else if (id == R.id.action_exit) {
+            ShellUtils.run("am force-stop " + AppContext.getContext().getPackageName());
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -96,6 +101,9 @@ public class MainActivity extends AppCompatActivity {
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.RECORD_AUDIO);
+        PermissionUtils.requestPermissions(getApplicationContext(), permissionList, (result, reason) -> {
+            Toast.makeText(getApplicationContext(), "onPermissionResult: result = " + result, Toast.LENGTH_SHORT).show();
+        });
     }
 
     public void applyPermission(View view) {
@@ -131,26 +139,17 @@ public class MainActivity extends AppCompatActivity {
             msg = "test";
         }
         Logger.d("msg: " + msg);
-        /*
-        String finalMsg = msg;
-        MessageAgentContext.getInstance().sendMessage(msg, true, new OPCResultCallback() {
-            @Override
-            public void onSuccess() {
-                Logger.d(finalMsg);
-                Toast.makeText(MainActivity.this, finalMsg + "发送成功", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFail(String msg) {
-                Logger.i(msg);
-                Toast.makeText(MainActivity.this, finalMsg + "发送失败:" + msg, Toast.LENGTH_SHORT).show();
-            }
-        });
-         */
     }
 
     public void catchLog(View view) {
-
+        isCatchLog = !isCatchLog;
+        mLogcatchBt.setText("抓取日志-" + (isCatchLog ? "关" : "开"));
+        if (isCatchLog) {
+            LogcatProcessors.getInstance().setLogPath("/sdcard/Download/logcat.txt");
+            LogcatProcessors.getInstance().start();
+        } else {
+            LogcatProcessors.getInstance().stop();
+        }
     }
 
     public void testCommunication(View view) {

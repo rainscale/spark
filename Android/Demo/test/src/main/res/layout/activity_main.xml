@@ -53,7 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="catchLog"
-        android:text="抓取日志" />
+        android:text="抓取日志-开" />
 
     <Button
         android:layout_width="match_parent"

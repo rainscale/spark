@@ -422,12 +422,6 @@ public class FileUtils {
                 list.add(line);
             }
             return list;
-        } catch (FileNotFoundException e) {
-            Logger.e(e);
-            return null;
-        } catch (UnsupportedEncodingException e) {
-            Logger.e(e);
-            return null;
         } catch (IOException e) {
             Logger.e(e);
             return null;

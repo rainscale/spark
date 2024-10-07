@@ -27,7 +27,7 @@ public class ThreadManager {
         @Override
         public Thread newThread(Runnable r) {
             Thread t = new Thread(r);
-            t.setName(String.format("%s#%d", "CustomThread", t.getId()));
+            t.setName(String.format("%s#%d", "Custom", t.getId()));
             return t;
         }
     }

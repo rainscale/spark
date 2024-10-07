@@ -1,6 +1,7 @@
 package ale.rains.test;
 
 import android.app.Application;
+import android.os.Environment;
 
 import ale.rains.remote.RemoteManager;
 import ale.rains.util.AppContext;
@@ -25,6 +26,20 @@ public class MainApp extends Application {
         Logger.i("publicSourceDir: " + AppContext.getContext().getApplicationInfo().publicSourceDir);
         // nativeLibraryDir: /data/app/~~XkGa9g37ne_i8zBCTDYNnw==/ale.rains.test-9iiSSpkX9JUgFDzjePKing==/lib/arm64
         Logger.i("nativeLibraryDir: " + AppContext.getContext().getApplicationInfo().nativeLibraryDir);
+        // getCacheDir(): /data/user/0/ale.rains.test/cache
+        Logger.i("getCacheDir(): " + AppContext.getContext().getCacheDir());
+        // getFilesDir(): /data/user/0/ale.rains.test/files
+        Logger.i("getFilesDir(): " + AppContext.getContext().getFilesDir());
+        // getDatabasePath(): /data/user/0/ale.rains.test/databases/db
+        Logger.i("getDatabasePath(): " + AppContext.getContext().getDatabasePath("db"));
+        // getExternalCacheDir(): /storage/emulated/0/Android/data/ale.rains.test/cache
+        Logger.i("getExternalCacheDir(): " + AppContext.getContext().getExternalCacheDir());
+        // getExternalFilesDir(): /storage/emulated/0/Android/data/ale.rains.test/files
+        Logger.i("getExternalFilesDir(): " + AppContext.getContext().getExternalFilesDir(null));
+        // getExternalStorageDirectory(): /storage/emulated/0
+        Logger.i("getExternalStorageDirectory(): " + Environment.getExternalStorageDirectory());
+        // getExternalStoragePublicDirectory(): /storage/emulated/0/Download
+        Logger.i("getExternalStoragePublicDirectory(): " + Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS));
         initCommunication();
     }
 

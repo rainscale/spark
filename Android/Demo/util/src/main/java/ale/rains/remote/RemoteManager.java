@@ -227,7 +227,7 @@ public class RemoteManager {
     /**
      * 发送字符串消息
      *
-     * @param type    消息类型，详见：CommnunicateConstants.MsgType
+     * @param type    消息类型，@see RemoteConstants.MsgType
      * @param message 消息内容
      * @return 消息是否发送成功
      */
@@ -253,7 +253,7 @@ public class RemoteManager {
             mService = IRemoteService.Stub.asInterface(service);
             try {
                 mService.registerCallback(mCallback);
-                Logger.d("service " + mRemotePackageName + "connected");
+                Logger.d("service " + mRemotePackageName + " connected");
             } catch (RemoteException e) {
                 Logger.e("service " + mRemotePackageName + " connect failed: " + e.toString());
             }
@@ -266,7 +266,7 @@ public class RemoteManager {
 
         @Override
         public void onServiceDisconnected(ComponentName className) {
-            Logger.e("service " + mRemotePackageName + "disconnected");
+            Logger.e("service " + mRemotePackageName + " disconnected");
             mService = null;
 
             // 1.通过广播拉活另一个进程。

@@ -71,7 +71,7 @@ public class RemoteService extends Service {
             } else {
                 Logger.d("callback is null");
             }
-            Logger.d(type + ":" + message);
+            Logger.d(type + ": " + message);
         }
 
         @Override
