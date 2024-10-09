@@ -93,6 +93,12 @@ set ignorecase
 " 有一个或以上大写字母时仍大小写敏感
 set smartcase
 
+" 禁止环形搜索
+" set nowrapscan
+
+" 开启环形搜索(默认)
+" set wrapscan
+
 try
   colorscheme desert    " colorscheme molokai
 catch
@@ -328,11 +334,11 @@ map <Leader>p "+p
 nnoremap j jzz
 nnoremap k kzz
 
-" 映射切换 buffer 的键位
+" 映射切换 buffer的键位
 nnoremap [b :bp<CR>
 nnoremap ]b :bn<CR>
 
-" 映射切换 tab 的键位
+" 映射切换tab的键位
 nnoremap [t :tabp<CR>
 nnoremap ]t :tabn<CR>
 
