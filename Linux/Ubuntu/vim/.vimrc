@@ -21,6 +21,7 @@ Plugin 'vim-autoformat/vim-autoformat'
 " 状态栏
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+Plugin 'skywind3000/asyncrun.vim'
 " Plugin 'ycm-core/YouCompleteMe'
 
 " All of your Plugins must be added before the following line
@@ -61,6 +62,7 @@ set laststatus=2
 
 " 设在list模式
 set list
+" 将tab显示为可见字符
 set listchars=tab:>-,trail:-
 
 " 显示光标当前位置
@@ -191,10 +193,14 @@ set nofoldenable
 
 " 高亮突出显示当前行，列
 set cursorline
-set cursorcolumn
+" set cursorcolumn
 
 " 设置 退出 vim 后，内容显示在终端屏幕, 可以用于查看和复制
 set t_ti= t_te=
+
+" 只在编辑特定类型的文件时展开tab
+autocmd FileType * set tabstop=4|set shiftwidth=4|set noexpandtab
+autocmd FileType python set tabstop=4|set shiftwidth=4|set expandtab
 
 " 打开文件时始终跳转到上次光标所在位置
 autocmd BufReadPost *
@@ -210,9 +216,21 @@ if has('persistent_undo')      "check if your vim version supports it
   set undodir=$HOME/.vim/undo  "directory where the undo files will be stored
 endif
 
+" AsyncRun
+" automatically open quickfix window when AsyncRun command is executed
+" set the quickfix window 6 lines height.
+let g:asyncrun_open = 6
+" ring the bell to notify you job finished
+let g:asyncrun_bell = 1
+" vim-airline displaying the status of AsyncRun
+let g:asyncrun_status = ''
+let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
+
 " 显示隐藏文件
 let NERDTreeShowHidden=1
 let NERDTreeWinPos=0
+" 退出最后一个 buff 时也退出 nerdtree
+autocmd BufEnter * if 0 == len(filter(range(1, winnr('$')), 'empty(getbufvar(winbufnr(v:val), "&bt"))')) | qa! | endif
 
 " NerdCommenter
 let g:NERDSpaceDelims=1
@@ -334,7 +352,7 @@ map <Leader>p "+p
 nnoremap j jzz
 nnoremap k kzz
 
-" 映射切换 buffer的键位
+" 映射切换buffer的键位
 nnoremap [b :bp<CR>
 nnoremap ]b :bn<CR>
 
@@ -342,13 +360,13 @@ nnoremap ]b :bn<CR>
 nnoremap [t :tabp<CR>
 nnoremap ]t :tabn<CR>
 
-" normal 模式下 Ctrl+c 全选并复制到系统剪贴板(linux 必须装有 vim-gnome)
+" normal模式下Ctrl+c全选并复制到系统剪贴板(linux 必须装有 vim-gnome)
 nmap <C-c> gg"+yG
 
-" visual 模式下 Ctrl+c 复制选中内容到剪贴板
+" visual模式下Ctrl+c复制选中内容到剪贴板
 vmap <C-c> "+y
 
-" Ctrl+v 原样粘贴剪切板内容
+" Ctrl+v原样粘贴剪切板内容
 inoremap <C-v> <ESC>"+pa
 
 " w!!写入只读文件
@@ -386,6 +404,14 @@ nnoremap <F2> :set nonu!<CR>:set foldcolumn=0<CR>
 
 " F3 打开目录树
 map <f3> :NERDTreeToggle<cr>
+
+" F5 运行当前 Python 脚本
+if exists("$VIRTUAL_ENV")
+    autocmd FileType python map <buffer> <F5> :AsyncRun $VIRTUAL_ENV'/bin/python' %:p<CR>
+else
+    autocmd FileType python map <buffer> <F5> :AsyncRun python %:p<CR>
+endif
+autocmd FileType go map <buffer> <F5> :GoRun<CR>
 
 " <F6> 新建标签页
 map <F6> <Esc>:tabnew<CR>
