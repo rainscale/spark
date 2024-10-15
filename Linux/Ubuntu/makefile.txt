@@ -1,0 +1,126 @@
+$*        不包含扩展名的目标文件名称
+$+        所有的依赖文件，以空格分开，并以出现的先后为序，可能包含重复的依赖文件
+$<        第一个依赖文件的名称。如果将该变量应用到模式规则中，它可将依赖条件列表中的依赖项依次取出，套用模式规则
+$?        所有的依赖文件，以空格分开，这些依赖文件的修改日期比目标的创建日期晚
+$@        目标的完整名称，目标文件的文件名
+$^        所有的依赖文件，以空格分开，不包含重复的依赖文件
+$%        如果目标是归档成员（.lib或者.a），则该变量表示目标的归档成员名称，否则为空。例如，如果目标名称为mytarget.so(image.o)，则@为mytarget.so，%为image.o
+
+VPATH
+VPATH = src:../lib:../../include
+使用冒号分割来设置一系列目录路径来指定源文件的搜索路径。当Makefile中需要使用一些源文件时，如果这些源文件不在
+当前目录下，则需要通过VPATH变量指定其他目录来查找这些源文件，以便编译生成目标文件。
+需要注意的是，在使用VPATH变量时，一般都需要通过-I选项来指定头文件的查找路径，这样才能让编译器正确地找到所需的头文件
+
+vpath
+和VPATH类似，区别是它是一种模式化的路径指定方式，可以针对不同的文件类型指定不同的搜索路径。
+同样在使用vpath时也需要使用-I来指定头文件路径。
+例如：
+vpath %.c src
+vpath %.h include
+vpath *.o obj
+
+.PHONY: clean ALL
+当前文件夹下有ALL或者clean文件时，会导致makefile瘫痪，用伪目标.PHONY来解决。
+对应的空目标是伪目标的一种变形形式，通常情况下通过创建一个空文件来实现。
+
+即时变量（简单变量）
+A := xxx # A的值即刻确定，在定义时即确定
+延时变量
+B = xxx # B的值使用到时才确定
+C ?= xxx # C的值如果是第一次定义才起效，如果在前面该变量已定义则忽略这句
+D += XXX # D附加一个值，以空格分割，它是即时变量还是延时变量取决于前面的定义
+
+通配符
+与Bourne shell基本相同，包括~, *, ?, [...], [^...]
+*.*          表示了所有文件
+?            表示任意单个字符
+[...]        表示一个字符类；
+[^...]       表示相反的字符类。
+~            表示当前用户的/home路径，~加用户名可以表示该用户的/home路径。
+
+函数
+$(<function> <arguments>) 或者 ${<function><arguments>}
+
+wildcard通配符函数
+$(wildcard <pattern>)
+通过它得到当前工作目录中满足<pattern>模式的文件或目录名列表。
+例如：
+SRC = $(wildcard *.c)
+@echo $(SRC)   # fun.c main.c
+
+abspath函数
+$(abspath <names>)
+将<names>中的各路径名转换成绝对路径，并将转换后的结果返回。
+例如：
+ROOT := $(abspath /usr/../lib)
+@echo $(ROOT)   # /lib
+
+notdir函数
+$(notdir <names>)
+用来从路径<names>中抽取文件名，并将文件名返回。
+例如：
+file_name := $(notdir code/src/fun.c code/src/main.c)
+@echo $(file_name)   # fun.c main.c
+
+realpath函数
+$(realpath <names>)
+用于获取<names>所对应的真实路径名。
+例如：
+ROOT := $(realpath ./..)
+@echo $(ROOT)   # /home/xxx/Works/Demo
+
+strip函数
+$(strip <string>)
+可以将<string>中的多余空格去除后返回。
+例如：
+original := fun.c          main.c
+stripped := $(strip $(original))
+@echo $(original)   # fun.c          main.c
+@echo $(stripped)   # fun.c main.c
+
+addprefix函数
+$(addprefix <prefix>, <names>)
+用于给名字列表<names>中的每个名字增加前缀<prefix>，并将增加了前缀的名字列表返回。
+例如：
+without_dir := fun.c main.c
+with_dir := $(addprefix objs/, $(without_dir))
+@echo $(with_dir)   # objs/fun.c objs/main.c
+
+addsuffix函数
+$(addsuffix <suffix>, <names>)
+用于给名字列表<names>中的每个名字增加后缀<suffix>，并将增加了后缀的名字列表返回。
+例如：
+without_suffix := funA funB
+with_suffix := $(addsuffix .c, $(without_suffix))
+@echo $(with_suffix)   # funA.c funB.c
+
+foreach函数
+$(foreach <var>,<list>,<text>)
+把参数<list>中的单词逐一取出放到参数<var>所指定的变量中，然后再执行<text>所包含的表达式。
+每一次<text>会返回一个字符串，循环过程中，<text>的所返回的每个字符串会以空格分隔，最后当整个循环结束时，<text>所返回的
+每个字符串所组成的整个字符串（以空格分隔）将会是foreach函数的返回值。
+例如：
+names := a b c d
+files := $(foreach n,$(names),$(n).o)
+@echo $(files)  # a.o b.o c.o d.o
+
+filter和filter-out（反过滤）函数
+$(filter <pattern...>,<text>)
+以<pattern>模式过滤<text>字符串中的单词，保留符合模式<pattern>的单词，可以有多个模式。返回符合模式<pattern>的字串。
+$(filter-out <pattern...>,<text>)
+以<pattern>模式过滤<text>字符串中的单词，去除符合模式<pattern>的单词，可以有多个模式。返回不符合模式<pattern>的字串。
+例如：
+C = a b b d/
+D = $(filter %/, $(C))
+E = $(filter-out %/, $(C))
+@echo D = $(D)   # D = d/
+@echo E = $(E)   # E = a b b
+
+patsubst模式字符串替换函数
+$(patsubst <pattern>,<replacement>,<text>)
+查找<text>中的单词（单词以空格、tab或者回车换行分隔）是否符合模式<pattern>，如果匹配的话，则以<replacement>替换。
+这里<pattern>可以包括通配符%，表示任意长度的字串。如果<replacement>中也包含%，那么<replacement>中的这个%将是
+<pattern>中的那个%所代表的字串。（可以用\来转义，以%来表示真实含义的%字串）。返回被替换过后的字符串。
+例如：
+$(patsubst %.c,%.o,x.c.c bar.c) # x.c.o bar.o
