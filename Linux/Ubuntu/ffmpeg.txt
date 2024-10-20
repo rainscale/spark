@@ -1,0 +1,97 @@
+1、源码下载
+https://ffmpeg.org/download.html
+
+2、安装依赖
+sudo apt-get update
+sudo apt-get -y install autoconf automake build-essential cmake git-core libass-dev libfreetype6-dev libsdl2-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev pkg-config texinfo wget zlib1g-dev libasound2-dev libgl1-mesa-dev libglew-dev libglm-dev nasm yasm
+
+3、编译与安装
+安装libx264
+要求编译ffmpeg时配置：--enable-libx264
+cd ~/ffmpeg/resources
+git clone --depth 1 https://github.com/mirror/x264.git
+cd x264
+PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg/build/lib/pkgconfig" ./configure --prefix="$HOME/ffmpeg/build" --bindir="$HOME/bin" --enable-static --enable-pic
+PATH="$HOME/bin:$PATH" make -j4 && make install
+
+安装libx265
+要求编译ffmpeg时配置：--enable-libx265
+cd ~/ffmpeg/resources
+git clone https://gitee.com/mirrors_videolan/x265.git
+cd x265/build/linux
+PATH="$HOME/bin:$PATH" cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="$HOME/ffmpeg/build" -DENABLE_SHARED=off ../../source
+PATH="$HOME/bin:$PATH" make -j4 && make install
+
+安装vpx
+要求编译ffmpeg时配置：--enable-libvpx
+cd ~/ffmpeg/resources
+git clone --depth 1 https://github.com/webmproject/libvpx.git
+cd libvpx
+PATH="$HOME/bin:$PATH" ./configure --prefix="$HOME/ffmpeg/build" --disable-examples --disable-unit-tests --enable-vp9-highbitdepth --as=yasm --enable-pic
+PATH="$HOME/bin:$PATH" make -j4 && make install
+
+安装libfdk-aac
+要求编译ffmpeg时配置：--enable-libfdk-aac
+cd ~/ffmpeg/resources
+git clone --depth 1 https://github.com/mstorsjo/fdk-aac
+cd fdk-aac
+autoreconf -fiv
+./configure CFLAGS="-fPIC" CPPFLAGS="-fPIC" --prefix="$HOME/ffmpeg/build"
+make -j4 && make install
+
+安装libmp3lame
+要求编译ffmpeg时配置：--enable-libmp3lame
+cd ~/ffmpeg/resources
+git clone  --depth 1 https://gitee.com/hqiu/lame.git
+cd lame
+PATH="$HOME/bin:$PATH" ./configure --prefix="$HOME/ffmpeg/build" --bindir="$HOME/bin"  --enable-nasm --with-pic
+PATH="$HOME/bin:$PATH" make -j4 && make install
+
+安装libopus
+要求编译ffmpeg时配置：--enable-libopus
+cd ~ffmpeg/resources
+git clone --depth 1 https://github.com/xiph/opus.git
+cd opus
+./autogen.sh 
+./configure --prefix="$HOME/ffmpeg/build"  -with-pic
+make -j4 && make install
+
+ffmpeg编译安装
+cd ~/ffmpeg/resources
+git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg
+cd ffmpeg
+git checkout n7.0
+PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg/build/lib/pkgconfig" CFLAGS="-O3 -fPIC" ./configure \
+  --prefix="$HOME/ffmpeg/build" \
+  --pkg-config-flags="--static" \
+  --extra-cflags="-I$HOME/ffmpeg/build/include" \
+  --extra-ldflags="-L$HOME/ffmpeg/build/lib" \
+  --extra-libs="-lpthread -lm" \
+  --bindir="$HOME/bin" \
+  --enable-gpl \
+  --enable-libass \
+  --enable-libfdk-aac \
+  --enable-libfreetype \
+  --enable-libmp3lame \
+  --enable-libopus \
+  --enable-libvorbis \
+  --enable-libvpx \
+  --enable-libx264 \
+  --enable-libx265 \
+  --enable-pic \
+  --enable-shared   \
+  --enable-nonfree
+PATH="$HOME/bin:$PATH" make -j4 && make install
+
+--enable-debug=3     开启debug调试
+--disable-asm        禁用asm优化
+--disable-optimizations      禁用优化，以便调试时按函数顺序执行
+--disable-stripping          禁用剥离可执行程序和共享库，即调试时可以进入到某个函数进行单独调试
+
+如果出现异常，需要将ffmpeg lib加入到环境变量
+ffmpeg: error while loading shared libraries: libavdevice.so.61: cannot open shared object file: No such file or directory
+$ sudo vim /etc/ld.so.conf
+在最后把ffmpeg lib路径写入
+/home/xxx/ffmpeg/build/lib
+然后使环境变量生效
+$ sudo ldconfig

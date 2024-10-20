@@ -1,12 +1,16 @@
-CROSS_COMPILE ?= arm-linux-gnueabihf-
-
-default: all
-
-TARGET := demo
-
-ifndef OUT_DIR
-	OUT_DIR := ./
+ifeq ($(SRCDIR),)
+SRCDIR := .
 endif
+
+VPATH := $(SRCDIR)
+
+SUBDIRS = $(shell find $(SRCDIR) -type d -o -fstype dev -prune)
+
+define make_subdir
+@for subdir in $(SUBDIRS); do \
+(cd $$subdir && make $1) \
+done;
+endef
 
 CC := $(CROSS_COMPILE)g++
 LD := $(CROSS_COMPILE)ld
