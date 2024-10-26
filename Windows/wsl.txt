@@ -1,0 +1,2 @@
+1、vim启动报错Cannot set language to "zh_CN.utf-8"
+$ sudo apt install language-pack-zh-hans
