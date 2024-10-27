@@ -1,5 +1,6 @@
 1、Django安装
 pip install Django
+pip install django-debug-toolbar
 
 验证：
 >>> import django

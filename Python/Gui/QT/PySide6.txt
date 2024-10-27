@@ -1,0 +1,9 @@
+1、安装
+pip install PySide6
+
+2、添加外部工具
+设置->工具->外部工具添加
+PySide6_Designer
+C:\Users\h\AppData\Local\Programs\Python\Python313\Lib\site-packages\designer.exe
+$FilePath$
+$FileDir$

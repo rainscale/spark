@@ -16,6 +16,8 @@ import java.util.Arrays;
 public class DemoApplication {
 
 	public static void main(String[] args) {
+		String javaVersion = System.getProperty("java.version");
+		System.out.println("JDK版本: " + javaVersion);
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
